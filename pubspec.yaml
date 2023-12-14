@@ -9,16 +9,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  freezed_annotation: ^2.4.1
   loading_animation_widget: ^1.2.0+4
   theme_tailor_annotation: ^2.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
   theme_tailor: ^2.0.2
-  build_runner: ^2.4.6
-  widgetbook_generator: ^3.3.0
+  build_runner: ^2.4.7
+  widgetbook_generator: ^3.5.0
+  freezed: ^2.4.5
 
 flutter:
 

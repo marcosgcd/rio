@@ -13,6 +13,7 @@ import 'package:widgetbook/widgetbook.dart' as _i1;
 
 import 'core/color_scheme.dart' as _i2;
 import 'inputs/button.dart' as _i3;
+import 'inputs/text_field.dart' as _i4;
 
 final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookFolder(
@@ -50,7 +51,20 @@ final directories = <_i1.WidgetbookNode>[
             builder: _i3.useCaseRioButtonSolid,
           ),
         ],
-      )
+      ),
+      _i1.WidgetbookComponent(
+        name: 'RioTextField',
+        useCases: [
+          _i1.WidgetbookUseCase(
+            name: 'Default',
+            builder: _i4.useCaseRioTextFieldDefault,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Filled',
+            builder: _i4.useCaseRioTextFieldFilled,
+          ),
+        ],
+      ),
     ],
   ),
 ];

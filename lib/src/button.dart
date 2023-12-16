@@ -19,6 +19,8 @@ class RioButtonTheme extends ThemeExtension<RioButtonTheme>
     this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.borderRadius,
     this.border,
+    this.color,
+    this.disableScaleAnimation = false,
   });
   @override
   final EdgeInsets margin;
@@ -28,6 +30,10 @@ class RioButtonTheme extends ThemeExtension<RioButtonTheme>
   final BorderRadiusGeometry? borderRadius;
   @override
   final BoxBorder? border;
+  @override
+  final Color? color;
+  @override
+  final bool disableScaleAnimation;
 }
 
 enum RioButtonVariant {
@@ -51,22 +57,16 @@ class RioButton extends StatefulWidget {
     this.disabled = false,
     this.loading = false,
     this.onPressedAwaitMode = RioButtonOnPressedAwaitMode.none,
-    this.cursor,
     this.onPressed,
-    this.color,
     this.theme,
-    this.disableScale = false,
   });
   final Widget child;
   final bool disabled;
   final bool loading;
-  final MouseCursor? cursor;
   final RioButtonOnPressedAwaitMode onPressedAwaitMode;
   final FutureOr<void> Function()? onPressed;
   final RioButtonVariant variant;
-  final Color? color;
   final RioButtonTheme? theme;
-  final bool disableScale;
 
   @override
   State<RioButton> createState() => _RioButtonState();
@@ -92,7 +92,6 @@ class _RioButtonState extends State<RioButton> {
       (_isWaintingForOnPressedFuture &&
           widget.onPressedAwaitMode == RioButtonOnPressedAwaitMode.loading);
   MouseCursor get _cursor {
-    if (widget.cursor != null) return widget.cursor!;
     if (_disabled) return SystemMouseCursors.forbidden;
 
     return SystemMouseCursors.click;
@@ -139,7 +138,7 @@ class _RioButtonState extends State<RioButton> {
   @override
   Widget build(BuildContext context) {
     final callBack = _disabled ? null : _handleOnTap;
-    final color = widget.color ?? Theme.of(context).colorScheme.primary;
+    final color = _theme.color ?? Theme.of(context).colorScheme.primary;
     final textColor = _resolveTextColor(color);
     final backgroundColor = _resolveBackgroundColor(color);
     final foregroundColor = _resolveForegroundColor(textColor);
@@ -225,7 +224,7 @@ class _RioButtonState extends State<RioButton> {
   double _resolveScale() {
     double result = 1;
 
-    if (widget.disableScale || _disabled) return 1;
+    if (_theme.disableScaleAnimation || _disabled) return 1;
 
     const scaleValue = 16;
     double contentWidth = 0;
@@ -312,7 +311,7 @@ class _RioButtonState extends State<RioButton> {
 }
 
 class _Loading extends StatelessWidget {
-  const _Loading({Key? key, required this.size}) : super(key: key);
+  const _Loading({required this.size});
 
   final double size;
 

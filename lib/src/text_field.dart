@@ -28,6 +28,7 @@ class RioTextFieldTheme extends ThemeExtension<RioTextFieldTheme>
         const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
     this.borderRadius,
     this.filled = false,
+    this.color,
   });
   @override
   final EdgeInsets margin;
@@ -37,6 +38,8 @@ class RioTextFieldTheme extends ThemeExtension<RioTextFieldTheme>
   final BorderRadius? borderRadius;
   @override
   final bool filled;
+  @override
+  final Color? color;
 }
 
 class RioTextField extends StatefulWidget {
@@ -44,7 +47,6 @@ class RioTextField extends StatefulWidget {
     super.key,
     this.theme,
     this.decoration,
-    this.color,
     this.autofocus = false,
     this.focusNode,
     this.autocorrect = true,
@@ -89,7 +91,6 @@ class RioTextField extends StatefulWidget {
     this.mouseCursor,
     this.obscuringCharacter = '•',
   });
-  final Color? color;
   final RioTextFieldTheme? theme;
   final RioTextFieldDecoration? decoration;
 
@@ -166,7 +167,7 @@ class _RioTextFieldState extends State<RioTextField> {
 
   @override
   Widget build(BuildContext context) {
-    var color = widget.color ?? Theme.of(context).colorScheme.primary;
+    var color = _theme.color ?? Theme.of(context).colorScheme.primary;
     final decoration = widget.decoration;
 
     if (decoration?.errorText != null) {

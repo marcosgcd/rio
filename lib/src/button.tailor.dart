@@ -14,6 +14,8 @@ mixin _$RioButtonThemeTailorMixin
   EdgeInsets get padding;
   BorderRadiusGeometry? get borderRadius;
   BoxBorder? get border;
+  Color? get color;
+  bool get disableScaleAnimation;
 
   @override
   RioButtonTheme copyWith({
@@ -21,12 +23,17 @@ mixin _$RioButtonThemeTailorMixin
     EdgeInsets? padding,
     BorderRadiusGeometry? borderRadius,
     BoxBorder? border,
+    Color? color,
+    bool? disableScaleAnimation,
   }) {
     return RioButtonTheme(
       margin: margin ?? this.margin,
       padding: padding ?? this.padding,
       borderRadius: borderRadius ?? this.borderRadius,
       border: border ?? this.border,
+      color: color ?? this.color,
+      disableScaleAnimation:
+          disableScaleAnimation ?? this.disableScaleAnimation,
     );
   }
 
@@ -39,6 +46,9 @@ mixin _$RioButtonThemeTailorMixin
       padding: t < 0.5 ? padding : other.padding,
       borderRadius: t < 0.5 ? borderRadius : other.borderRadius,
       border: t < 0.5 ? border : other.border,
+      color: Color.lerp(color, other.color, t),
+      disableScaleAnimation:
+          t < 0.5 ? disableScaleAnimation : other.disableScaleAnimation,
     );
   }
 
@@ -51,7 +61,10 @@ mixin _$RioButtonThemeTailorMixin
             const DeepCollectionEquality().equals(padding, other.padding) &&
             const DeepCollectionEquality()
                 .equals(borderRadius, other.borderRadius) &&
-            const DeepCollectionEquality().equals(border, other.border));
+            const DeepCollectionEquality().equals(border, other.border) &&
+            const DeepCollectionEquality().equals(color, other.color) &&
+            const DeepCollectionEquality()
+                .equals(disableScaleAnimation, other.disableScaleAnimation));
   }
 
   @override
@@ -62,6 +75,8 @@ mixin _$RioButtonThemeTailorMixin
       const DeepCollectionEquality().hash(padding),
       const DeepCollectionEquality().hash(borderRadius),
       const DeepCollectionEquality().hash(border),
+      const DeepCollectionEquality().hash(color),
+      const DeepCollectionEquality().hash(disableScaleAnimation),
     );
   }
 
@@ -73,6 +88,9 @@ mixin _$RioButtonThemeTailorMixin
       ..add(DiagnosticsProperty('margin', margin))
       ..add(DiagnosticsProperty('padding', padding))
       ..add(DiagnosticsProperty('borderRadius', borderRadius))
-      ..add(DiagnosticsProperty('border', border));
+      ..add(DiagnosticsProperty('border', border))
+      ..add(DiagnosticsProperty('color', color))
+      ..add(
+          DiagnosticsProperty('disableScaleAnimation', disableScaleAnimation));
   }
 }

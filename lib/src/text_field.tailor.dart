@@ -14,6 +14,7 @@ mixin _$RioTextFieldThemeTailorMixin
   EdgeInsets get contentPadding;
   BorderRadius? get borderRadius;
   bool get filled;
+  Color? get color;
 
   @override
   RioTextFieldTheme copyWith({
@@ -21,12 +22,14 @@ mixin _$RioTextFieldThemeTailorMixin
     EdgeInsets? contentPadding,
     BorderRadius? borderRadius,
     bool? filled,
+    Color? color,
   }) {
     return RioTextFieldTheme(
       margin: margin ?? this.margin,
       contentPadding: contentPadding ?? this.contentPadding,
       borderRadius: borderRadius ?? this.borderRadius,
       filled: filled ?? this.filled,
+      color: color ?? this.color,
     );
   }
 
@@ -39,6 +42,7 @@ mixin _$RioTextFieldThemeTailorMixin
       contentPadding: t < 0.5 ? contentPadding : other.contentPadding,
       borderRadius: t < 0.5 ? borderRadius : other.borderRadius,
       filled: t < 0.5 ? filled : other.filled,
+      color: Color.lerp(color, other.color, t),
     );
   }
 
@@ -52,7 +56,8 @@ mixin _$RioTextFieldThemeTailorMixin
                 .equals(contentPadding, other.contentPadding) &&
             const DeepCollectionEquality()
                 .equals(borderRadius, other.borderRadius) &&
-            const DeepCollectionEquality().equals(filled, other.filled));
+            const DeepCollectionEquality().equals(filled, other.filled) &&
+            const DeepCollectionEquality().equals(color, other.color));
   }
 
   @override
@@ -63,6 +68,7 @@ mixin _$RioTextFieldThemeTailorMixin
       const DeepCollectionEquality().hash(contentPadding),
       const DeepCollectionEquality().hash(borderRadius),
       const DeepCollectionEquality().hash(filled),
+      const DeepCollectionEquality().hash(color),
     );
   }
 
@@ -74,6 +80,7 @@ mixin _$RioTextFieldThemeTailorMixin
       ..add(DiagnosticsProperty('margin', margin))
       ..add(DiagnosticsProperty('contentPadding', contentPadding))
       ..add(DiagnosticsProperty('borderRadius', borderRadius))
-      ..add(DiagnosticsProperty('filled', filled));
+      ..add(DiagnosticsProperty('filled', filled))
+      ..add(DiagnosticsProperty('color', color));
   }
 }

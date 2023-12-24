@@ -17,6 +17,8 @@ mixin _$RioColorSchemeTailorMixin
   Color get onBackground;
   Color get surface;
   Color get onSurface;
+  Color get popover;
+  Color get onPopover;
 
   @override
   RioColorScheme copyWith({
@@ -27,6 +29,8 @@ mixin _$RioColorSchemeTailorMixin
     Color? onBackground,
     Color? surface,
     Color? onSurface,
+    Color? popover,
+    Color? onPopover,
   }) {
     return RioColorScheme(
       brightness: brightness ?? this.brightness,
@@ -36,6 +40,8 @@ mixin _$RioColorSchemeTailorMixin
       onBackground: onBackground ?? this.onBackground,
       surface: surface ?? this.surface,
       onSurface: onSurface ?? this.onSurface,
+      popover: popover ?? this.popover,
+      onPopover: onPopover ?? this.onPopover,
     );
   }
 
@@ -51,6 +57,8 @@ mixin _$RioColorSchemeTailorMixin
       onBackground: Color.lerp(onBackground, other.onBackground, t)!,
       surface: Color.lerp(surface, other.surface, t)!,
       onSurface: Color.lerp(onSurface, other.onSurface, t)!,
+      popover: Color.lerp(popover, other.popover, t)!,
+      onPopover: Color.lerp(onPopover, other.onPopover, t)!,
     );
   }
 
@@ -68,7 +76,9 @@ mixin _$RioColorSchemeTailorMixin
             const DeepCollectionEquality()
                 .equals(onBackground, other.onBackground) &&
             const DeepCollectionEquality().equals(surface, other.surface) &&
-            const DeepCollectionEquality().equals(onSurface, other.onSurface));
+            const DeepCollectionEquality().equals(onSurface, other.onSurface) &&
+            const DeepCollectionEquality().equals(popover, other.popover) &&
+            const DeepCollectionEquality().equals(onPopover, other.onPopover));
   }
 
   @override
@@ -82,6 +92,8 @@ mixin _$RioColorSchemeTailorMixin
       const DeepCollectionEquality().hash(onBackground),
       const DeepCollectionEquality().hash(surface),
       const DeepCollectionEquality().hash(onSurface),
+      const DeepCollectionEquality().hash(popover),
+      const DeepCollectionEquality().hash(onPopover),
     );
   }
 
@@ -96,6 +108,8 @@ mixin _$RioColorSchemeTailorMixin
       ..add(DiagnosticsProperty('background', background))
       ..add(DiagnosticsProperty('onBackground', onBackground))
       ..add(DiagnosticsProperty('surface', surface))
-      ..add(DiagnosticsProperty('onSurface', onSurface));
+      ..add(DiagnosticsProperty('onSurface', onSurface))
+      ..add(DiagnosticsProperty('popover', popover))
+      ..add(DiagnosticsProperty('onPopover', onPopover));
   }
 }

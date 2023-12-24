@@ -14,6 +14,7 @@ import 'package:widgetbook/widgetbook.dart' as _i1;
 import 'core/color_scheme.dart' as _i2;
 import 'inputs/button.dart' as _i3;
 import 'inputs/text_field.dart' as _i4;
+import 'menus/popover.dart' as _i5;
 
 final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookFolder(
@@ -65,6 +66,18 @@ final directories = <_i1.WidgetbookNode>[
           ),
         ],
       ),
+    ],
+  ),
+  _i1.WidgetbookFolder(
+    name: 'menus',
+    children: [
+      _i1.WidgetbookLeafComponent(
+        name: 'RioPopover',
+        useCase: _i1.WidgetbookUseCase(
+          name: 'Default',
+          builder: _i5.useCaseCrPopover,
+        ),
+      )
     ],
   ),
 ];

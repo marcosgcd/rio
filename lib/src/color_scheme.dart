@@ -16,6 +16,8 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
     required this.onBackground,
     required this.surface,
     required this.onSurface,
+    required this.popover,
+    required this.onPopover,
   });
 
   factory RioColorScheme.fromSeed(
@@ -30,14 +32,17 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
     Color onPrimary;
     Color background;
     Color surface;
+    Color popover;
     if (brightness == Brightness.light) {
       onPrimary = lighten(colorScheme.primary, 0.9);
       background = lighten(colorScheme.primary, 0.9);
       surface = lighten(colorScheme.primary, 0.95);
+      popover = darken(surface);
     } else {
       onPrimary = colorScheme.onPrimary;
       background = darken(colorScheme.primary, 0.9);
       surface = darken(colorScheme.primary, 0.82);
+      popover = lighten(surface);
     }
 
     return RioColorScheme(
@@ -48,6 +53,8 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
       onBackground: colorScheme.onBackground,
       surface: surface,
       onSurface: colorScheme.onSurface,
+      popover: popover,
+      onPopover: computeTextColorForBackground(popover),
     );
   }
 
@@ -65,4 +72,8 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
   final Color surface;
   @override
   final Color onSurface;
+  @override
+  final Color popover;
+  @override
+  final Color onPopover;
 }

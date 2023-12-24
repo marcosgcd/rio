@@ -13,6 +13,7 @@ class RioTheme extends ThemeExtension<RioTheme>
     this.defaultBorderRadius = 10,
     this.buttonTheme = const RioButtonTheme(),
     this.textFieldTheme = const RioTextFieldTheme(),
+    this.popoverTheme = const RioPopoverTheme(),
   });
 
   @override
@@ -23,6 +24,8 @@ class RioTheme extends ThemeExtension<RioTheme>
   final RioButtonTheme buttonTheme;
   @override
   final RioTextFieldTheme textFieldTheme;
+  @override
+  final RioPopoverTheme popoverTheme;
   @override
   Brightness get brightness => colorScheme.brightness;
 

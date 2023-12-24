@@ -14,6 +14,7 @@ mixin _$RioThemeTailorMixin
   RioColorScheme get colorScheme;
   RioButtonTheme get buttonTheme;
   RioTextFieldTheme get textFieldTheme;
+  RioPopoverTheme get popoverTheme;
   Brightness get brightness;
 
   @override
@@ -22,6 +23,7 @@ mixin _$RioThemeTailorMixin
     RioColorScheme? colorScheme,
     RioButtonTheme? buttonTheme,
     RioTextFieldTheme? textFieldTheme,
+    RioPopoverTheme? popoverTheme,
     Brightness? brightness,
   }) {
     return RioTheme(
@@ -29,6 +31,7 @@ mixin _$RioThemeTailorMixin
       colorScheme: colorScheme ?? this.colorScheme,
       buttonTheme: buttonTheme ?? this.buttonTheme,
       textFieldTheme: textFieldTheme ?? this.textFieldTheme,
+      popoverTheme: popoverTheme ?? this.popoverTheme,
     );
   }
 
@@ -42,6 +45,7 @@ mixin _$RioThemeTailorMixin
       buttonTheme: buttonTheme.lerp(other.buttonTheme, t) as RioButtonTheme,
       textFieldTheme:
           textFieldTheme.lerp(other.textFieldTheme, t) as RioTextFieldTheme,
+      popoverTheme: popoverTheme.lerp(other.popoverTheme, t) as RioPopoverTheme,
     );
   }
 
@@ -59,6 +63,8 @@ mixin _$RioThemeTailorMixin
             const DeepCollectionEquality()
                 .equals(textFieldTheme, other.textFieldTheme) &&
             const DeepCollectionEquality()
+                .equals(popoverTheme, other.popoverTheme) &&
+            const DeepCollectionEquality()
                 .equals(brightness, other.brightness));
   }
 
@@ -70,6 +76,7 @@ mixin _$RioThemeTailorMixin
       const DeepCollectionEquality().hash(colorScheme),
       const DeepCollectionEquality().hash(buttonTheme),
       const DeepCollectionEquality().hash(textFieldTheme),
+      const DeepCollectionEquality().hash(popoverTheme),
       const DeepCollectionEquality().hash(brightness),
     );
   }
@@ -83,6 +90,7 @@ mixin _$RioThemeTailorMixin
       ..add(DiagnosticsProperty('colorScheme', colorScheme))
       ..add(DiagnosticsProperty('buttonTheme', buttonTheme))
       ..add(DiagnosticsProperty('textFieldTheme', textFieldTheme))
+      ..add(DiagnosticsProperty('popoverTheme', popoverTheme))
       ..add(DiagnosticsProperty('brightness', brightness));
   }
 }

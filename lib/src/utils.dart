@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 final HashMap<String, Color> _computedColorsCache = HashMap<String, Color>();
 
@@ -38,6 +38,24 @@ Color computeTextColorForBackground(Color color) {
   }
 
   return lighten(color, 0.95);
+}
+
+Color computeTextColorForPrimary(
+  Color color, {
+  required Brightness brightness,
+}) {
+  final key = 'p-${color.value}';
+
+  if (_computedColorsCache.containsKey(key)) {
+    return _computedColorsCache[key]!;
+  }
+
+  final ColorScheme colorScheme = ColorScheme.fromSeed(
+    seedColor: color,
+    brightness: brightness,
+  );
+
+  return colorScheme.onPrimary;
 }
 
 Color computeContrastColor(Color color) {

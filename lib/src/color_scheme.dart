@@ -29,17 +29,14 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
       brightness: brightness,
     );
 
-    Color onPrimary;
     Color background;
     Color surface;
     Color popover;
     if (brightness == Brightness.light) {
-      onPrimary = lighten(colorScheme.primary, 0.9);
       background = lighten(colorScheme.primary, 0.9);
       surface = lighten(colorScheme.primary, 0.95);
       popover = darken(surface);
     } else {
-      onPrimary = colorScheme.onPrimary;
       background = darken(colorScheme.primary, 0.9);
       surface = darken(colorScheme.primary, 0.82);
       popover = lighten(surface);
@@ -48,7 +45,7 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
     return RioColorScheme(
       brightness: brightness,
       primary: colorScheme.primary,
-      onPrimary: onPrimary,
+      onPrimary: colorScheme.onPrimary,
       background: background,
       onBackground: colorScheme.onBackground,
       surface: surface,

@@ -22,6 +22,7 @@ class RioButtonTheme extends ThemeExtension<RioButtonTheme>
     this.border,
     this.color,
     this.disableScaleAnimation = false,
+    this.iconPosition = RioButtonIconPosition.center,
   });
   @override
   final EdgeInsets margin;
@@ -37,6 +38,8 @@ class RioButtonTheme extends ThemeExtension<RioButtonTheme>
   final Color? color;
   @override
   final bool disableScaleAnimation;
+  @override
+  final RioButtonIconPosition iconPosition;
 }
 
 enum RioButtonVariant {
@@ -45,6 +48,20 @@ enum RioButtonVariant {
   outlined,
   plain,
 }
+
+enum RioButtonIconPosition {
+  center,
+  edge,
+}
+
+final _iconPositionMap = {
+  RioButtonIconPosition.center: MainAxisAlignment.center,
+  RioButtonIconPosition.edge: MainAxisAlignment.spaceBetween,
+};
+final _iconPositionRowSizedMap = {
+  RioButtonIconPosition.center: MainAxisSize.min,
+  RioButtonIconPosition.edge: MainAxisSize.max,
+};
 
 enum RioButtonOnPressedAwaitMode {
   none,
@@ -120,7 +137,7 @@ class _RioButtonState extends State<RioButton> {
   }
 
   void _handleOnPressedDown(bool isPressedDown) {
-    if (_disabled) return;
+    if (_disabled || !mounted) return;
 
     setState(() {
       _isPressedDown = isPressedDown;
@@ -221,9 +238,11 @@ class _RioButtonState extends State<RioButton> {
                         key: _contentKey,
                         visible: !_loading,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment:
+                              _iconPositionMap[_theme.iconPosition]!,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
+                          mainAxisSize:
+                              _iconPositionRowSizedMap[_theme.iconPosition]!,
                           children: [
                             if (widget.leading != null)
                               Padding(
@@ -268,7 +287,6 @@ class _RioButtonState extends State<RioButton> {
     try {
       contentWidth = _contentKey.currentContext?.size?.width ?? 0;
     } catch (_) {}
-    print(contentWidth);
 
     if (_isPressedDown) {
       final targetWidth = contentWidth - (scaleValue / 2);
@@ -322,21 +340,29 @@ class _RioButtonState extends State<RioButton> {
   }
 
   Color _resolveForegroundColor(Color textColor) {
-    if (_disabled) return Colors.transparent;
-    if (_isPressedDown) return textColor.withOpacity(0.6);
-    if (_isHovered ||
+    final isHovered = _isHovered ||
         (_isWaintingForOnPressedFuture &&
-            widget.onPressedAwaitMode ==
-                RioButtonOnPressedAwaitMode.highlight)) {
-      return textColor.withOpacity(0.4);
-    }
+            widget.onPressedAwaitMode == RioButtonOnPressedAwaitMode.highlight);
 
-    if (_isFocused) return textColor.withOpacity(0.2);
+    switch (widget.variant) {
+      case RioButtonVariant.solid:
+        if (_isPressedDown) return textColor.withOpacity(0.6);
+        if (isHovered) return textColor.withOpacity(0.4);
+        if (_isFocused) return textColor.withOpacity(0.2);
+        break;
+      default:
+        if (_isPressedDown) return textColor.withOpacity(0.3);
+        if (isHovered) return textColor.withOpacity(0.2);
+        if (_isFocused) return textColor.withOpacity(0.1);
+    }
 
     return Colors.transparent;
   }
 
   BoxBorder _resolveBorder(Color backgroundColor, Color textColor) {
+    if (_isFocused) {
+      return Border.all(color: textColor);
+    }
     if (_theme.border != null) {
       return _theme.border!;
     }

@@ -17,6 +17,7 @@ mixin _$RioButtonThemeTailorMixin
   BoxBorder? get border;
   Color? get color;
   bool get disableScaleAnimation;
+  RioButtonIconPosition get iconPosition;
 
   @override
   RioButtonTheme copyWith({
@@ -27,6 +28,7 @@ mixin _$RioButtonThemeTailorMixin
     BoxBorder? border,
     Color? color,
     bool? disableScaleAnimation,
+    RioButtonIconPosition? iconPosition,
   }) {
     return RioButtonTheme(
       margin: margin ?? this.margin,
@@ -37,6 +39,7 @@ mixin _$RioButtonThemeTailorMixin
       color: color ?? this.color,
       disableScaleAnimation:
           disableScaleAnimation ?? this.disableScaleAnimation,
+      iconPosition: iconPosition ?? this.iconPosition,
     );
   }
 
@@ -53,6 +56,7 @@ mixin _$RioButtonThemeTailorMixin
       color: Color.lerp(color, other.color, t),
       disableScaleAnimation:
           t < 0.5 ? disableScaleAnimation : other.disableScaleAnimation,
+      iconPosition: t < 0.5 ? iconPosition : other.iconPosition,
     );
   }
 
@@ -69,7 +73,9 @@ mixin _$RioButtonThemeTailorMixin
             const DeepCollectionEquality().equals(border, other.border) &&
             const DeepCollectionEquality().equals(color, other.color) &&
             const DeepCollectionEquality()
-                .equals(disableScaleAnimation, other.disableScaleAnimation));
+                .equals(disableScaleAnimation, other.disableScaleAnimation) &&
+            const DeepCollectionEquality()
+                .equals(iconPosition, other.iconPosition));
   }
 
   @override
@@ -83,6 +89,7 @@ mixin _$RioButtonThemeTailorMixin
       const DeepCollectionEquality().hash(border),
       const DeepCollectionEquality().hash(color),
       const DeepCollectionEquality().hash(disableScaleAnimation),
+      const DeepCollectionEquality().hash(iconPosition),
     );
   }
 
@@ -97,7 +104,7 @@ mixin _$RioButtonThemeTailorMixin
       ..add(DiagnosticsProperty('borderRadius', borderRadius))
       ..add(DiagnosticsProperty('border', border))
       ..add(DiagnosticsProperty('color', color))
-      ..add(
-          DiagnosticsProperty('disableScaleAnimation', disableScaleAnimation));
+      ..add(DiagnosticsProperty('disableScaleAnimation', disableScaleAnimation))
+      ..add(DiagnosticsProperty('iconPosition', iconPosition));
   }
 }

@@ -12,6 +12,7 @@ mixin _$RioButtonThemeTailorMixin
     on ThemeExtension<RioButtonTheme>, DiagnosticableTreeMixin {
   EdgeInsets get margin;
   EdgeInsets get padding;
+  double get gap;
   BorderRadiusGeometry? get borderRadius;
   BoxBorder? get border;
   Color? get color;
@@ -21,6 +22,7 @@ mixin _$RioButtonThemeTailorMixin
   RioButtonTheme copyWith({
     EdgeInsets? margin,
     EdgeInsets? padding,
+    double? gap,
     BorderRadiusGeometry? borderRadius,
     BoxBorder? border,
     Color? color,
@@ -29,6 +31,7 @@ mixin _$RioButtonThemeTailorMixin
     return RioButtonTheme(
       margin: margin ?? this.margin,
       padding: padding ?? this.padding,
+      gap: gap ?? this.gap,
       borderRadius: borderRadius ?? this.borderRadius,
       border: border ?? this.border,
       color: color ?? this.color,
@@ -44,6 +47,7 @@ mixin _$RioButtonThemeTailorMixin
     return RioButtonTheme(
       margin: t < 0.5 ? margin : other.margin,
       padding: t < 0.5 ? padding : other.padding,
+      gap: t < 0.5 ? gap : other.gap,
       borderRadius: t < 0.5 ? borderRadius : other.borderRadius,
       border: t < 0.5 ? border : other.border,
       color: Color.lerp(color, other.color, t),
@@ -59,6 +63,7 @@ mixin _$RioButtonThemeTailorMixin
             other is RioButtonTheme &&
             const DeepCollectionEquality().equals(margin, other.margin) &&
             const DeepCollectionEquality().equals(padding, other.padding) &&
+            const DeepCollectionEquality().equals(gap, other.gap) &&
             const DeepCollectionEquality()
                 .equals(borderRadius, other.borderRadius) &&
             const DeepCollectionEquality().equals(border, other.border) &&
@@ -73,6 +78,7 @@ mixin _$RioButtonThemeTailorMixin
       runtimeType.hashCode,
       const DeepCollectionEquality().hash(margin),
       const DeepCollectionEquality().hash(padding),
+      const DeepCollectionEquality().hash(gap),
       const DeepCollectionEquality().hash(borderRadius),
       const DeepCollectionEquality().hash(border),
       const DeepCollectionEquality().hash(color),
@@ -87,6 +93,7 @@ mixin _$RioButtonThemeTailorMixin
       ..add(DiagnosticsProperty('type', 'RioButtonTheme'))
       ..add(DiagnosticsProperty('margin', margin))
       ..add(DiagnosticsProperty('padding', padding))
+      ..add(DiagnosticsProperty('gap', gap))
       ..add(DiagnosticsProperty('borderRadius', borderRadius))
       ..add(DiagnosticsProperty('border', border))
       ..add(DiagnosticsProperty('color', color))

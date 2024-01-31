@@ -17,6 +17,7 @@ class RioButtonTheme extends ThemeExtension<RioButtonTheme>
   const RioButtonTheme({
     this.margin = EdgeInsets.zero,
     this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    this.gap = 8,
     this.borderRadius,
     this.border,
     this.color,
@@ -26,6 +27,8 @@ class RioButtonTheme extends ThemeExtension<RioButtonTheme>
   final EdgeInsets margin;
   @override
   final EdgeInsets padding;
+  @override
+  final double gap;
   @override
   final BorderRadiusGeometry? borderRadius;
   @override
@@ -59,8 +62,12 @@ class RioButton extends StatefulWidget {
     this.onPressedAwaitMode = RioButtonOnPressedAwaitMode.none,
     this.onPressed,
     this.theme,
+    this.leading,
+    this.trailing,
   });
   final Widget child;
+  final Widget? leading;
+  final Widget? trailing;
   final bool disabled;
   final bool loading;
   final RioButtonOnPressedAwaitMode onPressedAwaitMode;
@@ -160,7 +167,10 @@ class _RioButtonState extends State<RioButton> {
     );
 
     return IconTheme.merge(
-      data: IconThemeData(color: textColor, size: textStyle.fontSize),
+      data: IconThemeData(
+        color: textColor,
+        size: textStyle.fontSize! * 1.5,
+      ),
       child: DefaultTextStyle(
         style: textStyle,
         child: AnimatedPadding(
@@ -195,7 +205,10 @@ class _RioButtonState extends State<RioButton> {
               },
               child: AnimatedContainer(
                 duration: _duration,
-                padding: _theme.padding,
+                padding: EdgeInsets.only(
+                  left: _theme.padding.left,
+                  right: _theme.padding.right,
+                ),
                 decoration: decoration,
                 foregroundDecoration: foregroundDecoration,
                 child: AnimatedScale(
@@ -207,9 +220,33 @@ class _RioButtonState extends State<RioButton> {
                       Visibility.maintain(
                         key: _contentKey,
                         visible: !_loading,
-                        child: widget.child,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (widget.leading != null)
+                              Padding(
+                                padding: EdgeInsets.only(right: _theme.gap),
+                                child: widget.leading!,
+                              ),
+                            AnimatedPadding(
+                              duration: _duration,
+                              padding: EdgeInsets.only(
+                                top: _theme.padding.top,
+                                bottom: _theme.padding.bottom,
+                              ),
+                              child: widget.child,
+                            ),
+                            if (widget.trailing != null)
+                              Padding(
+                                padding: EdgeInsets.only(left: _theme.gap),
+                                child: widget.trailing!,
+                              ),
+                          ],
+                        ),
                       ),
-                      if (_loading) _Loading(size: textStyle.fontSize!),
+                      if (_loading) _Loading(size: textStyle.fontSize! * 2),
                     ],
                   ),
                 ),
@@ -231,6 +268,7 @@ class _RioButtonState extends State<RioButton> {
     try {
       contentWidth = _contentKey.currentContext?.size?.width ?? 0;
     } catch (_) {}
+    print(contentWidth);
 
     if (_isPressedDown) {
       final targetWidth = contentWidth - (scaleValue / 2);
@@ -267,7 +305,10 @@ class _RioButtonState extends State<RioButton> {
       case RioButtonVariant.solid:
         if (_disabled) return Colors.grey;
 
-        return computeTextColorForBackground(color);
+        return computeTextColorForPrimary(
+          color,
+          brightness: Theme.of(context).brightness,
+        );
       case RioButtonVariant.soft:
         if (_disabled) return Colors.grey.withOpacity(0.8);
 
@@ -317,15 +358,9 @@ class _Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.translate(
-      offset: const Offset(0, 3),
-      child: Transform.scale(
-        scale: 2.5,
-        child: LoadingAnimationWidget.waveDots(
-          color: Colors.grey,
-          size: size,
-        ),
-      ),
+    return LoadingAnimationWidget.waveDots(
+      color: Colors.grey,
+      size: size,
     );
   }
 }

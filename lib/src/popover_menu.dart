@@ -9,8 +9,7 @@ class RioMenuItem<T> with _$RioMenuItem {
   factory RioMenuItem({
     required T value,
     required Widget title,
-    IconData? icon,
-    Widget? iconWidget,
+    Widget? icon,
     Color? color,
   }) = _RioMenuItem;
 }
@@ -22,6 +21,8 @@ Future<T?> showRioMenu<T>(
   RioPopoverTheme? theme,
 }) async {
   var popoverTheme = theme ?? RioTheme.of(context).popoverTheme;
+  final borderRadius =
+      popoverTheme.borderRadius ?? RioTheme.of(context).defaultBorderRadius;
 
   if (theme == null) {
     popoverTheme = popoverTheme.copyWith(
@@ -34,6 +35,31 @@ Future<T?> showRioMenu<T>(
     direction: direction,
     theme: popoverTheme,
     bodyBuilder: (poContext) {
+      final itemRadios = Radius.circular(borderRadius);
+      final itemWidgets = items.map((item) {
+        final isFirst = items.first == item;
+        final isLast = items.last == item;
+        return ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 42),
+          child: RioButton(
+            variant: RioButtonVariant.plain,
+            theme: RioButtonTheme(
+              iconPosition: RioButtonIconPosition.edge,
+              color: item.color ?? Theme.of(context).colorScheme.onSurface,
+              borderRadius: BorderRadius.only(
+                topLeft: isFirst ? itemRadios : Radius.zero,
+                topRight: isFirst ? itemRadios : Radius.zero,
+                bottomLeft: isLast ? itemRadios : Radius.zero,
+                bottomRight: isLast ? itemRadios : Radius.zero,
+              ),
+            ),
+            onPressed: () => Navigator.of(poContext).pop(item.value),
+            trailing: item.icon,
+            child: item.title,
+          ),
+        );
+      }).toList();
+
       return ConstrainedBox(
         constraints: const BoxConstraints(minWidth: 200),
         child: IntrinsicWidth(
@@ -41,31 +67,9 @@ Future<T?> showRioMenu<T>(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              for (var i = 0; i < items.length; i++) ...[
+              for (var i = 0; i < itemWidgets.length; i++) ...[
                 if (i != 0) const RioDivider(),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(minHeight: 42),
-                  child: RioButton(
-                    variant: RioButtonVariant.plain,
-                    theme: RioButtonTheme(
-                      color: items[i].color ??
-                          Theme.of(context).colorScheme.onSurface,
-                      borderRadius: BorderRadius.zero,
-                    ),
-                    onPressed: () =>
-                        Navigator.of(poContext).pop(items[i].value),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        items[i].title,
-                        if (items[i].icon != null &&
-                            items[i].iconWidget == null)
-                          Icon(items[i].icon, size: 24),
-                        if (items[i].iconWidget != null) items[i].iconWidget!,
-                      ],
-                    ),
-                  ),
-                ),
+                itemWidgets[i],
               ],
             ],
           ),

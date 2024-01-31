@@ -30,12 +30,12 @@ class RioMenu extends StatelessWidget {
             RioMenuItem(
               value: "Test 2",
               title: const Text("Marcos"),
-              icon: Icons.person,
+              icon: const Icon(Icons.person),
             ),
             RioMenuItem(
               value: "Delete",
               title: const Text("Delete"),
-              icon: Icons.delete,
+              icon: const Icon(Icons.delete),
               color: Theme.of(context).colorScheme.error,
             ),
           ],

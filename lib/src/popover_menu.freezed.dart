@@ -18,8 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$RioMenuItem<T> {
   T get value => throw _privateConstructorUsedError;
   Widget get title => throw _privateConstructorUsedError;
-  IconData? get icon => throw _privateConstructorUsedError;
-  Widget? get iconWidget => throw _privateConstructorUsedError;
+  Widget? get icon => throw _privateConstructorUsedError;
   Color? get color => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -33,12 +32,7 @@ abstract class $RioMenuItemCopyWith<T, $Res> {
           RioMenuItem<T> value, $Res Function(RioMenuItem<T>) then) =
       _$RioMenuItemCopyWithImpl<T, $Res, RioMenuItem<T>>;
   @useResult
-  $Res call(
-      {T value,
-      Widget title,
-      IconData? icon,
-      Widget? iconWidget,
-      Color? color});
+  $Res call({T value, Widget title, Widget? icon, Color? color});
 }
 
 /// @nodoc
@@ -57,7 +51,6 @@ class _$RioMenuItemCopyWithImpl<T, $Res, $Val extends RioMenuItem<T>>
     Object? value = freezed,
     Object? title = null,
     Object? icon = freezed,
-    Object? iconWidget = freezed,
     Object? color = freezed,
   }) {
     return _then(_value.copyWith(
@@ -72,10 +65,6 @@ class _$RioMenuItemCopyWithImpl<T, $Res, $Val extends RioMenuItem<T>>
       icon: freezed == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
-              as IconData?,
-      iconWidget: freezed == iconWidget
-          ? _value.iconWidget
-          : iconWidget // ignore: cast_nullable_to_non_nullable
               as Widget?,
       color: freezed == color
           ? _value.color
@@ -93,12 +82,7 @@ abstract class _$$RioMenuItemImplCopyWith<T, $Res>
       __$$RioMenuItemImplCopyWithImpl<T, $Res>;
   @override
   @useResult
-  $Res call(
-      {T value,
-      Widget title,
-      IconData? icon,
-      Widget? iconWidget,
-      Color? color});
+  $Res call({T value, Widget title, Widget? icon, Color? color});
 }
 
 /// @nodoc
@@ -115,7 +99,6 @@ class __$$RioMenuItemImplCopyWithImpl<T, $Res>
     Object? value = freezed,
     Object? title = null,
     Object? icon = freezed,
-    Object? iconWidget = freezed,
     Object? color = freezed,
   }) {
     return _then(_$RioMenuItemImpl<T>(
@@ -130,10 +113,6 @@ class __$$RioMenuItemImplCopyWithImpl<T, $Res>
       icon: freezed == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
-              as IconData?,
-      iconWidget: freezed == iconWidget
-          ? _value.iconWidget
-          : iconWidget // ignore: cast_nullable_to_non_nullable
               as Widget?,
       color: freezed == color
           ? _value.color
@@ -147,26 +126,20 @@ class __$$RioMenuItemImplCopyWithImpl<T, $Res>
 
 class _$RioMenuItemImpl<T> implements _RioMenuItem<T> {
   _$RioMenuItemImpl(
-      {required this.value,
-      required this.title,
-      this.icon,
-      this.iconWidget,
-      this.color});
+      {required this.value, required this.title, this.icon, this.color});
 
   @override
   final T value;
   @override
   final Widget title;
   @override
-  final IconData? icon;
-  @override
-  final Widget? iconWidget;
+  final Widget? icon;
   @override
   final Color? color;
 
   @override
   String toString() {
-    return 'RioMenuItem<$T>(value: $value, title: $title, icon: $icon, iconWidget: $iconWidget, color: $color)';
+    return 'RioMenuItem<$T>(value: $value, title: $title, icon: $icon, color: $color)';
   }
 
   @override
@@ -177,19 +150,12 @@ class _$RioMenuItemImpl<T> implements _RioMenuItem<T> {
             const DeepCollectionEquality().equals(other.value, value) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.icon, icon) || other.icon == icon) &&
-            (identical(other.iconWidget, iconWidget) ||
-                other.iconWidget == iconWidget) &&
             (identical(other.color, color) || other.color == color));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(value),
-      title,
-      icon,
-      iconWidget,
-      color);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(value), title, icon, color);
 
   @JsonKey(ignore: true)
   @override
@@ -203,8 +169,7 @@ abstract class _RioMenuItem<T> implements RioMenuItem<T> {
   factory _RioMenuItem(
       {required final T value,
       required final Widget title,
-      final IconData? icon,
-      final Widget? iconWidget,
+      final Widget? icon,
       final Color? color}) = _$RioMenuItemImpl<T>;
 
   @override
@@ -212,9 +177,7 @@ abstract class _RioMenuItem<T> implements RioMenuItem<T> {
   @override
   Widget get title;
   @override
-  IconData? get icon;
-  @override
-  Widget? get iconWidget;
+  Widget? get icon;
   @override
   Color? get color;
   @override

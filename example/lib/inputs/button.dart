@@ -77,6 +77,7 @@ Widget _buildUseCase(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           RioButton(
+            leading: const Icon(Icons.search),
             variant: variant,
             theme: theme,
             child: text,
@@ -92,14 +93,13 @@ Widget _buildUseCase(
                 onPressed: () {},
               ),
               RioButton(
-                //leading: const Icon(Icons.search),
                 variant: variant,
+                trailing: const Icon(Icons.send),
                 theme: theme,
                 onPressed: () {},
                 child: text,
               ),
               RioButton(
-                //leading: const Icon(Icons.search),
                 variant: variant,
                 theme: theme,
                 onPressed: () {},
@@ -119,7 +119,7 @@ Widget _buildUseCase(
                 child: text,
               ),
               RioButton(
-                //leading: const Icon(Icons.search),
+                leading: const Icon(Icons.search),
                 variant: variant,
                 theme: theme,
                 onPressed: () {},

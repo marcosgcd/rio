@@ -51,6 +51,13 @@ Widget colorSchemeUseCase(BuildContext context) {
                     ),
                   ],
                 ),
+                const SizedBox(height: 16),
+                ..._buildColorDisplay(
+                  color: colorScheme.popover,
+                  onColor: colorScheme.onPopover,
+                  titleColor: colorScheme.onPopover,
+                  colorName: "Popover",
+                ),
               ],
             ),
           ],

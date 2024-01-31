@@ -19,6 +19,7 @@ class WidgetbookApp extends StatelessWidget {
       // Use the generated directories variable
       directories: directories,
       addons: [
+        ZoomAddon(),
         DeviceFrameAddon(
           devices: [
             Devices.ios.iPhone13ProMax,

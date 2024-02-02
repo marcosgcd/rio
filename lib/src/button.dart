@@ -136,7 +136,7 @@ class _RioButtonState extends State<RioButton> {
     }
   }
 
-  void _handleOnPressedDown(bool isPressedDown) {
+  void _handleTab(bool isPressedDown) {
     if (_disabled || !mounted) return;
 
     setState(() {
@@ -195,9 +195,9 @@ class _RioButtonState extends State<RioButton> {
           padding: _theme.margin,
           child: GestureDetector(
             onTap: callBack,
-            onTapDown: (_) => _handleOnPressedDown(true),
-            onTapUp: (_) => _handleOnPressedDown(false),
-            onTapCancel: () => _handleOnPressedDown(false),
+            onTapDown: (_) => _handleTab(true),
+            onTapUp: (_) => _handleTab(false),
+            onTapCancel: () => _handleTab(false),
             child: FocusableActionDetector(
               mouseCursor: _cursor,
               onShowFocusHighlight: _handleFocusHighlight,
@@ -212,10 +212,10 @@ class _RioButtonState extends State<RioButton> {
               actions: {
                 ActivateIntent: CallbackAction<ActivateIntent>(
                   onInvoke: (intent) async {
-                    _handleOnPressedDown(true);
+                    _handleTab(true);
                     await callBack?.call();
                     await Future.delayed(const Duration(milliseconds: 300));
-                    _handleOnPressedDown(false);
+                    _handleTab(false);
                     return;
                   },
                 ),

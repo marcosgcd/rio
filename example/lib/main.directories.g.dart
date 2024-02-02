@@ -14,9 +14,10 @@ import 'package:widgetbook/widgetbook.dart' as _i1;
 import 'core/color_scheme.dart' as _i3;
 import 'display/divider.dart' as _i2;
 import 'inputs/button.dart' as _i4;
-import 'inputs/text_field.dart' as _i5;
-import 'menus/popover.dart' as _i7;
-import 'menus/popover_menu.dart' as _i6;
+import 'inputs/checkbox.dart' as _i5;
+import 'inputs/text_field.dart' as _i6;
+import 'menus/popover.dart' as _i8;
+import 'menus/popover_menu.dart' as _i7;
 
 final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookFolder(
@@ -67,16 +68,23 @@ final directories = <_i1.WidgetbookNode>[
           ),
         ],
       ),
+      _i1.WidgetbookLeafComponent(
+        name: 'RioCheckbox',
+        useCase: _i1.WidgetbookUseCase(
+          name: 'Checkbox',
+          builder: _i5.useCaseRioCeckbox,
+        ),
+      ),
       _i1.WidgetbookComponent(
         name: 'RioTextField',
         useCases: [
           _i1.WidgetbookUseCase(
             name: 'Default',
-            builder: _i5.useCaseRioTextFieldDefault,
+            builder: _i6.useCaseRioTextFieldDefault,
           ),
           _i1.WidgetbookUseCase(
             name: 'Filled',
-            builder: _i5.useCaseRioTextFieldFilled,
+            builder: _i6.useCaseRioTextFieldFilled,
           ),
         ],
       ),
@@ -89,14 +97,14 @@ final directories = <_i1.WidgetbookNode>[
         name: 'RioMenu',
         useCase: _i1.WidgetbookUseCase(
           name: 'Default',
-          builder: _i6.useCaseRioPopover,
+          builder: _i7.useCaseRioPopover,
         ),
       ),
       _i1.WidgetbookLeafComponent(
         name: 'RioPopover',
         useCase: _i1.WidgetbookUseCase(
           name: 'Default',
-          builder: _i7.useCaseCrPopover,
+          builder: _i8.useCaseCrPopover,
         ),
       ),
     ],

@@ -14,6 +14,7 @@ class RioTheme extends ThemeExtension<RioTheme>
     this.buttonTheme = const RioButtonTheme(),
     this.textFieldTheme = const RioTextFieldTheme(),
     this.popoverTheme = const RioPopoverTheme(),
+    this.checkboxTheme = const RioCheckboxTheme(),
   });
 
   @override
@@ -22,6 +23,8 @@ class RioTheme extends ThemeExtension<RioTheme>
   final RioColorScheme colorScheme;
   @override
   final RioButtonTheme buttonTheme;
+  @override
+  final RioCheckboxTheme checkboxTheme;
   @override
   final RioTextFieldTheme textFieldTheme;
   @override

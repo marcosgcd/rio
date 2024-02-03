@@ -13,7 +13,8 @@ mixin _$RioThemeTailorMixin
   double get defaultBorderRadius;
   RioColorScheme get colorScheme;
   RioButtonTheme get buttonTheme;
-  RioButtonTheme get iconButtonTheme;
+  RioIconButtonTheme get iconButtonTheme;
+  RioToggleButtonsTheme get toggleButtonsTheme;
   RioCheckboxTheme get checkboxTheme;
   RioTextFieldTheme get textFieldTheme;
   RioPopoverTheme get popoverTheme;
@@ -24,7 +25,8 @@ mixin _$RioThemeTailorMixin
     double? defaultBorderRadius,
     RioColorScheme? colorScheme,
     RioButtonTheme? buttonTheme,
-    RioButtonTheme? iconButtonTheme,
+    RioIconButtonTheme? iconButtonTheme,
+    RioToggleButtonsTheme? toggleButtonsTheme,
     RioCheckboxTheme? checkboxTheme,
     RioTextFieldTheme? textFieldTheme,
     RioPopoverTheme? popoverTheme,
@@ -35,6 +37,7 @@ mixin _$RioThemeTailorMixin
       colorScheme: colorScheme ?? this.colorScheme,
       buttonTheme: buttonTheme ?? this.buttonTheme,
       iconButtonTheme: iconButtonTheme ?? this.iconButtonTheme,
+      toggleButtonsTheme: toggleButtonsTheme ?? this.toggleButtonsTheme,
       checkboxTheme: checkboxTheme ?? this.checkboxTheme,
       textFieldTheme: textFieldTheme ?? this.textFieldTheme,
       popoverTheme: popoverTheme ?? this.popoverTheme,
@@ -50,7 +53,9 @@ mixin _$RioThemeTailorMixin
       colorScheme: colorScheme.lerp(other.colorScheme, t) as RioColorScheme,
       buttonTheme: buttonTheme.lerp(other.buttonTheme, t) as RioButtonTheme,
       iconButtonTheme:
-          iconButtonTheme.lerp(other.iconButtonTheme, t) as RioButtonTheme,
+          iconButtonTheme.lerp(other.iconButtonTheme, t) as RioIconButtonTheme,
+      toggleButtonsTheme: toggleButtonsTheme.lerp(other.toggleButtonsTheme, t)
+          as RioToggleButtonsTheme,
       checkboxTheme:
           checkboxTheme.lerp(other.checkboxTheme, t) as RioCheckboxTheme,
       textFieldTheme:
@@ -73,6 +78,8 @@ mixin _$RioThemeTailorMixin
             const DeepCollectionEquality()
                 .equals(iconButtonTheme, other.iconButtonTheme) &&
             const DeepCollectionEquality()
+                .equals(toggleButtonsTheme, other.toggleButtonsTheme) &&
+            const DeepCollectionEquality()
                 .equals(checkboxTheme, other.checkboxTheme) &&
             const DeepCollectionEquality()
                 .equals(textFieldTheme, other.textFieldTheme) &&
@@ -90,6 +97,7 @@ mixin _$RioThemeTailorMixin
       const DeepCollectionEquality().hash(colorScheme),
       const DeepCollectionEquality().hash(buttonTheme),
       const DeepCollectionEquality().hash(iconButtonTheme),
+      const DeepCollectionEquality().hash(toggleButtonsTheme),
       const DeepCollectionEquality().hash(checkboxTheme),
       const DeepCollectionEquality().hash(textFieldTheme),
       const DeepCollectionEquality().hash(popoverTheme),
@@ -106,6 +114,7 @@ mixin _$RioThemeTailorMixin
       ..add(DiagnosticsProperty('colorScheme', colorScheme))
       ..add(DiagnosticsProperty('buttonTheme', buttonTheme))
       ..add(DiagnosticsProperty('iconButtonTheme', iconButtonTheme))
+      ..add(DiagnosticsProperty('toggleButtonsTheme', toggleButtonsTheme))
       ..add(DiagnosticsProperty('checkboxTheme', checkboxTheme))
       ..add(DiagnosticsProperty('textFieldTheme', textFieldTheme))
       ..add(DiagnosticsProperty('popoverTheme', popoverTheme))

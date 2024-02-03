@@ -13,6 +13,7 @@ class RioTheme extends ThemeExtension<RioTheme>
     this.defaultBorderRadius = 10,
     this.buttonTheme = const RioButtonTheme(),
     this.iconButtonTheme = const RioIconButtonTheme(),
+    this.toggleButtonsTheme = const RioToggleButtonsTheme(),
     this.textFieldTheme = const RioTextFieldTheme(),
     this.popoverTheme = const RioPopoverTheme(),
     this.checkboxTheme = const RioCheckboxTheme(),
@@ -25,7 +26,9 @@ class RioTheme extends ThemeExtension<RioTheme>
   @override
   final RioButtonTheme buttonTheme;
   @override
-  final RioButtonTheme iconButtonTheme;
+  final RioIconButtonTheme iconButtonTheme;
+  @override
+  final RioToggleButtonsTheme toggleButtonsTheme;
   @override
   final RioCheckboxTheme checkboxTheme;
   @override

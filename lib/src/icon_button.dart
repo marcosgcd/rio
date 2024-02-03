@@ -14,6 +14,30 @@ class RioIconButtonTheme extends RioButtonTheme {
     super.disableScaleAnimation,
     super.scaleValue = 8,
   });
+
+  @override
+  RioIconButtonTheme copyWith({
+    EdgeInsets? margin,
+    EdgeInsets? padding,
+    double? gap,
+    BorderRadiusGeometry? borderRadius,
+    BoxBorder? border,
+    Color? color,
+    bool? disableScaleAnimation,
+    double? scaleValue,
+    RioButtonIconPosition? iconPosition,
+  }) {
+    return RioIconButtonTheme(
+      margin: margin ?? this.margin,
+      padding: padding ?? this.padding,
+      borderRadius: borderRadius ?? this.borderRadius,
+      border: border ?? this.border,
+      color: color ?? this.color,
+      disableScaleAnimation:
+          disableScaleAnimation ?? this.disableScaleAnimation,
+      scaleValue: scaleValue ?? this.scaleValue,
+    );
+  }
 }
 
 class RioIconButton extends StatelessWidget {

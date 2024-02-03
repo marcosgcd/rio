@@ -17,8 +17,9 @@ import 'inputs/button.dart' as _i4;
 import 'inputs/checkbox.dart' as _i5;
 import 'inputs/icon_button.dart' as _i6;
 import 'inputs/text_field.dart' as _i7;
-import 'menus/popover.dart' as _i9;
-import 'menus/popover_menu.dart' as _i8;
+import 'inputs/toggle_buttons.dart' as _i8;
+import 'menus/popover.dart' as _i10;
+import 'menus/popover_menu.dart' as _i9;
 
 final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookFolder(
@@ -110,6 +111,19 @@ final directories = <_i1.WidgetbookNode>[
           ),
         ],
       ),
+      _i1.WidgetbookComponent(
+        name: 'RioToggleButtons',
+        useCases: [
+          _i1.WidgetbookUseCase(
+            name: 'Soft',
+            builder: _i8.useCaseRioToggleButtonSoft,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Solid',
+            builder: _i8.useCaseRioToggleButtonSolid,
+          ),
+        ],
+      ),
     ],
   ),
   _i1.WidgetbookFolder(
@@ -119,14 +133,14 @@ final directories = <_i1.WidgetbookNode>[
         name: 'RioMenu',
         useCase: _i1.WidgetbookUseCase(
           name: 'Default',
-          builder: _i8.useCaseRioPopover,
+          builder: _i9.useCaseRioPopover,
         ),
       ),
       _i1.WidgetbookLeafComponent(
         name: 'RioPopover',
         useCase: _i1.WidgetbookUseCase(
           name: 'Default',
-          builder: _i9.useCaseCrPopover,
+          builder: _i10.useCaseCrPopover,
         ),
       ),
     ],

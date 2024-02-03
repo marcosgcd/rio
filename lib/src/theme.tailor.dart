@@ -13,6 +13,7 @@ mixin _$RioThemeTailorMixin
   double get defaultBorderRadius;
   RioColorScheme get colorScheme;
   RioButtonTheme get buttonTheme;
+  RioButtonTheme get iconButtonTheme;
   RioCheckboxTheme get checkboxTheme;
   RioTextFieldTheme get textFieldTheme;
   RioPopoverTheme get popoverTheme;
@@ -23,6 +24,7 @@ mixin _$RioThemeTailorMixin
     double? defaultBorderRadius,
     RioColorScheme? colorScheme,
     RioButtonTheme? buttonTheme,
+    RioButtonTheme? iconButtonTheme,
     RioCheckboxTheme? checkboxTheme,
     RioTextFieldTheme? textFieldTheme,
     RioPopoverTheme? popoverTheme,
@@ -32,6 +34,7 @@ mixin _$RioThemeTailorMixin
       defaultBorderRadius: defaultBorderRadius ?? this.defaultBorderRadius,
       colorScheme: colorScheme ?? this.colorScheme,
       buttonTheme: buttonTheme ?? this.buttonTheme,
+      iconButtonTheme: iconButtonTheme ?? this.iconButtonTheme,
       checkboxTheme: checkboxTheme ?? this.checkboxTheme,
       textFieldTheme: textFieldTheme ?? this.textFieldTheme,
       popoverTheme: popoverTheme ?? this.popoverTheme,
@@ -46,6 +49,8 @@ mixin _$RioThemeTailorMixin
           t < 0.5 ? defaultBorderRadius : other.defaultBorderRadius,
       colorScheme: colorScheme.lerp(other.colorScheme, t) as RioColorScheme,
       buttonTheme: buttonTheme.lerp(other.buttonTheme, t) as RioButtonTheme,
+      iconButtonTheme:
+          iconButtonTheme.lerp(other.iconButtonTheme, t) as RioButtonTheme,
       checkboxTheme:
           checkboxTheme.lerp(other.checkboxTheme, t) as RioCheckboxTheme,
       textFieldTheme:
@@ -66,6 +71,8 @@ mixin _$RioThemeTailorMixin
             const DeepCollectionEquality()
                 .equals(buttonTheme, other.buttonTheme) &&
             const DeepCollectionEquality()
+                .equals(iconButtonTheme, other.iconButtonTheme) &&
+            const DeepCollectionEquality()
                 .equals(checkboxTheme, other.checkboxTheme) &&
             const DeepCollectionEquality()
                 .equals(textFieldTheme, other.textFieldTheme) &&
@@ -82,6 +89,7 @@ mixin _$RioThemeTailorMixin
       const DeepCollectionEquality().hash(defaultBorderRadius),
       const DeepCollectionEquality().hash(colorScheme),
       const DeepCollectionEquality().hash(buttonTheme),
+      const DeepCollectionEquality().hash(iconButtonTheme),
       const DeepCollectionEquality().hash(checkboxTheme),
       const DeepCollectionEquality().hash(textFieldTheme),
       const DeepCollectionEquality().hash(popoverTheme),
@@ -97,6 +105,7 @@ mixin _$RioThemeTailorMixin
       ..add(DiagnosticsProperty('defaultBorderRadius', defaultBorderRadius))
       ..add(DiagnosticsProperty('colorScheme', colorScheme))
       ..add(DiagnosticsProperty('buttonTheme', buttonTheme))
+      ..add(DiagnosticsProperty('iconButtonTheme', iconButtonTheme))
       ..add(DiagnosticsProperty('checkboxTheme', checkboxTheme))
       ..add(DiagnosticsProperty('textFieldTheme', textFieldTheme))
       ..add(DiagnosticsProperty('popoverTheme', popoverTheme))

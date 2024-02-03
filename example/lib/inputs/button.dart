@@ -70,6 +70,12 @@ Widget _buildUseCase(
     borderRadius: borderRadius,
   );
 
+  final iconTheme = RioIconButtonTheme(
+    margin: margin,
+    padding: padding,
+    borderRadius: borderRadius,
+  );
+
   return Scaffold(
     body: Center(
       child: Column(
@@ -125,6 +131,22 @@ Widget _buildUseCase(
                 onPressed: () {},
                 disabled: true,
                 child: text,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RioButton(
+                variant: variant,
+                theme: theme,
+                onPressed: () {},
+                child: text,
+              ),
+              RioIconButton(
+                icon: const Icon(Icons.search),
+                theme: iconTheme,
+                onPressed: () {},
               ),
             ],
           ),

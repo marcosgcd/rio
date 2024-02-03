@@ -12,6 +12,7 @@ class RioTheme extends ThemeExtension<RioTheme>
     required this.colorScheme,
     this.defaultBorderRadius = 10,
     this.buttonTheme = const RioButtonTheme(),
+    this.iconButtonTheme = const RioIconButtonTheme(),
     this.textFieldTheme = const RioTextFieldTheme(),
     this.popoverTheme = const RioPopoverTheme(),
     this.checkboxTheme = const RioCheckboxTheme(),
@@ -23,6 +24,8 @@ class RioTheme extends ThemeExtension<RioTheme>
   final RioColorScheme colorScheme;
   @override
   final RioButtonTheme buttonTheme;
+  @override
+  final RioButtonTheme iconButtonTheme;
   @override
   final RioCheckboxTheme checkboxTheme;
   @override

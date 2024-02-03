@@ -111,7 +111,7 @@ class _RioCheckboxState extends State<RioCheckbox> {
 
   @override
   Widget build(BuildContext context) {
-    final color = _theme.color ?? Theme.of(context).colorScheme.primary;
+    final color = _theme.color ?? RioTheme.of(context).colorScheme.primary;
     final textColor = _resolveTextColor();
     final textStyle =
         Theme.of(context).textTheme.labelLarge!.copyWith(color: textColor);
@@ -238,7 +238,7 @@ class _RioCheckboxState extends State<RioCheckbox> {
   }
 
   Color? _resolveTextColor() {
-    if (widget.disabled) return Theme.of(context).disabledColor;
+    if (widget.disabled) return Colors.grey;
 
     return null;
   }

@@ -167,7 +167,7 @@ class _RioButtonState extends State<RioButton> {
   @override
   Widget build(BuildContext context) {
     final callBack = _disabled ? null : _handleOnTap;
-    final color = _theme.color ?? Theme.of(context).colorScheme.primary;
+    final color = _theme.color ?? RioTheme.of(context).colorScheme.primary;
     final textColor = _resolveTextColor(color);
     final backgroundColor = _resolveBackgroundColor(color);
     final foregroundColor = _resolveForegroundColor(textColor);

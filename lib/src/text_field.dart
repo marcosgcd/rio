@@ -167,7 +167,7 @@ class _RioTextFieldState extends State<RioTextField> {
 
   @override
   Widget build(BuildContext context) {
-    var color = _theme.color ?? Theme.of(context).colorScheme.primary;
+    var color = _theme.color ?? RioTheme.of(context).colorScheme.primary;
     final decoration = widget.decoration;
 
     if (decoration?.errorText != null) {

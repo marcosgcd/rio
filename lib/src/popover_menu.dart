@@ -45,7 +45,7 @@ Future<T?> showRioMenu<T>(
             variant: RioButtonVariant.plain,
             theme: RioButtonTheme(
               iconPosition: RioButtonIconPosition.edge,
-              color: item.color ?? Theme.of(context).colorScheme.onSurface,
+              color: item.color ?? RioTheme.of(context).colorScheme.onSurface,
               borderRadius: BorderRadius.only(
                 topLeft: isFirst ? itemRadios : Radius.zero,
                 topRight: isFirst ? itemRadios : Radius.zero,

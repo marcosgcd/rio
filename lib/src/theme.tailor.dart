@@ -17,6 +17,7 @@ mixin _$RioThemeTailorMixin
   RioToggleButtonsTheme get toggleButtonsTheme;
   RioCheckboxTheme get checkboxTheme;
   RioTextFieldTheme get textFieldTheme;
+  RioPinFieldTheme get pinFieldTheme;
   RioPopoverTheme get popoverTheme;
   Brightness get brightness;
 
@@ -29,6 +30,7 @@ mixin _$RioThemeTailorMixin
     RioToggleButtonsTheme? toggleButtonsTheme,
     RioCheckboxTheme? checkboxTheme,
     RioTextFieldTheme? textFieldTheme,
+    RioPinFieldTheme? pinFieldTheme,
     RioPopoverTheme? popoverTheme,
     Brightness? brightness,
   }) {
@@ -40,6 +42,7 @@ mixin _$RioThemeTailorMixin
       toggleButtonsTheme: toggleButtonsTheme ?? this.toggleButtonsTheme,
       checkboxTheme: checkboxTheme ?? this.checkboxTheme,
       textFieldTheme: textFieldTheme ?? this.textFieldTheme,
+      pinFieldTheme: pinFieldTheme ?? this.pinFieldTheme,
       popoverTheme: popoverTheme ?? this.popoverTheme,
     );
   }
@@ -60,6 +63,8 @@ mixin _$RioThemeTailorMixin
           checkboxTheme.lerp(other.checkboxTheme, t) as RioCheckboxTheme,
       textFieldTheme:
           textFieldTheme.lerp(other.textFieldTheme, t) as RioTextFieldTheme,
+      pinFieldTheme:
+          pinFieldTheme.lerp(other.pinFieldTheme, t) as RioPinFieldTheme,
       popoverTheme: popoverTheme.lerp(other.popoverTheme, t) as RioPopoverTheme,
     );
   }
@@ -84,6 +89,8 @@ mixin _$RioThemeTailorMixin
             const DeepCollectionEquality()
                 .equals(textFieldTheme, other.textFieldTheme) &&
             const DeepCollectionEquality()
+                .equals(pinFieldTheme, other.pinFieldTheme) &&
+            const DeepCollectionEquality()
                 .equals(popoverTheme, other.popoverTheme) &&
             const DeepCollectionEquality()
                 .equals(brightness, other.brightness));
@@ -100,6 +107,7 @@ mixin _$RioThemeTailorMixin
       const DeepCollectionEquality().hash(toggleButtonsTheme),
       const DeepCollectionEquality().hash(checkboxTheme),
       const DeepCollectionEquality().hash(textFieldTheme),
+      const DeepCollectionEquality().hash(pinFieldTheme),
       const DeepCollectionEquality().hash(popoverTheme),
       const DeepCollectionEquality().hash(brightness),
     );
@@ -117,6 +125,7 @@ mixin _$RioThemeTailorMixin
       ..add(DiagnosticsProperty('toggleButtonsTheme', toggleButtonsTheme))
       ..add(DiagnosticsProperty('checkboxTheme', checkboxTheme))
       ..add(DiagnosticsProperty('textFieldTheme', textFieldTheme))
+      ..add(DiagnosticsProperty('pinFieldTheme', pinFieldTheme))
       ..add(DiagnosticsProperty('popoverTheme', popoverTheme))
       ..add(DiagnosticsProperty('brightness', brightness));
   }

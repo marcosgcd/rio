@@ -11,6 +11,7 @@ dependencies:
     sdk: flutter
   freezed_annotation: ^2.4.1
   loading_animation_widget: ^1.2.0+4
+  pin_code_fields: ^8.0.1
   popover: ^0.2.8+2
   theme_tailor_annotation: ^2.0.2
 

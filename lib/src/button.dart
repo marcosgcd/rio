@@ -23,7 +23,9 @@ class RioButtonTheme extends ThemeExtension<RioButtonTheme>
     this.color,
     this.disableScaleAnimation = false,
     this.iconPosition = RioButtonIconPosition.center,
+    this.scaleValue = 16,
   });
+
   @override
   final EdgeInsets margin;
   @override
@@ -38,6 +40,8 @@ class RioButtonTheme extends ThemeExtension<RioButtonTheme>
   final Color? color;
   @override
   final bool disableScaleAnimation;
+  @override
+  final double scaleValue;
   @override
   final RioButtonIconPosition iconPosition;
 }
@@ -82,6 +86,7 @@ class RioButton extends StatefulWidget {
     this.leading,
     this.trailing,
   });
+
   final Widget child;
   final Widget? leading;
   final Widget? trailing;
@@ -265,7 +270,7 @@ class _RioButtonState extends State<RioButton> {
                           ],
                         ),
                       ),
-                      if (_loading) _Loading(size: textStyle.fontSize! * 2),
+                      if (_loading) _Loading(size: textStyle.fontSize! * 1.5),
                     ],
                   ),
                 ),
@@ -282,18 +287,17 @@ class _RioButtonState extends State<RioButton> {
 
     if (_theme.disableScaleAnimation || _disabled) return 1;
 
-    const scaleValue = 16;
     double contentWidth = 0;
     try {
       contentWidth = _contentKey.currentContext?.size?.width ?? 0;
     } catch (_) {}
 
     if (_isPressedDown) {
-      final targetWidth = contentWidth - (scaleValue / 2);
+      final targetWidth = contentWidth - (_theme.scaleValue / 2);
       result = 1 - (1 - targetWidth / contentWidth) / 2;
     }
     if ((_isFocused || _isHovered) && !_isPressedDown) {
-      final targetWidth = contentWidth + scaleValue;
+      final targetWidth = contentWidth + _theme.scaleValue;
       result = (((targetWidth / contentWidth) - 1) / 2) + 1;
     }
 

@@ -15,6 +15,7 @@ part 'button.tailor.dart';
 class RioButtonTheme extends ThemeExtension<RioButtonTheme>
     with DiagnosticableTreeMixin, _$RioButtonThemeTailorMixin {
   const RioButtonTheme({
+    this.variant = RioButtonVariant.solid,
     this.margin = EdgeInsets.zero,
     this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     this.gap = 8,
@@ -26,6 +27,8 @@ class RioButtonTheme extends ThemeExtension<RioButtonTheme>
     this.scaleValue = 16,
   });
 
+  @override
+  final RioButtonVariant variant;
   @override
   final EdgeInsets margin;
   @override
@@ -77,7 +80,6 @@ class RioButton extends StatefulWidget {
   const RioButton({
     super.key,
     required this.child,
-    this.variant = RioButtonVariant.solid,
     this.disabled = false,
     this.loading = false,
     this.onPressedAwaitMode = RioButtonOnPressedAwaitMode.none,
@@ -94,7 +96,6 @@ class RioButton extends StatefulWidget {
   final bool loading;
   final RioButtonOnPressedAwaitMode onPressedAwaitMode;
   final FutureOr<void> Function()? onPressed;
-  final RioButtonVariant variant;
   final RioButtonTheme? theme;
 
   @override
@@ -305,7 +306,7 @@ class _RioButtonState extends State<RioButton> {
   }
 
   Color _resolveBackgroundColor(Color color) {
-    switch (widget.variant) {
+    switch (_theme.variant) {
       case RioButtonVariant.solid:
         if (_disabled) {
           return Colors.grey.withOpacity(0.4);
@@ -323,7 +324,7 @@ class _RioButtonState extends State<RioButton> {
   }
 
   Color _resolveTextColor(Color color) {
-    switch (widget.variant) {
+    switch (_theme.variant) {
       case RioButtonVariant.solid:
         if (_disabled) return Colors.grey;
 
@@ -348,7 +349,7 @@ class _RioButtonState extends State<RioButton> {
         (_isWaintingForOnPressedFuture &&
             widget.onPressedAwaitMode == RioButtonOnPressedAwaitMode.highlight);
 
-    switch (widget.variant) {
+    switch (_theme.variant) {
       case RioButtonVariant.solid:
         if (_isPressedDown) return textColor.withOpacity(0.6);
         if (isHovered) return textColor.withOpacity(0.4);
@@ -371,7 +372,7 @@ class _RioButtonState extends State<RioButton> {
       return _theme.border!;
     }
 
-    switch (widget.variant) {
+    switch (_theme.variant) {
       case RioButtonVariant.outlined:
         return Border.all(color: textColor.withOpacity(0.2));
 

@@ -21,6 +21,7 @@ import 'inputs/text_field.dart' as _i8;
 import 'inputs/toggle_buttons.dart' as _i9;
 import 'menus/popover.dart' as _i11;
 import 'menus/popover_menu.dart' as _i10;
+import 'menus/toolbar.dart' as _i12;
 
 final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookFolder(
@@ -148,8 +149,21 @@ final directories = <_i1.WidgetbookNode>[
         name: 'RioPopover',
         useCase: _i1.WidgetbookUseCase(
           name: 'Default',
-          builder: _i11.useCaseCrPopover,
+          builder: _i11.useCaseRioPopover,
         ),
+      ),
+      _i1.WidgetbookComponent(
+        name: 'RioToolbar',
+        useCases: [
+          _i1.WidgetbookUseCase(
+            name: 'Custom',
+            builder: _i12.useCaseRioToolbarCustom,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Default',
+            builder: _i12.useCaseRioToolbarDefault,
+          ),
+        ],
       ),
     ],
   ),

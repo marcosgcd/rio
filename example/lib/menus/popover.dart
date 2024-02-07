@@ -7,7 +7,7 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
   type: RioPopover,
   path: "menus",
 )
-Widget useCaseCrPopover(BuildContext context) {
+Widget useCaseRioPopover(BuildContext context) {
   return Scaffold(body: Center(child: RioPopover()));
 }
 

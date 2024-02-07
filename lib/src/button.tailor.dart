@@ -10,6 +10,7 @@ part of 'button.dart';
 
 mixin _$RioButtonThemeTailorMixin
     on ThemeExtension<RioButtonTheme>, DiagnosticableTreeMixin {
+  RioButtonVariant get variant;
   EdgeInsets get margin;
   EdgeInsets get padding;
   double get gap;
@@ -22,6 +23,7 @@ mixin _$RioButtonThemeTailorMixin
 
   @override
   RioButtonTheme copyWith({
+    RioButtonVariant? variant,
     EdgeInsets? margin,
     EdgeInsets? padding,
     double? gap,
@@ -33,6 +35,7 @@ mixin _$RioButtonThemeTailorMixin
     RioButtonIconPosition? iconPosition,
   }) {
     return RioButtonTheme(
+      variant: variant ?? this.variant,
       margin: margin ?? this.margin,
       padding: padding ?? this.padding,
       gap: gap ?? this.gap,
@@ -51,6 +54,7 @@ mixin _$RioButtonThemeTailorMixin
       covariant ThemeExtension<RioButtonTheme>? other, double t) {
     if (other is! RioButtonTheme) return this as RioButtonTheme;
     return RioButtonTheme(
+      variant: t < 0.5 ? variant : other.variant,
       margin: t < 0.5 ? margin : other.margin,
       padding: t < 0.5 ? padding : other.padding,
       gap: t < 0.5 ? gap : other.gap,
@@ -69,6 +73,7 @@ mixin _$RioButtonThemeTailorMixin
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is RioButtonTheme &&
+            const DeepCollectionEquality().equals(variant, other.variant) &&
             const DeepCollectionEquality().equals(margin, other.margin) &&
             const DeepCollectionEquality().equals(padding, other.padding) &&
             const DeepCollectionEquality().equals(gap, other.gap) &&
@@ -88,6 +93,7 @@ mixin _$RioButtonThemeTailorMixin
   int get hashCode {
     return Object.hash(
       runtimeType.hashCode,
+      const DeepCollectionEquality().hash(variant),
       const DeepCollectionEquality().hash(margin),
       const DeepCollectionEquality().hash(padding),
       const DeepCollectionEquality().hash(gap),
@@ -105,6 +111,7 @@ mixin _$RioButtonThemeTailorMixin
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'RioButtonTheme'))
+      ..add(DiagnosticsProperty('variant', variant))
       ..add(DiagnosticsProperty('margin', margin))
       ..add(DiagnosticsProperty('padding', padding))
       ..add(DiagnosticsProperty('gap', gap))

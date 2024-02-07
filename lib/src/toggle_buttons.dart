@@ -93,11 +93,11 @@ class RioToggleButtonsButton<T> extends RioToggleButtonsItem<T> {
     final color = theme.color ?? RioTheme.of(context).colorScheme.onSurface;
 
     return RioButton(
-      variant: isSelected ? selectedVariant : RioButtonVariant.plain,
       disabled: disabled,
       leading: leading,
       trailing: trailing,
       theme: buttonTheme.copyWith(
+        variant: isSelected ? selectedVariant : RioButtonVariant.plain,
         borderRadius: borderRadius,
         color: isSelected ? selectedColor : color,
       ),
@@ -136,9 +136,9 @@ class RioToggleButtonsIconButton<T> extends RioToggleButtonsItem<T> {
     final color = theme.color ?? RioTheme.of(context).colorScheme.onSurface;
 
     return RioIconButton(
-      variant: isSelected ? selectedVariant : RioButtonVariant.plain,
       disabled: disabled,
       theme: buttonTheme.copyWith(
+        variant: isSelected ? selectedVariant : RioButtonVariant.plain,
         borderRadius: borderRadius,
         color: isSelected ? selectedColor : color,
       ),

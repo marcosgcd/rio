@@ -65,12 +65,14 @@ Widget _buildUseCase(
   );
 
   final theme = RioButtonTheme(
+    variant: variant,
     margin: margin,
     padding: padding,
     borderRadius: borderRadius,
   );
 
-  final iconTheme = RioIconButtonTheme(
+  final iconButtonTheme = RioIconButtonTheme(
+    variant: variant,
     margin: margin,
     padding: padding,
     borderRadius: borderRadius,
@@ -84,7 +86,6 @@ Widget _buildUseCase(
         children: [
           RioButton(
             leading: const Icon(Icons.search),
-            variant: variant,
             theme: theme,
             child: text,
             onPressed: () {},
@@ -93,20 +94,17 @@ Widget _buildUseCase(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RioButton(
-                variant: variant,
-                theme: theme,
+                theme: iconButtonTheme,
                 child: text,
                 onPressed: () {},
               ),
               RioButton(
-                variant: variant,
                 trailing: const Icon(Icons.send),
                 theme: theme,
                 onPressed: () {},
                 child: text,
               ),
               RioButton(
-                variant: variant,
                 theme: theme,
                 onPressed: () {},
                 loading: true,
@@ -118,7 +116,6 @@ Widget _buildUseCase(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RioButton(
-                variant: variant,
                 theme: theme,
                 onPressed: () {},
                 disabled: true,
@@ -126,7 +123,6 @@ Widget _buildUseCase(
               ),
               RioButton(
                 leading: const Icon(Icons.search),
-                variant: variant,
                 theme: theme,
                 onPressed: () {},
                 disabled: true,
@@ -138,14 +134,13 @@ Widget _buildUseCase(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RioButton(
-                variant: variant,
                 theme: theme,
                 onPressed: () {},
                 child: text,
               ),
               RioIconButton(
                 icon: const Icon(Icons.search),
-                theme: iconTheme,
+                theme: iconButtonTheme,
                 onPressed: () {},
               ),
             ],

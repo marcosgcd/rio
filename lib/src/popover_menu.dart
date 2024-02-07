@@ -42,8 +42,8 @@ Future<T?> showRioMenu<T>(
         return ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 42),
           child: RioButton(
-            variant: RioButtonVariant.plain,
             theme: RioButtonTheme(
+              variant: RioButtonVariant.plain,
               iconPosition: RioButtonIconPosition.edge,
               color: item.color ?? RioTheme.of(context).colorScheme.onSurface,
               borderRadius: BorderRadius.only(

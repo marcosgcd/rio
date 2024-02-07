@@ -61,6 +61,7 @@ Widget _buildUseCase(
   );
 
   final theme = RioIconButtonTheme(
+    variant: variant,
     margin: margin,
     padding: padding,
     borderRadius: borderRadius,
@@ -73,21 +74,18 @@ Widget _buildUseCase(
         children: [
           RioIconButton(
             icon: const Icon(Icons.search),
-            variant: variant,
             theme: theme,
             onPressed: () {},
           ),
           RioIconButton(
             icon: const Icon(Icons.search),
             theme: theme,
-            variant: variant,
             disabled: true,
             onPressed: () {},
           ),
           RioIconButton(
             icon: const Icon(Icons.search),
             theme: theme,
-            variant: variant,
             loading: true,
             onPressed: () {},
           ),

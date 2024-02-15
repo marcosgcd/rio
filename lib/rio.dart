@@ -1,5 +1,6 @@
 library rio;
 
+export 'src/avatar.dart';
 export 'src/button.dart';
 export 'src/checkbox.dart';
 export 'src/color_scheme.dart';

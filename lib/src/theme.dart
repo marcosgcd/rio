@@ -18,6 +18,7 @@ class RioTheme extends ThemeExtension<RioTheme>
     this.pinFieldTheme = const RioPinFieldTheme(),
     this.popoverTheme = const RioPopoverTheme(),
     this.checkboxTheme = const RioCheckboxTheme(),
+    this.avatarTheme = const RioAvatarTheme(),
   });
 
   @override
@@ -38,6 +39,8 @@ class RioTheme extends ThemeExtension<RioTheme>
   final RioPinFieldTheme pinFieldTheme;
   @override
   final RioPopoverTheme popoverTheme;
+  @override
+  final RioAvatarTheme avatarTheme;
   @override
   Brightness get brightness => colorScheme.brightness;
 

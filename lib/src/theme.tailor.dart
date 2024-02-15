@@ -19,6 +19,7 @@ mixin _$RioThemeTailorMixin
   RioTextFieldTheme get textFieldTheme;
   RioPinFieldTheme get pinFieldTheme;
   RioPopoverTheme get popoverTheme;
+  RioAvatarTheme get avatarTheme;
   Brightness get brightness;
 
   @override
@@ -32,6 +33,7 @@ mixin _$RioThemeTailorMixin
     RioTextFieldTheme? textFieldTheme,
     RioPinFieldTheme? pinFieldTheme,
     RioPopoverTheme? popoverTheme,
+    RioAvatarTheme? avatarTheme,
     Brightness? brightness,
   }) {
     return RioTheme(
@@ -44,6 +46,7 @@ mixin _$RioThemeTailorMixin
       textFieldTheme: textFieldTheme ?? this.textFieldTheme,
       pinFieldTheme: pinFieldTheme ?? this.pinFieldTheme,
       popoverTheme: popoverTheme ?? this.popoverTheme,
+      avatarTheme: avatarTheme ?? this.avatarTheme,
     );
   }
 
@@ -66,6 +69,7 @@ mixin _$RioThemeTailorMixin
       pinFieldTheme:
           pinFieldTheme.lerp(other.pinFieldTheme, t) as RioPinFieldTheme,
       popoverTheme: popoverTheme.lerp(other.popoverTheme, t) as RioPopoverTheme,
+      avatarTheme: avatarTheme.lerp(other.avatarTheme, t) as RioAvatarTheme,
     );
   }
 
@@ -93,6 +97,8 @@ mixin _$RioThemeTailorMixin
             const DeepCollectionEquality()
                 .equals(popoverTheme, other.popoverTheme) &&
             const DeepCollectionEquality()
+                .equals(avatarTheme, other.avatarTheme) &&
+            const DeepCollectionEquality()
                 .equals(brightness, other.brightness));
   }
 
@@ -109,6 +115,7 @@ mixin _$RioThemeTailorMixin
       const DeepCollectionEquality().hash(textFieldTheme),
       const DeepCollectionEquality().hash(pinFieldTheme),
       const DeepCollectionEquality().hash(popoverTheme),
+      const DeepCollectionEquality().hash(avatarTheme),
       const DeepCollectionEquality().hash(brightness),
     );
   }
@@ -127,6 +134,7 @@ mixin _$RioThemeTailorMixin
       ..add(DiagnosticsProperty('textFieldTheme', textFieldTheme))
       ..add(DiagnosticsProperty('pinFieldTheme', pinFieldTheme))
       ..add(DiagnosticsProperty('popoverTheme', popoverTheme))
+      ..add(DiagnosticsProperty('avatarTheme', avatarTheme))
       ..add(DiagnosticsProperty('brightness', brightness));
   }
 }

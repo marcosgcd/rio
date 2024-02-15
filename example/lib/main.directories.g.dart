@@ -11,29 +11,51 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:widgetbook/widgetbook.dart' as _i1;
 
-import 'core/color_scheme.dart' as _i3;
-import 'display/divider.dart' as _i2;
-import 'inputs/button.dart' as _i4;
-import 'inputs/checkbox.dart' as _i5;
-import 'inputs/icon_button.dart' as _i6;
-import 'inputs/pin_field.dart' as _i7;
-import 'inputs/text_field.dart' as _i8;
-import 'inputs/toggle_buttons.dart' as _i9;
-import 'menus/popover.dart' as _i11;
-import 'menus/popover_menu.dart' as _i10;
-import 'menus/toolbar.dart' as _i12;
+import 'core/color_scheme.dart' as _i4;
+import 'display/avatar.dart' as _i2;
+import 'display/divider.dart' as _i3;
+import 'inputs/button.dart' as _i5;
+import 'inputs/checkbox.dart' as _i6;
+import 'inputs/icon_button.dart' as _i7;
+import 'inputs/pin_field.dart' as _i8;
+import 'inputs/text_field.dart' as _i9;
+import 'inputs/toggle_buttons.dart' as _i10;
+import 'menus/popover.dart' as _i12;
+import 'menus/popover_menu.dart' as _i11;
+import 'menus/toolbar.dart' as _i13;
 
 final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookFolder(
     name: 'Display',
     children: [
+      _i1.WidgetbookComponent(
+        name: 'RioAvatar',
+        useCases: [
+          _i1.WidgetbookUseCase(
+            name: 'Outlined',
+            builder: _i2.useCaseRioAvatarOutlined,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Plain',
+            builder: _i2.useCaseRioAvatarPlain,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Soft',
+            builder: _i2.useCaseRioAvatarSoft,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Solid',
+            builder: _i2.useCaseRioAvatarSolid,
+          ),
+        ],
+      ),
       _i1.WidgetbookLeafComponent(
         name: 'RioDivider',
         useCase: _i1.WidgetbookUseCase(
           name: 'Default',
-          builder: _i2.useCaseRioDivider,
+          builder: _i3.useCaseRioDivider,
         ),
-      )
+      ),
     ],
   ),
   _i1.WidgetbookFolder(
@@ -43,7 +65,7 @@ final directories = <_i1.WidgetbookNode>[
         name: 'RioColorScheme',
         useCase: _i1.WidgetbookUseCase(
           name: 'Color Scheme',
-          builder: _i3.colorSchemeUseCase,
+          builder: _i4.colorSchemeUseCase,
         ),
       )
     ],
@@ -56,19 +78,19 @@ final directories = <_i1.WidgetbookNode>[
         useCases: [
           _i1.WidgetbookUseCase(
             name: 'Outlined',
-            builder: _i4.useCaseRioButtonOutlined,
+            builder: _i5.useCaseRioButtonOutlined,
           ),
           _i1.WidgetbookUseCase(
             name: 'Plain',
-            builder: _i4.useCaseRioButtonPlain,
+            builder: _i5.useCaseRioButtonPlain,
           ),
           _i1.WidgetbookUseCase(
             name: 'Soft',
-            builder: _i4.useCaseRioButtonSoft,
+            builder: _i5.useCaseRioButtonSoft,
           ),
           _i1.WidgetbookUseCase(
             name: 'Solid',
-            builder: _i4.useCaseRioButtonSolid,
+            builder: _i5.useCaseRioButtonSolid,
           ),
         ],
       ),
@@ -76,7 +98,7 @@ final directories = <_i1.WidgetbookNode>[
         name: 'RioCheckbox',
         useCase: _i1.WidgetbookUseCase(
           name: 'Checkbox',
-          builder: _i5.useCaseRioCeckbox,
+          builder: _i6.useCaseRioCeckbox,
         ),
       ),
       _i1.WidgetbookComponent(
@@ -84,19 +106,19 @@ final directories = <_i1.WidgetbookNode>[
         useCases: [
           _i1.WidgetbookUseCase(
             name: 'Outlined',
-            builder: _i6.useCaseRioIconButtonIconOutlined,
+            builder: _i7.useCaseRioIconButtonIconOutlined,
           ),
           _i1.WidgetbookUseCase(
             name: 'Plain',
-            builder: _i6.useCaseRioIconButtonPlain,
+            builder: _i7.useCaseRioIconButtonPlain,
           ),
           _i1.WidgetbookUseCase(
             name: 'Soft',
-            builder: _i6.useCaseRioIconButtonSoft,
+            builder: _i7.useCaseRioIconButtonSoft,
           ),
           _i1.WidgetbookUseCase(
             name: 'Solid',
-            builder: _i6.useCaseRioIconButtonSolid,
+            builder: _i7.useCaseRioIconButtonSolid,
           ),
         ],
       ),
@@ -104,7 +126,7 @@ final directories = <_i1.WidgetbookNode>[
         name: 'RioPinField',
         useCase: _i1.WidgetbookUseCase(
           name: 'Default',
-          builder: _i7.useCaseRioPinField,
+          builder: _i8.useCaseRioPinField,
         ),
       ),
       _i1.WidgetbookComponent(
@@ -112,11 +134,11 @@ final directories = <_i1.WidgetbookNode>[
         useCases: [
           _i1.WidgetbookUseCase(
             name: 'Default',
-            builder: _i8.useCaseRioTextFieldDefault,
+            builder: _i9.useCaseRioTextFieldDefault,
           ),
           _i1.WidgetbookUseCase(
             name: 'Filled',
-            builder: _i8.useCaseRioTextFieldFilled,
+            builder: _i9.useCaseRioTextFieldFilled,
           ),
         ],
       ),
@@ -125,11 +147,11 @@ final directories = <_i1.WidgetbookNode>[
         useCases: [
           _i1.WidgetbookUseCase(
             name: 'Soft',
-            builder: _i9.useCaseRioToggleButtonSoft,
+            builder: _i10.useCaseRioToggleButtonSoft,
           ),
           _i1.WidgetbookUseCase(
             name: 'Solid',
-            builder: _i9.useCaseRioToggleButtonSolid,
+            builder: _i10.useCaseRioToggleButtonSolid,
           ),
         ],
       ),
@@ -142,14 +164,14 @@ final directories = <_i1.WidgetbookNode>[
         name: 'RioMenu',
         useCase: _i1.WidgetbookUseCase(
           name: 'Default',
-          builder: _i10.useCaseRioPopover,
+          builder: _i11.useCaseRioPopover,
         ),
       ),
       _i1.WidgetbookLeafComponent(
         name: 'RioPopover',
         useCase: _i1.WidgetbookUseCase(
           name: 'Default',
-          builder: _i11.useCaseRioPopover,
+          builder: _i12.useCaseRioPopover,
         ),
       ),
       _i1.WidgetbookComponent(
@@ -157,11 +179,11 @@ final directories = <_i1.WidgetbookNode>[
         useCases: [
           _i1.WidgetbookUseCase(
             name: 'Custom',
-            builder: _i12.useCaseRioToolbarCustom,
+            builder: _i13.useCaseRioToolbarCustom,
           ),
           _i1.WidgetbookUseCase(
             name: 'Default',
-            builder: _i12.useCaseRioToolbarDefault,
+            builder: _i13.useCaseRioToolbarDefault,
           ),
         ],
       ),

@@ -87,6 +87,7 @@ class RioButton extends StatefulWidget {
     this.theme,
     this.leading,
     this.trailing,
+    this.clipBehavior = Clip.none,
   });
 
   final Widget child;
@@ -96,6 +97,7 @@ class RioButton extends StatefulWidget {
   final bool loading;
   final RioButtonOnPressedAwaitMode onPressedAwaitMode;
   final FutureOr<void> Function()? onPressed;
+  final Clip clipBehavior;
   final RioButtonTheme? theme;
 
   @override
@@ -179,12 +181,12 @@ class _RioButtonState extends State<RioButton> {
         );
 
     final decoration = BoxDecoration(
-      border: border,
       color: backgroundColor,
       borderRadius: _borderRadius,
     );
 
     final foregroundDecoration = BoxDecoration(
+      border: border,
       color: foregroundColor,
       borderRadius: _borderRadius,
     );
@@ -228,6 +230,7 @@ class _RioButtonState extends State<RioButton> {
               },
               child: AnimatedContainer(
                 duration: _duration,
+                clipBehavior: widget.clipBehavior,
                 padding: EdgeInsets.only(
                   left: _theme.padding.left,
                   right: _theme.padding.right,

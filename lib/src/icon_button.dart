@@ -8,13 +8,19 @@ class RioIconButtonTheme extends RioButtonTheme {
   const RioIconButtonTheme({
     super.variant,
     super.margin,
-    super.padding = const EdgeInsets.all(8),
+    super.padding,
     super.borderRadius,
     super.border,
     super.color,
     super.disableScaleAnimation,
-    super.scaleValue = 8,
+    super.scaleValue,
   });
+
+  const RioIconButtonTheme.defaultTheme()
+      : super(
+          padding: const EdgeInsets.all(8),
+          scaleValue: 8,
+        );
 
   @override
   RioIconButtonTheme copyWith({
@@ -63,13 +69,13 @@ class RioIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var theme = this.theme ?? RioTheme.of(context).iconButtonTheme;
+    var theme = RioTheme.of(context).iconButtonTheme.merge(this.theme);
 
     // Make sure RioIconButton has the same height as RioButton
     theme = theme.copyWith(
-      padding: theme.padding.copyWith(
-        top: max(theme.padding.top - 2.5, 0),
-        bottom: max(theme.padding.bottom - 2.5, 0),
+      padding: theme.padding!.copyWith(
+        top: max(theme.padding!.top - 2.5, 0),
+        bottom: max(theme.padding!.bottom - 2.5, 0),
       ),
     );
 

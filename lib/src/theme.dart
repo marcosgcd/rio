@@ -11,14 +11,14 @@ class RioTheme extends ThemeExtension<RioTheme>
   const RioTheme({
     required this.colorScheme,
     this.defaultBorderRadius = 10,
-    this.buttonTheme = const RioButtonTheme(),
-    this.iconButtonTheme = const RioIconButtonTheme(),
-    this.toggleButtonsTheme = const RioToggleButtonsTheme(),
-    this.textFieldTheme = const RioTextFieldTheme(),
-    this.pinFieldTheme = const RioPinFieldTheme(),
-    this.popoverTheme = const RioPopoverTheme(),
-    this.checkboxTheme = const RioCheckboxTheme(),
-    this.avatarTheme = const RioAvatarTheme(),
+    this.buttonTheme = const RioButtonTheme.defaultTheme(),
+    this.iconButtonTheme = const RioIconButtonTheme.defaultTheme(),
+    this.toggleButtonsTheme = const RioToggleButtonsTheme.defaultTheme(),
+    this.textFieldTheme = const RioTextFieldTheme.defaultTheme(),
+    this.pinFieldTheme = const RioPinFieldTheme.defaultTheme(),
+    this.popoverTheme = const RioPopoverTheme.defaultTheme(),
+    this.checkboxTheme = const RioCheckboxTheme.defaultTheme(),
+    this.avatarTheme = const RioAvatarTheme.defaultTheme(),
   });
 
   @override

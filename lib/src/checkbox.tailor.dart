@@ -10,8 +10,8 @@ part of 'checkbox.dart';
 
 mixin _$RioCheckboxThemeTailorMixin
     on ThemeExtension<RioCheckboxTheme>, DiagnosticableTreeMixin {
-  EdgeInsets get margin;
-  double get gap;
+  EdgeInsets? get margin;
+  double? get gap;
   BorderRadiusGeometry? get borderRadius;
   Color? get color;
 

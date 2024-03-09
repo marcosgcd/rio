@@ -23,23 +23,41 @@ class RioTextFieldDecoration with _$RioTextFieldDecoration {
 class RioTextFieldTheme extends ThemeExtension<RioTextFieldTheme>
     with DiagnosticableTreeMixin, _$RioTextFieldThemeTailorMixin {
   const RioTextFieldTheme({
-    this.margin = EdgeInsets.zero,
-    this.contentPadding =
-        const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+    this.margin,
+    this.contentPadding,
     this.borderRadius,
-    this.filled = false,
+    this.filled,
     this.color,
   });
+
+  const RioTextFieldTheme.defaultTheme()
+      : margin = EdgeInsets.zero,
+        contentPadding =
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+        borderRadius = null,
+        filled = false,
+        color = null;
+
   @override
-  final EdgeInsets margin;
+  final EdgeInsets? margin;
   @override
-  final EdgeInsets contentPadding;
+  final EdgeInsets? contentPadding;
   @override
   final BorderRadius? borderRadius;
   @override
-  final bool filled;
+  final bool? filled;
   @override
   final Color? color;
+
+  RioTextFieldTheme merge(RioTextFieldTheme? other) {
+    return const RioTextFieldTheme.defaultTheme().copyWith(
+      margin: other?.margin ?? margin,
+      contentPadding: other?.contentPadding ?? contentPadding,
+      borderRadius: other?.borderRadius ?? borderRadius,
+      filled: other?.filled ?? filled,
+      color: other?.color ?? color,
+    );
+  }
 }
 
 class RioTextField extends StatefulWidget {
@@ -152,8 +170,8 @@ class RioTextField extends StatefulWidget {
 class _RioTextFieldState extends State<RioTextField> {
   late FocusNode _focusNode;
 
-  RioTextFieldTheme get _theme =>
-      widget.theme ?? RioTheme.of(context).textFieldTheme;
+  late RioTextFieldTheme _theme;
+
   BorderRadius get _borderRadius =>
       _theme.borderRadius ??
       BorderRadius.circular(RioTheme.of(context).defaultBorderRadius);
@@ -175,7 +193,7 @@ class _RioTextFieldState extends State<RioTextField> {
     }
 
     return Padding(
-      padding: _theme.margin,
+      padding: _theme.margin!,
       child: GestureDetector(
         onTap: () {
           _focusNode.requestFocus();
@@ -272,6 +290,18 @@ class _RioTextFieldState extends State<RioTextField> {
         ),
       ),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    _theme = RioTheme.of(context).textFieldTheme.merge(widget.theme);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(covariant RioTextField oldWidget) {
+    _theme = RioTheme.of(context).textFieldTheme.merge(widget.theme);
+    super.didUpdateWidget(oldWidget);
   }
 
   @override

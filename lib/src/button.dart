@@ -15,26 +15,38 @@ part 'button.tailor.dart';
 class RioButtonTheme extends ThemeExtension<RioButtonTheme>
     with DiagnosticableTreeMixin, _$RioButtonThemeTailorMixin {
   const RioButtonTheme({
-    this.variant = RioButtonVariant.solid,
-    this.margin = EdgeInsets.zero,
-    this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    this.gap = 8,
+    this.variant,
+    this.margin,
+    this.padding,
+    this.gap,
     this.borderRadius,
     this.border,
     this.color,
-    this.disableScaleAnimation = false,
-    this.iconPosition = RioButtonIconPosition.center,
-    this.scaleValue = 16,
+    this.disableScaleAnimation,
+    this.iconPosition,
+    this.scaleValue,
   });
 
+  const RioButtonTheme.defaultTheme()
+      : variant = RioButtonVariant.solid,
+        margin = EdgeInsets.zero,
+        padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        gap = 8,
+        disableScaleAnimation = false,
+        iconPosition = RioButtonIconPosition.center,
+        scaleValue = 8,
+        border = null,
+        color = null,
+        borderRadius = null;
+
   @override
-  final RioButtonVariant variant;
+  final RioButtonVariant? variant;
   @override
-  final EdgeInsets margin;
+  final EdgeInsets? margin;
   @override
-  final EdgeInsets padding;
+  final EdgeInsets? padding;
   @override
-  final double gap;
+  final double? gap;
   @override
   final BorderRadiusGeometry? borderRadius;
   @override
@@ -42,11 +54,27 @@ class RioButtonTheme extends ThemeExtension<RioButtonTheme>
   @override
   final Color? color;
   @override
-  final bool disableScaleAnimation;
+  final bool? disableScaleAnimation;
   @override
-  final double scaleValue;
+  final double? scaleValue;
   @override
-  final RioButtonIconPosition iconPosition;
+  final RioButtonIconPosition? iconPosition;
+
+  RioButtonTheme merge(RioButtonTheme? other) {
+    return const RioButtonTheme.defaultTheme().copyWith(
+      variant: other?.variant ?? variant,
+      margin: other?.margin ?? margin,
+      padding: other?.padding ?? padding,
+      gap: other?.gap ?? gap,
+      borderRadius: other?.borderRadius ?? borderRadius,
+      border: other?.border ?? border,
+      color: other?.color ?? color,
+      disableScaleAnimation:
+          other?.disableScaleAnimation ?? disableScaleAnimation,
+      iconPosition: other?.iconPosition ?? iconPosition,
+      scaleValue: other?.scaleValue ?? scaleValue,
+    );
+  }
 }
 
 enum RioButtonVariant {
@@ -113,8 +141,8 @@ class _RioButtonState extends State<RioButton> {
   bool _isHovered = false;
   bool _isPressedDown = false;
   bool _isWaintingForOnPressedFuture = false;
+  late RioButtonTheme _theme;
 
-  RioButtonTheme get _theme => widget.theme ?? RioTheme.of(context).buttonTheme;
   BorderRadiusGeometry get _borderRadius =>
       _theme.borderRadius ??
       BorderRadius.circular(RioTheme.of(context).defaultBorderRadius);
@@ -200,7 +228,7 @@ class _RioButtonState extends State<RioButton> {
         style: textStyle,
         child: AnimatedPadding(
           duration: _duration,
-          padding: _theme.margin,
+          padding: _theme.margin!,
           child: GestureDetector(
             onTap: callBack,
             onTapDown: (_) => _handleTab(true),
@@ -232,8 +260,8 @@ class _RioButtonState extends State<RioButton> {
                 duration: _duration,
                 clipBehavior: widget.clipBehavior,
                 padding: EdgeInsets.only(
-                  left: _theme.padding.left,
-                  right: _theme.padding.right,
+                  left: _theme.padding!.left,
+                  right: _theme.padding!.right,
                 ),
                 decoration: decoration,
                 foregroundDecoration: foregroundDecoration,
@@ -255,20 +283,20 @@ class _RioButtonState extends State<RioButton> {
                           children: [
                             if (widget.leading != null)
                               Padding(
-                                padding: EdgeInsets.only(right: _theme.gap),
+                                padding: EdgeInsets.only(right: _theme.gap!),
                                 child: widget.leading!,
                               ),
                             AnimatedPadding(
                               duration: _duration,
                               padding: EdgeInsets.only(
-                                top: _theme.padding.top,
-                                bottom: _theme.padding.bottom,
+                                top: _theme.padding!.top,
+                                bottom: _theme.padding!.bottom,
                               ),
                               child: widget.child,
                             ),
                             if (widget.trailing != null)
                               Padding(
-                                padding: EdgeInsets.only(left: _theme.gap),
+                                padding: EdgeInsets.only(left: _theme.gap!),
                                 child: widget.trailing!,
                               ),
                           ],
@@ -289,7 +317,7 @@ class _RioButtonState extends State<RioButton> {
   double _resolveScale() {
     double result = 1;
 
-    if (_theme.disableScaleAnimation || _disabled) return 1;
+    if (_theme.disableScaleAnimation! || _disabled) return 1;
 
     double contentWidth = 0;
     try {
@@ -297,11 +325,11 @@ class _RioButtonState extends State<RioButton> {
     } catch (_) {}
 
     if (_isPressedDown) {
-      final targetWidth = contentWidth - (_theme.scaleValue / 2);
+      final targetWidth = contentWidth - (_theme.scaleValue! / 2);
       result = 1 - (1 - targetWidth / contentWidth) / 2;
     }
     if ((_isFocused || _isHovered) && !_isPressedDown) {
-      final targetWidth = contentWidth + _theme.scaleValue;
+      final targetWidth = contentWidth + _theme.scaleValue!;
       result = (((targetWidth / contentWidth) - 1) / 2) + 1;
     }
 
@@ -309,7 +337,7 @@ class _RioButtonState extends State<RioButton> {
   }
 
   Color _resolveBackgroundColor(Color color) {
-    switch (_theme.variant) {
+    switch (_theme.variant!) {
       case RioButtonVariant.solid:
         if (_disabled) {
           return Colors.grey.withOpacity(0.4);
@@ -327,7 +355,7 @@ class _RioButtonState extends State<RioButton> {
   }
 
   Color _resolveTextColor(Color color) {
-    switch (_theme.variant) {
+    switch (_theme.variant!) {
       case RioButtonVariant.solid:
         if (_disabled) return Colors.grey;
 
@@ -382,6 +410,18 @@ class _RioButtonState extends State<RioButton> {
       default:
         return Border.all(color: Colors.transparent);
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    _theme = RioTheme.of(context).buttonTheme.merge(widget.theme);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(covariant RioButton oldWidget) {
+    _theme = RioTheme.of(context).buttonTheme.merge(widget.theme);
+    super.didUpdateWidget(oldWidget);
   }
 }
 

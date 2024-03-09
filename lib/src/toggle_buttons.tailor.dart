@@ -10,7 +10,7 @@ part of 'toggle_buttons.dart';
 
 mixin _$RioToggleButtonsThemeTailorMixin
     on ThemeExtension<RioToggleButtonsTheme>, DiagnosticableTreeMixin {
-  EdgeInsets get margin;
+  EdgeInsets? get margin;
   BorderRadius? get borderRadius;
   BorderSide? get borderSide;
   Color? get color;

@@ -12,15 +12,22 @@ part 'toggle_buttons.tailor.dart';
 class RioToggleButtonsTheme extends ThemeExtension<RioToggleButtonsTheme>
     with DiagnosticableTreeMixin, _$RioToggleButtonsThemeTailorMixin {
   const RioToggleButtonsTheme({
-    this.margin = EdgeInsets.zero,
+    this.margin,
     this.borderRadius,
     this.color,
     this.borderSide,
     this.selectedColor,
   });
 
+  const RioToggleButtonsTheme.defaultTheme()
+      : margin = EdgeInsets.zero,
+        borderRadius = null,
+        borderSide = null,
+        color = null,
+        selectedColor = null;
+
   @override
-  final EdgeInsets margin;
+  final EdgeInsets? margin;
   @override
   final BorderRadius? borderRadius;
   @override
@@ -29,6 +36,16 @@ class RioToggleButtonsTheme extends ThemeExtension<RioToggleButtonsTheme>
   final Color? color;
   @override
   final Color? selectedColor;
+
+  RioToggleButtonsTheme merge(RioToggleButtonsTheme? other) {
+    return const RioToggleButtonsTheme.defaultTheme().copyWith(
+      margin: other?.margin ?? margin,
+      borderRadius: other?.borderRadius ?? borderRadius,
+      borderSide: other?.borderSide ?? borderSide,
+      color: other?.color ?? color,
+      selectedColor: other?.selectedColor ?? selectedColor,
+    );
+  }
 }
 
 enum RioToggleButtonsVariant {
@@ -167,7 +184,7 @@ class RioToggleButtons<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = this.theme ?? RioTheme.of(context).toggleButtonsTheme;
+    final theme = RioTheme.of(context).toggleButtonsTheme.merge(this.theme);
 
     final borderRadius = theme.borderRadius ??
         BorderRadius.circular(RioTheme.of(context).defaultBorderRadius);

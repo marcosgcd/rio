@@ -10,7 +10,7 @@ part of 'pin_field.dart';
 
 mixin _$RioPinFieldThemeTailorMixin
     on ThemeExtension<RioPinFieldTheme>, DiagnosticableTreeMixin {
-  EdgeInsets get margin;
+  EdgeInsets? get margin;
   BorderRadius? get borderRadius;
   Color? get color;
 

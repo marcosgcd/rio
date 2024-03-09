@@ -10,16 +10,16 @@ part of 'button.dart';
 
 mixin _$RioButtonThemeTailorMixin
     on ThemeExtension<RioButtonTheme>, DiagnosticableTreeMixin {
-  RioButtonVariant get variant;
-  EdgeInsets get margin;
-  EdgeInsets get padding;
-  double get gap;
+  RioButtonVariant? get variant;
+  EdgeInsets? get margin;
+  EdgeInsets? get padding;
+  double? get gap;
   BorderRadiusGeometry? get borderRadius;
   BoxBorder? get border;
   Color? get color;
-  bool get disableScaleAnimation;
-  double get scaleValue;
-  RioButtonIconPosition get iconPosition;
+  bool? get disableScaleAnimation;
+  double? get scaleValue;
+  RioButtonIconPosition? get iconPosition;
 
   @override
   RioButtonTheme copyWith({

@@ -11,10 +11,10 @@ part of 'popover.dart';
 mixin _$RioPopoverThemeTailorMixin
     on ThemeExtension<RioPopoverTheme>, DiagnosticableTreeMixin {
   Color? get backgroundColor;
-  Color get barrierColor;
-  EdgeInsets get padding;
+  Color? get barrierColor;
+  EdgeInsets? get padding;
   double? get borderRadius;
-  Size get arrowSize;
+  Size? get arrowSize;
 
   @override
   RioPopoverTheme copyWith({
@@ -39,7 +39,7 @@ mixin _$RioPopoverThemeTailorMixin
     if (other is! RioPopoverTheme) return this as RioPopoverTheme;
     return RioPopoverTheme(
       backgroundColor: Color.lerp(backgroundColor, other.backgroundColor, t),
-      barrierColor: Color.lerp(barrierColor, other.barrierColor, t)!,
+      barrierColor: Color.lerp(barrierColor, other.barrierColor, t),
       padding: t < 0.5 ? padding : other.padding,
       borderRadius: t < 0.5 ? borderRadius : other.borderRadius,
       arrowSize: t < 0.5 ? arrowSize : other.arrowSize,

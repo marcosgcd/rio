@@ -15,14 +15,30 @@ class RioCheckboxTheme extends ThemeExtension<RioCheckboxTheme>
     this.borderRadius,
     this.color,
   });
+
+  const RioCheckboxTheme.defaultTheme()
+      : margin = EdgeInsets.zero,
+        gap = 16,
+        color = null,
+        borderRadius = null;
+
   @override
-  final EdgeInsets margin;
+  final EdgeInsets? margin;
   @override
-  final double gap;
+  final double? gap;
   @override
   final BorderRadiusGeometry? borderRadius;
   @override
   final Color? color;
+
+  RioCheckboxTheme merge(RioCheckboxTheme? other) {
+    return const RioCheckboxTheme.defaultTheme().copyWith(
+      margin: other?.margin ?? margin,
+      gap: other?.gap ?? gap,
+      borderRadius: other?.borderRadius ?? borderRadius,
+      color: other?.color ?? color,
+    );
+  }
 }
 
 class RioCheckbox extends StatefulWidget {
@@ -49,13 +65,12 @@ class RioCheckbox extends StatefulWidget {
 class _RioCheckboxState extends State<RioCheckbox> {
   final _duration = const Duration(milliseconds: 100);
 
+  late RioCheckboxTheme _theme;
   double _scale = 1;
   bool _isFocused = false;
   bool _isHovered = false;
   bool _isPressedDown = false;
 
-  RioCheckboxTheme get _theme =>
-      widget.theme ?? RioTheme.of(context).checkboxTheme;
   BorderRadiusGeometry get _borderRadius =>
       _theme.borderRadius ??
       BorderRadius.circular(RioTheme.of(context).defaultBorderRadius / 2);
@@ -125,7 +140,7 @@ class _RioCheckboxState extends State<RioCheckbox> {
       style: textStyle,
       child: AnimatedPadding(
         duration: _duration,
-        padding: _theme.margin,
+        padding: _theme.margin!,
         child: GestureDetector(
           onTapDown: (_) => _handleTab(isDown: true),
           onTapUp: (_) => _handleTab(isUp: true),
@@ -241,5 +256,17 @@ class _RioCheckboxState extends State<RioCheckbox> {
     if (widget.disabled) return Colors.grey;
 
     return null;
+  }
+
+  @override
+  void didChangeDependencies() {
+    _theme = RioTheme.of(context).checkboxTheme.merge(widget.theme);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void didUpdateWidget(covariant RioCheckbox oldWidget) {
+    _theme = RioTheme.of(context).checkboxTheme.merge(widget.theme);
+    super.didUpdateWidget(oldWidget);
   }
 }

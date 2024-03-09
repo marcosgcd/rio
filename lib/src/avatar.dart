@@ -11,8 +11,14 @@ class RioAvatarTheme extends RioButtonTheme {
     super.border,
     super.color,
     super.disableScaleAnimation,
-    super.scaleValue = 16,
-  }) : super(padding: EdgeInsets.zero);
+    super.scaleValue,
+  });
+
+  const RioAvatarTheme.defaultTheme()
+      : super(
+          padding: EdgeInsets.zero,
+          scaleValue: 16,
+        );
 
   @override
   RioAvatarTheme copyWith({
@@ -72,7 +78,7 @@ class RioAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
 
-    final theme = this.theme ?? RioTheme.of(context).avatarTheme;
+    final theme = RioTheme.of(context).avatarTheme.merge(this.theme);
     Color color = theme.color ?? Theme.of(context).colorScheme.primary;
     final borderRadius = theme.borderRadius ??
         BorderRadius.circular(RioTheme.of(context).defaultBorderRadius);

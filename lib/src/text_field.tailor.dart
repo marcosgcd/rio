@@ -10,10 +10,10 @@ part of 'text_field.dart';
 
 mixin _$RioTextFieldThemeTailorMixin
     on ThemeExtension<RioTextFieldTheme>, DiagnosticableTreeMixin {
-  EdgeInsets get margin;
-  EdgeInsets get contentPadding;
+  EdgeInsets? get margin;
+  EdgeInsets? get contentPadding;
   BorderRadius? get borderRadius;
-  bool get filled;
+  bool? get filled;
   Color? get color;
 
   @override

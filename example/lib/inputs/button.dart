@@ -94,7 +94,7 @@ Widget _buildUseCase(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RioButton(
-                theme: iconButtonTheme,
+                theme: theme,
                 child: text,
                 onPressed: () {},
               ),

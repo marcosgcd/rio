@@ -14,16 +14,30 @@ part 'pin_field.tailor.dart';
 class RioPinFieldTheme extends ThemeExtension<RioPinFieldTheme>
     with DiagnosticableTreeMixin, _$RioPinFieldThemeTailorMixin {
   const RioPinFieldTheme({
-    this.margin = EdgeInsets.zero,
+    this.margin,
     this.borderRadius,
     this.color,
   });
+
+  const RioPinFieldTheme.defaultTheme()
+      : margin = EdgeInsets.zero,
+        borderRadius = null,
+        color = null;
+
   @override
-  final EdgeInsets margin;
+  final EdgeInsets? margin;
   @override
   final BorderRadius? borderRadius;
   @override
   final Color? color;
+
+  RioPinFieldTheme merge(RioPinFieldTheme? other) {
+    return const RioPinFieldTheme.defaultTheme().copyWith(
+      margin: other?.margin ?? margin,
+      borderRadius: other?.borderRadius ?? borderRadius,
+      color: other?.color ?? color,
+    );
+  }
 }
 
 class RioPinField extends StatelessWidget {
@@ -49,7 +63,7 @@ class RioPinField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = this.theme ?? RioTheme.of(context).pinFieldTheme;
+    final theme = RioTheme.of(context).pinFieldTheme.merge(this.theme);
     final color = theme.color ?? RioTheme.of(context).colorScheme.primary;
 
     final borderRadius = theme.borderRadius ??

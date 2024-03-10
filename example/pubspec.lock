@@ -99,6 +99,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
+  glassmorphism_ui:
+    dependency: transitive
+    description:
+      name: glassmorphism_ui
+      sha256: "4a28b45fedb74c2b30e25495980394e3cf5b3634c74ec1ebedaef4d4c295f46f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   inspector:
     dependency: transitive
     description:
@@ -259,10 +267,10 @@ packages:
     dependency: transitive
     description:
       name: theme_tailor_annotation
-      sha256: "1a4b57193386f7cab5fb85aed65a1c496a70985383160c9e583fc6187112678d"
+      sha256: "2990264653b700c7eece3557a5fe5f999cdcd32981aed67023a66004943db08d"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.2"
+    version: "3.0.1"
   vector_math:
     dependency: transitive
     description:

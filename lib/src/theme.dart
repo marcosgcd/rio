@@ -11,6 +11,7 @@ class RioTheme extends ThemeExtension<RioTheme>
   const RioTheme({
     required this.colorScheme,
     this.defaultBorderRadius = 10,
+    this.bottomNavigationTheme = const RioBottomNavigationTheme.defaultTheme(),
     this.buttonTheme = const RioButtonTheme.defaultTheme(),
     this.iconButtonTheme = const RioIconButtonTheme.defaultTheme(),
     this.toggleButtonsTheme = const RioToggleButtonsTheme.defaultTheme(),
@@ -27,6 +28,8 @@ class RioTheme extends ThemeExtension<RioTheme>
   final RioColorScheme colorScheme;
   @override
   final RioButtonTheme buttonTheme;
+  @override
+  final RioBottomNavigationTheme bottomNavigationTheme;
   @override
   final RioIconButtonTheme iconButtonTheme;
   @override

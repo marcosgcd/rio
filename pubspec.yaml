@@ -10,6 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   freezed_annotation: ^2.4.1
+
+  glassmorphism_ui: ^0.3.0
   loading_animation_widget: ^1.2.0+4
   pin_code_fields: ^8.0.1
   popover: ^0.2.8+2

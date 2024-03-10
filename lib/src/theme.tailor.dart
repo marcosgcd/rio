@@ -13,6 +13,7 @@ mixin _$RioThemeTailorMixin
   double get defaultBorderRadius;
   RioColorScheme get colorScheme;
   RioButtonTheme get buttonTheme;
+  RioBottomNavigationTheme get bottomNavigationTheme;
   RioIconButtonTheme get iconButtonTheme;
   RioToggleButtonsTheme get toggleButtonsTheme;
   RioCheckboxTheme get checkboxTheme;
@@ -27,6 +28,7 @@ mixin _$RioThemeTailorMixin
     double? defaultBorderRadius,
     RioColorScheme? colorScheme,
     RioButtonTheme? buttonTheme,
+    RioBottomNavigationTheme? bottomNavigationTheme,
     RioIconButtonTheme? iconButtonTheme,
     RioToggleButtonsTheme? toggleButtonsTheme,
     RioCheckboxTheme? checkboxTheme,
@@ -40,6 +42,8 @@ mixin _$RioThemeTailorMixin
       defaultBorderRadius: defaultBorderRadius ?? this.defaultBorderRadius,
       colorScheme: colorScheme ?? this.colorScheme,
       buttonTheme: buttonTheme ?? this.buttonTheme,
+      bottomNavigationTheme:
+          bottomNavigationTheme ?? this.bottomNavigationTheme,
       iconButtonTheme: iconButtonTheme ?? this.iconButtonTheme,
       toggleButtonsTheme: toggleButtonsTheme ?? this.toggleButtonsTheme,
       checkboxTheme: checkboxTheme ?? this.checkboxTheme,
@@ -58,6 +62,8 @@ mixin _$RioThemeTailorMixin
           t < 0.5 ? defaultBorderRadius : other.defaultBorderRadius,
       colorScheme: colorScheme.lerp(other.colorScheme, t) as RioColorScheme,
       buttonTheme: buttonTheme.lerp(other.buttonTheme, t) as RioButtonTheme,
+      bottomNavigationTheme: bottomNavigationTheme.lerp(
+          other.bottomNavigationTheme, t) as RioBottomNavigationTheme,
       iconButtonTheme:
           iconButtonTheme.lerp(other.iconButtonTheme, t) as RioIconButtonTheme,
       toggleButtonsTheme: toggleButtonsTheme.lerp(other.toggleButtonsTheme, t)
@@ -85,6 +91,8 @@ mixin _$RioThemeTailorMixin
             const DeepCollectionEquality()
                 .equals(buttonTheme, other.buttonTheme) &&
             const DeepCollectionEquality()
+                .equals(bottomNavigationTheme, other.bottomNavigationTheme) &&
+            const DeepCollectionEquality()
                 .equals(iconButtonTheme, other.iconButtonTheme) &&
             const DeepCollectionEquality()
                 .equals(toggleButtonsTheme, other.toggleButtonsTheme) &&
@@ -109,6 +117,7 @@ mixin _$RioThemeTailorMixin
       const DeepCollectionEquality().hash(defaultBorderRadius),
       const DeepCollectionEquality().hash(colorScheme),
       const DeepCollectionEquality().hash(buttonTheme),
+      const DeepCollectionEquality().hash(bottomNavigationTheme),
       const DeepCollectionEquality().hash(iconButtonTheme),
       const DeepCollectionEquality().hash(toggleButtonsTheme),
       const DeepCollectionEquality().hash(checkboxTheme),
@@ -128,6 +137,7 @@ mixin _$RioThemeTailorMixin
       ..add(DiagnosticsProperty('defaultBorderRadius', defaultBorderRadius))
       ..add(DiagnosticsProperty('colorScheme', colorScheme))
       ..add(DiagnosticsProperty('buttonTheme', buttonTheme))
+      ..add(DiagnosticsProperty('bottomNavigationTheme', bottomNavigationTheme))
       ..add(DiagnosticsProperty('iconButtonTheme', iconButtonTheme))
       ..add(DiagnosticsProperty('toggleButtonsTheme', toggleButtonsTheme))
       ..add(DiagnosticsProperty('checkboxTheme', checkboxTheme))

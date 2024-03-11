@@ -1,3 +1,5 @@
+// ignore_for_file: annotate_overrides
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rio/rio.dart';
@@ -5,7 +7,9 @@ import 'package:theme_tailor_annotation/theme_tailor_annotation.dart';
 
 part 'theme.tailor.dart';
 
-@TailorMixin(themeGetter: ThemeGetter.onThemeData)
+@TailorMixin(
+  themeGetter: ThemeGetter.onThemeData,
+)
 class RioTheme extends ThemeExtension<RioTheme>
     with DiagnosticableTreeMixin, _$RioThemeTailorMixin {
   const RioTheme({
@@ -27,7 +31,7 @@ class RioTheme extends ThemeExtension<RioTheme>
   final RioColorScheme colorScheme;
   @override
   final RioButtonTheme buttonTheme;
-  @override
+
   final RioIconButtonTheme iconButtonTheme;
   @override
   final RioToggleButtonsTheme toggleButtonsTheme;

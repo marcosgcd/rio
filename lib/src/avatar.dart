@@ -44,6 +44,25 @@ class RioAvatarTheme extends RioButtonTheme {
       scaleValue: scaleValue ?? this.scaleValue,
     );
   }
+
+  @override
+  RioAvatarTheme lerp(
+    covariant ThemeExtension<RioButtonTheme>? other,
+    double t,
+  ) {
+    if (other is! RioIconButtonTheme) return this;
+
+    return RioAvatarTheme(
+      variant: t < 0.5 ? variant : other.variant,
+      margin: t < 0.5 ? margin : other.margin,
+      borderRadius: t < 0.5 ? borderRadius : other.borderRadius,
+      border: t < 0.5 ? border : other.border,
+      color: Color.lerp(color, other.color, t),
+      disableScaleAnimation:
+          t < 0.5 ? disableScaleAnimation : other.disableScaleAnimation,
+      scaleValue: t < 0.5 ? scaleValue : other.scaleValue,
+    );
+  }
 }
 
 class RioAvatar extends StatelessWidget {

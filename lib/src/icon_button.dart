@@ -3,6 +3,20 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:rio/rio.dart';
+import 'package:theme_tailor_annotation/theme_tailor_annotation.dart';
+
+class RioIconButtonThemeEncoder extends ThemeEncoder<RioIconButtonTheme> {
+  const RioIconButtonThemeEncoder();
+
+  @override
+  RioIconButtonTheme lerp(
+    RioIconButtonTheme a,
+    RioIconButtonTheme b,
+    double t,
+  ) {
+    return a.lerp(b, t);
+  }
+}
 
 class RioIconButtonTheme extends RioButtonTheme {
   const RioIconButtonTheme({
@@ -45,6 +59,26 @@ class RioIconButtonTheme extends RioButtonTheme {
       disableScaleAnimation:
           disableScaleAnimation ?? this.disableScaleAnimation,
       scaleValue: scaleValue ?? this.scaleValue,
+    );
+  }
+
+  @override
+  RioIconButtonTheme lerp(
+    covariant ThemeExtension<RioButtonTheme>? other,
+    double t,
+  ) {
+    if (other is! RioIconButtonTheme) return this;
+
+    return RioIconButtonTheme(
+      variant: t < 0.5 ? variant : other.variant,
+      margin: t < 0.5 ? margin : other.margin,
+      padding: t < 0.5 ? padding : other.padding,
+      borderRadius: t < 0.5 ? borderRadius : other.borderRadius,
+      border: t < 0.5 ? border : other.border,
+      color: Color.lerp(color, other.color, t),
+      disableScaleAnimation:
+          t < 0.5 ? disableScaleAnimation : other.disableScaleAnimation,
+      scaleValue: t < 0.5 ? scaleValue : other.scaleValue,
     );
   }
 }

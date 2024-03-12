@@ -286,13 +286,15 @@ class _RioButtonState extends State<RioButton> {
                                 padding: EdgeInsets.only(right: _theme.gap!),
                                 child: widget.leading!,
                               ),
-                            AnimatedPadding(
-                              duration: _duration,
-                              padding: EdgeInsets.only(
-                                top: _theme.padding!.top,
-                                bottom: _theme.padding!.bottom,
+                            Flexible(
+                              child: AnimatedPadding(
+                                duration: _duration,
+                                padding: EdgeInsets.only(
+                                  top: _theme.padding!.top,
+                                  bottom: _theme.padding!.bottom,
+                                ),
+                                child: widget.child,
                               ),
-                              child: widget.child,
                             ),
                             if (widget.trailing != null)
                               Padding(

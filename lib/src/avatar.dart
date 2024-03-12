@@ -146,7 +146,7 @@ class RioAvatar extends StatelessWidget {
         onPressedAwaitMode: onPressedMode,
         onPressed: onPressed,
         clipBehavior: Clip.antiAlias,
-        theme: RioButtonTheme(
+        theme: theme.copyWith(
           color: color,
           padding: EdgeInsets.zero,
           borderRadius: borderRadius,

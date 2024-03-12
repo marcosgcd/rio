@@ -230,9 +230,13 @@ class _RioButtonState extends State<RioButton> {
           duration: _duration,
           padding: _theme.margin!,
           child: GestureDetector(
-            onTap: callBack,
+            onTap: () async {
+              _handleTab(true);
+              await callBack?.call();
+              await Future.delayed(const Duration(milliseconds: 300));
+              _handleTab(false);
+            },
             onTapDown: (_) => _handleTab(true),
-            onTapUp: (_) => _handleTab(false),
             onTapCancel: () => _handleTab(false),
             child: FocusableActionDetector(
               mouseCursor: _cursor,

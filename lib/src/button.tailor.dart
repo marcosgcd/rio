@@ -18,6 +18,7 @@ mixin _$RioButtonThemeTailorMixin
   BoxBorder? get border;
   Color? get color;
   bool? get disableScaleAnimation;
+  bool? get disableHighlight;
   double? get scaleValue;
   RioButtonIconPosition? get iconPosition;
 
@@ -31,6 +32,7 @@ mixin _$RioButtonThemeTailorMixin
     BoxBorder? border,
     Color? color,
     bool? disableScaleAnimation,
+    bool? disableHighlight,
     double? scaleValue,
     RioButtonIconPosition? iconPosition,
   }) {
@@ -44,6 +46,7 @@ mixin _$RioButtonThemeTailorMixin
       color: color ?? this.color,
       disableScaleAnimation:
           disableScaleAnimation ?? this.disableScaleAnimation,
+      disableHighlight: disableHighlight ?? this.disableHighlight,
       scaleValue: scaleValue ?? this.scaleValue,
       iconPosition: iconPosition ?? this.iconPosition,
     );
@@ -63,6 +66,7 @@ mixin _$RioButtonThemeTailorMixin
       color: Color.lerp(color, other.color, t),
       disableScaleAnimation:
           t < 0.5 ? disableScaleAnimation : other.disableScaleAnimation,
+      disableHighlight: t < 0.5 ? disableHighlight : other.disableHighlight,
       scaleValue: t < 0.5 ? scaleValue : other.scaleValue,
       iconPosition: t < 0.5 ? iconPosition : other.iconPosition,
     );
@@ -84,6 +88,8 @@ mixin _$RioButtonThemeTailorMixin
             const DeepCollectionEquality()
                 .equals(disableScaleAnimation, other.disableScaleAnimation) &&
             const DeepCollectionEquality()
+                .equals(disableHighlight, other.disableHighlight) &&
+            const DeepCollectionEquality()
                 .equals(scaleValue, other.scaleValue) &&
             const DeepCollectionEquality()
                 .equals(iconPosition, other.iconPosition));
@@ -101,6 +107,7 @@ mixin _$RioButtonThemeTailorMixin
       const DeepCollectionEquality().hash(border),
       const DeepCollectionEquality().hash(color),
       const DeepCollectionEquality().hash(disableScaleAnimation),
+      const DeepCollectionEquality().hash(disableHighlight),
       const DeepCollectionEquality().hash(scaleValue),
       const DeepCollectionEquality().hash(iconPosition),
     );
@@ -119,6 +126,7 @@ mixin _$RioButtonThemeTailorMixin
       ..add(DiagnosticsProperty('border', border))
       ..add(DiagnosticsProperty('color', color))
       ..add(DiagnosticsProperty('disableScaleAnimation', disableScaleAnimation))
+      ..add(DiagnosticsProperty('disableHighlight', disableHighlight))
       ..add(DiagnosticsProperty('scaleValue', scaleValue))
       ..add(DiagnosticsProperty('iconPosition', iconPosition));
   }

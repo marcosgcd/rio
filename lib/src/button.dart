@@ -23,6 +23,7 @@ class RioButtonTheme extends ThemeExtension<RioButtonTheme>
     this.border,
     this.color,
     this.disableScaleAnimation,
+    this.disableHighlight,
     this.iconPosition,
     this.scaleValue,
   });
@@ -33,6 +34,7 @@ class RioButtonTheme extends ThemeExtension<RioButtonTheme>
         padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         gap = 8,
         disableScaleAnimation = false,
+        disableHighlight = false,
         iconPosition = RioButtonIconPosition.center,
         scaleValue = 8,
         border = null,
@@ -56,6 +58,8 @@ class RioButtonTheme extends ThemeExtension<RioButtonTheme>
   @override
   final bool? disableScaleAnimation;
   @override
+  final bool? disableHighlight;
+  @override
   final double? scaleValue;
   @override
   final RioButtonIconPosition? iconPosition;
@@ -71,6 +75,7 @@ class RioButtonTheme extends ThemeExtension<RioButtonTheme>
       color: other?.color ?? color,
       disableScaleAnimation:
           other?.disableScaleAnimation ?? disableScaleAnimation,
+      disableHighlight: other?.disableHighlight ?? disableHighlight,
       iconPosition: other?.iconPosition ?? iconPosition,
       scaleValue: other?.scaleValue ?? scaleValue,
     );
@@ -385,6 +390,8 @@ class _RioButtonState extends State<RioButton> {
     final isHovered = _isHovered ||
         (_isWaintingForOnPressedFuture &&
             widget.onPressedAwaitMode == RioButtonOnPressedAwaitMode.highlight);
+
+    if (_theme.disableHighlight!) return Colors.transparent;
 
     switch (_theme.variant) {
       case RioButtonVariant.solid:

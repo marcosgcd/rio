@@ -27,6 +27,7 @@ class RioIconButtonTheme extends RioButtonTheme {
     super.border,
     super.color,
     super.disableScaleAnimation,
+    super.disableHighlight,
     super.scaleValue,
   });
 
@@ -46,6 +47,7 @@ class RioIconButtonTheme extends RioButtonTheme {
     BoxBorder? border,
     Color? color,
     bool? disableScaleAnimation,
+    bool? disableHighlight,
     double? scaleValue,
     RioButtonIconPosition? iconPosition,
   }) {
@@ -58,6 +60,7 @@ class RioIconButtonTheme extends RioButtonTheme {
       color: color ?? this.color,
       disableScaleAnimation:
           disableScaleAnimation ?? this.disableScaleAnimation,
+      disableHighlight: disableHighlight ?? this.disableHighlight,
       scaleValue: scaleValue ?? this.scaleValue,
     );
   }
@@ -78,6 +81,7 @@ class RioIconButtonTheme extends RioButtonTheme {
       color: Color.lerp(color, other.color, t),
       disableScaleAnimation:
           t < 0.5 ? disableScaleAnimation : other.disableScaleAnimation,
+      disableHighlight: t < 0.5 ? disableHighlight : other.disableHighlight,
       scaleValue: t < 0.5 ? scaleValue : other.scaleValue,
     );
   }

@@ -51,6 +51,8 @@ Widget _buildUseCase(
     context.knobs.double
         .slider(label: "Margin", initialValue: 4, max: 16, min: 0),
   );
+  final disableHighlight =
+      context.knobs.boolean(label: "Disable Highlight", initialValue: false);
 
   final borderRadius = BorderRadius.circular(
     context.knobs.double
@@ -69,6 +71,7 @@ Widget _buildUseCase(
     margin: margin,
     padding: padding,
     borderRadius: borderRadius,
+    disableHighlight: disableHighlight,
   );
 
   final iconButtonTheme = RioIconButtonTheme(
@@ -76,6 +79,7 @@ Widget _buildUseCase(
     margin: margin,
     padding: padding,
     borderRadius: borderRadius,
+    disableHighlight: disableHighlight,
   );
 
   return Scaffold(

@@ -90,6 +90,14 @@ Widget _buildUseCase(
         children: [
           RioButton(
             leading: const Icon(Icons.search),
+            theme: theme.copyWith(
+              color: RioTheme.of(context).colorScheme.onSurface,
+            ),
+            child: text,
+            onPressed: () {},
+          ),
+          RioButton(
+            leading: const Icon(Icons.search),
             theme: theme,
             child: text,
             onPressed: () {},

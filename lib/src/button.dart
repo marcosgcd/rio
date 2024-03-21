@@ -399,6 +399,11 @@ class _RioButtonState extends State<RioButton> {
         if (isHovered) return textColor.withOpacity(0.4);
         if (_isFocused) return textColor.withOpacity(0.2);
         break;
+      case RioButtonVariant.plain:
+        if (_isPressedDown) return textColor.withOpacity(0.1);
+        if (isHovered) return textColor.withOpacity(0.05);
+        if (_isFocused) return textColor.withOpacity(0.01);
+        break;
       default:
         if (_isPressedDown) return textColor.withOpacity(0.3);
         if (isHovered) return textColor.withOpacity(0.2);

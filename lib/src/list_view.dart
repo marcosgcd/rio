@@ -4,6 +4,7 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 typedef RioSliverStickyHeaderState = SliverStickyHeaderState;
 typedef RioSliverGroupeBy<Item, GroupeValue> = GroupeValue Function(Item item);
+typedef RioSliverSort<T> = int Function(T a, T b);
 typedef RioSliverGroupeHeaderBuilder<Item, GroupeValue> = Widget Function(
   BuildContext context,
   SliverStickyHeaderState state,
@@ -21,13 +22,17 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
     required this.items,
     required this.itemBuilder,
     this.separatorBuilder,
+    this.itemSort,
   })  : headerBuilder = null,
+        groupSort = null,
         groupBy = null;
 
   const RioListView.groupedBuilder({
     super.key,
     required this.items,
     required this.itemBuilder,
+    this.groupSort,
+    this.itemSort,
     required RioSliverGroupeBy<Item, GroupeValue> this.groupBy,
     required RioSliverGroupeHeaderBuilder<Item, GroupeValue> this.headerBuilder,
     this.separatorBuilder,
@@ -36,6 +41,8 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
   final RioSliverGroupeHeaderBuilder<Item, GroupeValue>? headerBuilder;
   final RioListSliverItemBuilder<Item> itemBuilder;
   final RioListSliverItemBuilder<Item>? separatorBuilder;
+  final RioSliverSort<Item>? itemSort;
+  final RioSliverSort<GroupeValue>? groupSort;
   final RioSliverGroupeBy<Item, GroupeValue>? groupBy;
   final List<Item> items;
 
@@ -44,18 +51,21 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         if (groupBy != null)
-          RioListViewSliver.groupedBuilder(
+          RioListViewSliver<Item, GroupeValue>.groupedBuilder(
             items: items,
             itemBuilder: itemBuilder,
             groupBy: groupBy!,
             headerBuilder: headerBuilder!,
             separatorBuilder: separatorBuilder,
+            itemSort: itemSort,
+            groupSort: groupSort,
           ),
         if (groupBy == null)
-          RioListViewSliver.builder(
+          RioListViewSliver<Item, GroupeValue>.builder(
             items: items,
             itemBuilder: itemBuilder,
             separatorBuilder: separatorBuilder,
+            itemSort: itemSort,
           ),
       ],
     );
@@ -68,13 +78,17 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
     required this.items,
     required this.itemBuilder,
     this.separatorBuilder,
+    this.itemSort,
   })  : headerBuilder = null,
+        groupSort = null,
         groupBy = null;
 
   const RioListViewSliver.groupedBuilder({
     super.key,
     required this.items,
     required this.itemBuilder,
+    this.groupSort,
+    this.itemSort,
     required RioSliverGroupeBy<Item, GroupeValue> this.groupBy,
     required RioSliverGroupeHeaderBuilder<Item, GroupeValue> this.headerBuilder,
     this.separatorBuilder,
@@ -84,10 +98,14 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
   final RioListSliverItemBuilder<Item> itemBuilder;
   final RioListSliverItemBuilder<Item>? separatorBuilder;
   final RioSliverGroupeBy<Item, GroupeValue>? groupBy;
+  final RioSliverSort<Item>? itemSort;
+  final RioSliverSort<GroupeValue>? groupSort;
   final List<Item> items;
 
   @override
   Widget build(BuildContext context) {
+    if (itemSort != null) items.sort(itemSort!);
+
     if (groupBy != null) {
       return _buildGroupList();
     }
@@ -143,20 +161,27 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
 
     final List<Widget> listViews = [];
     var startIndex = 0;
-    for (var i = 0; i < groups.length; i++) {
-      final group = groups.entries.elementAt(i);
+
+    final groupItems = groups.keys.toList();
+    if (groupSort != null) {
+      groupItems.sort(groupSort!);
+    }
+
+    for (var i = 0; i < groupItems.length; i++) {
+      final groupKey = groupItems[i];
+      final items = groups[groupKey]!;
 
       listViews.add(
         SliverStickyHeader.builder(
           builder: (context, state) => headerBuilder!.call(
             context,
             state,
-            group.key,
+            groupKey,
           ),
-          sliver: _buildList(group.value, startIndex: startIndex),
+          sliver: _buildList(items, startIndex: startIndex),
         ),
       );
-      startIndex += group.value.length;
+      startIndex += items.length;
     }
 
     return MultiSliver(

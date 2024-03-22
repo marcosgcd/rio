@@ -43,20 +43,21 @@ Widget _buildUseCase(BuildContext context, bool grouped) {
     );
   };
 
-  _name.sort();
-
   if (grouped) {
     return RioListView<String, String>.groupedBuilder(
       items: _name,
       separatorBuilder: separatorBuilder,
       itemBuilder: itemBuilder,
       groupBy: (item) => item[0],
+      itemSort: (a, b) => a.compareTo(b),
+      groupSort: (a, b) => a.compareTo(b),
       headerBuilder: headerBuilder,
     );
   } else {
     return RioListView<String, String>.builder(
       items: _name,
       separatorBuilder: separatorBuilder,
+      itemSort: (a, b) => a.compareTo(b),
       itemBuilder: (context, item, index) {
         return ListTile(
           title: Text(item),

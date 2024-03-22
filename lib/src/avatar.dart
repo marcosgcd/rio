@@ -189,6 +189,7 @@ String? _getInitials(String input, int maxInitials) {
 
   final initials = StringBuffer();
   for (final word in words) {
+    if (word.isEmpty) continue;
     initials.write(word[0]);
 
     if (initials.length == maxInitials) {

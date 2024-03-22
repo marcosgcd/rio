@@ -11,18 +11,19 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:widgetbook/widgetbook.dart' as _i1;
 
-import 'core/color_scheme.dart' as _i4;
+import 'core/color_scheme.dart' as _i5;
 import 'display/avatar.dart' as _i2;
 import 'display/divider.dart' as _i3;
-import 'inputs/button.dart' as _i5;
-import 'inputs/checkbox.dart' as _i6;
-import 'inputs/icon_button.dart' as _i7;
-import 'inputs/pin_field.dart' as _i8;
-import 'inputs/text_field.dart' as _i9;
-import 'inputs/toggle_buttons.dart' as _i10;
-import 'menus/popover.dart' as _i12;
-import 'menus/popover_menu.dart' as _i11;
-import 'menus/toolbar.dart' as _i13;
+import 'display/list_view.dart' as _i4;
+import 'inputs/button.dart' as _i6;
+import 'inputs/checkbox.dart' as _i7;
+import 'inputs/icon_button.dart' as _i8;
+import 'inputs/pin_field.dart' as _i9;
+import 'inputs/text_field.dart' as _i10;
+import 'inputs/toggle_buttons.dart' as _i11;
+import 'menus/popover.dart' as _i13;
+import 'menus/popover_menu.dart' as _i12;
+import 'menus/toolbar.dart' as _i14;
 
 final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookFolder(
@@ -56,6 +57,19 @@ final directories = <_i1.WidgetbookNode>[
           builder: _i3.useCaseRioDivider,
         ),
       ),
+      _i1.WidgetbookComponent(
+        name: 'RioListView<dynamic, dynamic>',
+        useCases: [
+          _i1.WidgetbookUseCase(
+            name: 'default',
+            builder: _i4.useCaseRioListView,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'grouped',
+            builder: _i4.useCaseRioListViewGrouped,
+          ),
+        ],
+      ),
     ],
   ),
   _i1.WidgetbookFolder(
@@ -65,7 +79,7 @@ final directories = <_i1.WidgetbookNode>[
         name: 'RioColorScheme',
         useCase: _i1.WidgetbookUseCase(
           name: 'Color Scheme',
-          builder: _i4.colorSchemeUseCase,
+          builder: _i5.colorSchemeUseCase,
         ),
       )
     ],
@@ -78,19 +92,19 @@ final directories = <_i1.WidgetbookNode>[
         useCases: [
           _i1.WidgetbookUseCase(
             name: 'Outlined',
-            builder: _i5.useCaseRioButtonOutlined,
+            builder: _i6.useCaseRioButtonOutlined,
           ),
           _i1.WidgetbookUseCase(
             name: 'Plain',
-            builder: _i5.useCaseRioButtonPlain,
+            builder: _i6.useCaseRioButtonPlain,
           ),
           _i1.WidgetbookUseCase(
             name: 'Soft',
-            builder: _i5.useCaseRioButtonSoft,
+            builder: _i6.useCaseRioButtonSoft,
           ),
           _i1.WidgetbookUseCase(
             name: 'Solid',
-            builder: _i5.useCaseRioButtonSolid,
+            builder: _i6.useCaseRioButtonSolid,
           ),
         ],
       ),
@@ -98,7 +112,7 @@ final directories = <_i1.WidgetbookNode>[
         name: 'RioCheckbox',
         useCase: _i1.WidgetbookUseCase(
           name: 'Checkbox',
-          builder: _i6.useCaseRioCeckbox,
+          builder: _i7.useCaseRioCeckbox,
         ),
       ),
       _i1.WidgetbookComponent(
@@ -106,19 +120,19 @@ final directories = <_i1.WidgetbookNode>[
         useCases: [
           _i1.WidgetbookUseCase(
             name: 'Outlined',
-            builder: _i7.useCaseRioIconButtonIconOutlined,
+            builder: _i8.useCaseRioIconButtonIconOutlined,
           ),
           _i1.WidgetbookUseCase(
             name: 'Plain',
-            builder: _i7.useCaseRioIconButtonPlain,
+            builder: _i8.useCaseRioIconButtonPlain,
           ),
           _i1.WidgetbookUseCase(
             name: 'Soft',
-            builder: _i7.useCaseRioIconButtonSoft,
+            builder: _i8.useCaseRioIconButtonSoft,
           ),
           _i1.WidgetbookUseCase(
             name: 'Solid',
-            builder: _i7.useCaseRioIconButtonSolid,
+            builder: _i8.useCaseRioIconButtonSolid,
           ),
         ],
       ),
@@ -126,7 +140,7 @@ final directories = <_i1.WidgetbookNode>[
         name: 'RioPinField',
         useCase: _i1.WidgetbookUseCase(
           name: 'Default',
-          builder: _i8.useCaseRioPinField,
+          builder: _i9.useCaseRioPinField,
         ),
       ),
       _i1.WidgetbookComponent(
@@ -134,11 +148,11 @@ final directories = <_i1.WidgetbookNode>[
         useCases: [
           _i1.WidgetbookUseCase(
             name: 'Default',
-            builder: _i9.useCaseRioTextFieldDefault,
+            builder: _i10.useCaseRioTextFieldDefault,
           ),
           _i1.WidgetbookUseCase(
             name: 'Filled',
-            builder: _i9.useCaseRioTextFieldFilled,
+            builder: _i10.useCaseRioTextFieldFilled,
           ),
         ],
       ),
@@ -147,11 +161,11 @@ final directories = <_i1.WidgetbookNode>[
         useCases: [
           _i1.WidgetbookUseCase(
             name: 'Soft',
-            builder: _i10.useCaseRioToggleButtonSoft,
+            builder: _i11.useCaseRioToggleButtonSoft,
           ),
           _i1.WidgetbookUseCase(
             name: 'Solid',
-            builder: _i10.useCaseRioToggleButtonSolid,
+            builder: _i11.useCaseRioToggleButtonSolid,
           ),
         ],
       ),
@@ -164,14 +178,14 @@ final directories = <_i1.WidgetbookNode>[
         name: 'RioMenu',
         useCase: _i1.WidgetbookUseCase(
           name: 'Default',
-          builder: _i11.useCaseRioPopover,
+          builder: _i12.useCaseRioPopover,
         ),
       ),
       _i1.WidgetbookLeafComponent(
         name: 'RioPopover',
         useCase: _i1.WidgetbookUseCase(
           name: 'Default',
-          builder: _i12.useCaseRioPopover,
+          builder: _i13.useCaseRioPopover,
         ),
       ),
       _i1.WidgetbookComponent(
@@ -179,11 +193,11 @@ final directories = <_i1.WidgetbookNode>[
         useCases: [
           _i1.WidgetbookUseCase(
             name: 'Custom',
-            builder: _i13.useCaseRioToolbarCustom,
+            builder: _i14.useCaseRioToolbarCustom,
           ),
           _i1.WidgetbookUseCase(
             name: 'Default',
-            builder: _i13.useCaseRioToolbarDefault,
+            builder: _i14.useCaseRioToolbarDefault,
           ),
         ],
       ),

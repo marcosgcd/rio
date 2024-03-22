@@ -24,6 +24,8 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
     this.separatorBuilder,
     this.itemSort,
   })  : headerBuilder = null,
+        groupSpacing = 0,
+        sticky = false,
         groupSort = null,
         groupBy = null;
 
@@ -36,6 +38,8 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
     required RioSliverGroupeBy<Item, GroupeValue> this.groupBy,
     required RioSliverGroupeHeaderBuilder<Item, GroupeValue> this.headerBuilder,
     this.separatorBuilder,
+    this.sticky = true,
+    this.groupSpacing = 8,
   });
 
   final RioSliverGroupeHeaderBuilder<Item, GroupeValue>? headerBuilder;
@@ -45,6 +49,8 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
   final RioSliverSort<GroupeValue>? groupSort;
   final RioSliverGroupeBy<Item, GroupeValue>? groupBy;
   final List<Item> items;
+  final bool sticky;
+  final double groupSpacing;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +65,8 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
             separatorBuilder: separatorBuilder,
             itemSort: itemSort,
             groupSort: groupSort,
+            sticky: sticky,
+            groupSpacing: groupSpacing,
           ),
         if (groupBy == null)
           RioListViewSliver<Item, GroupeValue>.builder(
@@ -80,6 +88,8 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
     this.separatorBuilder,
     this.itemSort,
   })  : headerBuilder = null,
+        groupSpacing = 0,
+        sticky = false,
         groupSort = null,
         groupBy = null;
 
@@ -92,6 +102,8 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
     required RioSliverGroupeBy<Item, GroupeValue> this.groupBy,
     required RioSliverGroupeHeaderBuilder<Item, GroupeValue> this.headerBuilder,
     this.separatorBuilder,
+    this.sticky = true,
+    this.groupSpacing = 8,
   });
 
   final RioSliverGroupeHeaderBuilder<Item, GroupeValue>? headerBuilder;
@@ -101,6 +113,8 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
   final RioSliverSort<Item>? itemSort;
   final RioSliverSort<GroupeValue>? groupSort;
   final List<Item> items;
+  final bool sticky;
+  final double groupSpacing;
 
   @override
   Widget build(BuildContext context) {
@@ -173,12 +187,16 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
 
       listViews.add(
         SliverStickyHeader.builder(
+          sticky: sticky,
           builder: (context, state) => headerBuilder!.call(
             context,
             state,
             groupKey,
           ),
-          sliver: _buildList(items, startIndex: startIndex),
+          sliver: SliverPadding(
+            padding: EdgeInsets.only(bottom: groupSpacing),
+            sliver: _buildList(items, startIndex: startIndex),
+          ),
         ),
       );
       startIndex += items.length;

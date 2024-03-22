@@ -44,6 +44,10 @@ Widget _buildUseCase(BuildContext context, bool grouped) {
   };
 
   if (grouped) {
+    final sticky = context.knobs.boolean(label: "Sticky", initialValue: true);
+    final groupSpacing = context.knobs.double
+        .slider(label: "Group Spacing", initialValue: 8, min: 0, max: 32);
+
     return RioListView<String, String>.groupedBuilder(
       items: _name,
       separatorBuilder: separatorBuilder,
@@ -52,6 +56,8 @@ Widget _buildUseCase(BuildContext context, bool grouped) {
       itemSort: (a, b) => a.compareTo(b),
       groupSort: (a, b) => a.compareTo(b),
       headerBuilder: headerBuilder,
+      sticky: sticky,
+      groupSpacing: groupSpacing,
     );
   } else {
     return RioListView<String, String>.builder(

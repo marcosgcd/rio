@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:remove_emoji/remove_emoji.dart';
 import 'package:rio/rio.dart';
 
 class RioAvatarTheme extends RioButtonTheme {
@@ -183,9 +184,9 @@ class RioAvatar extends StatelessWidget {
   }
 }
 
+final removeEmoji = RemoveEmoji();
 String? _getInitials(String input, int maxInitials) {
-  final str = input.replaceAll(r'[^a-zA-Z\s]', '');
-  final List<String> words = str.trim().split(" ");
+  final List<String> words = removeEmoji.clean(input).trim().split(" ");
   if (words.first.isEmpty) return null;
 
   final initials = StringBuffer();

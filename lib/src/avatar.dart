@@ -184,7 +184,8 @@ class RioAvatar extends StatelessWidget {
 }
 
 String? _getInitials(String input, int maxInitials) {
-  final List<String> words = input.trim().split(" ");
+  final str = input.replaceAll(r'[^a-zA-Z\s]', '');
+  final List<String> words = str.trim().split(" ");
   if (words.first.isEmpty) return null;
 
   final initials = StringBuffer();

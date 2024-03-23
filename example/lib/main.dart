@@ -44,9 +44,6 @@ class WidgetbookApp extends StatelessWidget {
               Colors.green,
               brightness: Brightness.dark,
             ),
-            buttonTheme: const RioButtonTheme(
-              variant: RioButtonVariant.outlined,
-            ),
           ).toThemeData(),
           home: Material(
             child: child,

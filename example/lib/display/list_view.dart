@@ -18,7 +18,7 @@ Widget useCaseRioListView(BuildContext context) {
   path: "Display",
 )
 Widget useCaseRioListViewGrouped(BuildContext context) {
-  return SafeArea(child: _buildUseCase(context, true));
+  return Scaffold(body: SafeArea(child: _buildUseCase(context, true)));
 }
 
 Widget _buildUseCase(BuildContext context, bool grouped) {
@@ -30,8 +30,13 @@ Widget _buildUseCase(BuildContext context, bool grouped) {
 
   // ignore: prefer_function_declarations_over_variables
   final itemBuilder = (context, item, index) {
-    return ListTile(
-      title: Text(item),
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Text(item),
+        ],
+      ),
     );
   };
   // ignore: prefer_function_declarations_over_variables
@@ -58,17 +63,15 @@ Widget _buildUseCase(BuildContext context, bool grouped) {
       headerBuilder: headerBuilder,
       sticky: sticky,
       groupSpacing: groupSpacing,
+      onItemPressed: (value) => print(value),
     );
   } else {
     return RioListView<String, String>.builder(
       items: _name,
+      itemBuilder: itemBuilder,
       separatorBuilder: separatorBuilder,
       itemSort: (a, b) => a.compareTo(b),
-      itemBuilder: (context, item, index) {
-        return ListTile(
-          title: Text(item),
-        );
-      },
+      onItemPressed: (value) => print(value),
     );
   }
 }

@@ -1,21 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:rio/rio.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 typedef RioSliverStickyHeaderState = SliverStickyHeaderState;
-typedef RioSliverGroupeBy<Item, GroupeValue> = GroupeValue Function(Item item);
-typedef RioSliverSort<T> = int Function(T a, T b);
-typedef RioSliverGroupeHeaderBuilder<Item, GroupeValue> = Widget Function(
+typedef RioListGroupeBy<Item, GroupeValue> = GroupeValue Function(Item item);
+typedef RioListSort<T> = int Function(T a, T b);
+typedef RioListGroupeHeaderBuilder<Item, GroupeValue> = Widget Function(
   BuildContext context,
   SliverStickyHeaderState state,
   GroupeValue groupe,
 );
-typedef RioListSliverItemBuilder<Item> = Widget Function(
+typedef RioListItemBuilder<Item> = Widget Function(
   BuildContext context,
   Item item,
   int index,
 );
+
+enum RioListSlidableActionMotion {
+  behind,
+  drawer,
+  scroll,
+  stretch,
+}
+
+Map<RioListSlidableActionMotion, Widget> _actionMotionMap = {
+  RioListSlidableActionMotion.behind: const BehindMotion(),
+  RioListSlidableActionMotion.drawer: const DrawerMotion(),
+  RioListSlidableActionMotion.scroll: const ScrollMotion(),
+  RioListSlidableActionMotion.stretch: const StretchMotion(),
+};
+
+class RioListSlidableActionProps<Item> {
+  RioListSlidableActionProps({
+    this.disabled = false,
+    this.endActions,
+    this.startActions,
+    this.endExtentRatio = 0.5,
+    this.startExtentRatio = 0.5,
+    this.motion = RioListSlidableActionMotion.stretch,
+  });
+  final bool disabled;
+  final List<RioListSlidableAction<Item>>? endActions;
+  final List<RioListSlidableAction<Item>>? startActions;
+  final double endExtentRatio;
+  final double startExtentRatio;
+  final RioListSlidableActionMotion motion;
+}
+
+class RioListSlidableAction<Item> {
+  RioListSlidableAction({
+    required this.onPressed,
+    this.label,
+    this.icon,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.flex = 1,
+  });
+  final ValueChanged<Item> onPressed;
+  final String? label;
+  final IconData? icon;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final int flex;
+}
 
 class RioListView<Item, GroupeValue> extends StatelessWidget {
   const RioListView.builder({
@@ -26,6 +75,7 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
     this.itemSort,
     this.onItemPressed,
     this.buttonTheme,
+    this.slidableActionProps,
   })  : headerBuilder = null,
         groupSpacing = 0,
         sticky = false,
@@ -38,26 +88,28 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
     required this.itemBuilder,
     this.groupSort,
     this.itemSort,
-    required RioSliverGroupeBy<Item, GroupeValue> this.groupBy,
-    required RioSliverGroupeHeaderBuilder<Item, GroupeValue> this.headerBuilder,
+    required RioListGroupeBy<Item, GroupeValue> this.groupBy,
+    required RioListGroupeHeaderBuilder<Item, GroupeValue> this.headerBuilder,
     this.separatorBuilder,
     this.sticky = true,
     this.groupSpacing = 8,
     this.onItemPressed,
     this.buttonTheme,
+    this.slidableActionProps,
   });
 
-  final RioSliverGroupeHeaderBuilder<Item, GroupeValue>? headerBuilder;
-  final RioListSliverItemBuilder<Item> itemBuilder;
-  final RioListSliverItemBuilder<Item>? separatorBuilder;
-  final RioSliverSort<Item>? itemSort;
-  final RioSliverSort<GroupeValue>? groupSort;
-  final RioSliverGroupeBy<Item, GroupeValue>? groupBy;
+  final RioListGroupeHeaderBuilder<Item, GroupeValue>? headerBuilder;
+  final RioListItemBuilder<Item> itemBuilder;
+  final RioListItemBuilder<Item>? separatorBuilder;
+  final RioListSort<Item>? itemSort;
+  final RioListSort<GroupeValue>? groupSort;
+  final RioListGroupeBy<Item, GroupeValue>? groupBy;
   final List<Item> items;
   final bool sticky;
   final double groupSpacing;
   final ValueChanged<Item>? onItemPressed;
   final RioButtonTheme? buttonTheme;
+  final RioListSlidableActionProps<Item>? slidableActionProps;
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +128,7 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
             groupSpacing: groupSpacing,
             onItemPressed: onItemPressed,
             buttonTheme: buttonTheme,
+            slidableActionProps: slidableActionProps,
           ),
         if (groupBy == null)
           RioListViewSliver<Item, GroupeValue>.builder(
@@ -85,6 +138,7 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
             itemSort: itemSort,
             onItemPressed: onItemPressed,
             buttonTheme: buttonTheme,
+            slidableActionProps: slidableActionProps,
           ),
       ],
     );
@@ -100,6 +154,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
     this.itemSort,
     this.onItemPressed,
     this.buttonTheme,
+    this.slidableActionProps,
   })  : headerBuilder = null,
         groupSpacing = 0,
         sticky = false,
@@ -112,26 +167,28 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
     required this.itemBuilder,
     this.groupSort,
     this.itemSort,
-    required RioSliverGroupeBy<Item, GroupeValue> this.groupBy,
-    required RioSliverGroupeHeaderBuilder<Item, GroupeValue> this.headerBuilder,
+    required RioListGroupeBy<Item, GroupeValue> this.groupBy,
+    required RioListGroupeHeaderBuilder<Item, GroupeValue> this.headerBuilder,
     this.separatorBuilder,
     this.sticky = true,
     this.groupSpacing = 8,
     this.onItemPressed,
     this.buttonTheme,
+    this.slidableActionProps,
   });
 
-  final RioSliverGroupeHeaderBuilder<Item, GroupeValue>? headerBuilder;
-  final RioListSliverItemBuilder<Item> itemBuilder;
-  final RioListSliverItemBuilder<Item>? separatorBuilder;
-  final RioSliverGroupeBy<Item, GroupeValue>? groupBy;
-  final RioSliverSort<Item>? itemSort;
-  final RioSliverSort<GroupeValue>? groupSort;
+  final RioListGroupeHeaderBuilder<Item, GroupeValue>? headerBuilder;
+  final RioListItemBuilder<Item> itemBuilder;
+  final RioListItemBuilder<Item>? separatorBuilder;
+  final RioListGroupeBy<Item, GroupeValue>? groupBy;
+  final RioListSort<Item>? itemSort;
+  final RioListSort<GroupeValue>? groupSort;
   final List<Item> items;
   final bool sticky;
   final double groupSpacing;
   final ValueChanged<Item>? onItemPressed;
   final RioButtonTheme? buttonTheme;
+  final RioListSlidableActionProps<Item>? slidableActionProps;
 
   @override
   Widget build(BuildContext context) {
@@ -145,22 +202,66 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
     return _buildList(items);
   }
 
-  Widget? _buildItem(BuildContext context, Item item, int index) {
-    final itemWidget = itemBuilder.call(context, item, index);
-
+  Widget _buildButton(
+    BuildContext context, {
+    required VoidCallback onPressed,
+    required Widget child,
+  }) {
     if (onItemPressed != null) {
       return RioButton(
-        onPressed: () => onItemPressed?.call(item),
+        onPressed: onPressed,
         theme: RioButtonTheme(
           padding: EdgeInsets.zero,
           variant: RioButtonVariant.plain,
           color: RioTheme.of(context).colorScheme.onSurface,
         ).merge(buttonTheme),
-        child: itemWidget,
+        child: child,
+      );
+    }
+    return child;
+  }
+
+  Widget? _buildItem(BuildContext context, Item item, int index) {
+    if (slidableActionProps != null) {
+      return Slidable(
+        key: Key(index.toString()),
+        enabled: !slidableActionProps!.disabled,
+        endActionPane: slidableActionProps!.endActions != null
+            ? ActionPane(
+                extentRatio: slidableActionProps!.endExtentRatio,
+                motion: _actionMotionMap[slidableActionProps!.motion]!,
+                children: slidableActionProps?.endActions
+                        ?.map(
+                          (action) => _SlidableActino(
+                            action: action,
+                            item: item,
+                            borderRadius: buttonTheme?.borderRadius,
+                          ),
+                        )
+                        .toList() ??
+                    [],
+              )
+            : null,
+        child: Builder(
+          builder: (context) {
+            return _buildButton(
+              context,
+              onPressed: () async {
+                await Slidable.of(context)?.close();
+                onItemPressed?.call(item);
+              },
+              child: itemBuilder.call(context, item, index),
+            );
+          },
+        ),
       );
     }
 
-    return itemBuilder.call(context, item, index);
+    return _buildButton(
+      context,
+      onPressed: () => onItemPressed?.call(item),
+      child: itemBuilder.call(context, item, index),
+    );
   }
 
   Widget _buildList(
@@ -239,6 +340,59 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
         SliverStickyHeader(),
         ...listViews,
       ],
+    );
+  }
+}
+
+class _SlidableActino<Item> extends StatelessWidget {
+  const _SlidableActino({
+    required this.action,
+    required this.item,
+    this.borderRadius,
+  });
+  final RioListSlidableAction<Item> action;
+  final Item item;
+  final BorderRadiusGeometry? borderRadius;
+
+  @override
+  Widget build(BuildContext context) {
+    final foregroundColor =
+        action.foregroundColor ?? RioTheme.of(context).colorScheme.onSurface;
+    return Expanded(
+      flex: action.flex,
+      child: RioButton(
+        onPressed: () {
+          Slidable.of(context)?.close();
+          action.onPressed(item);
+        },
+        theme: RioButtonTheme(
+          color: action.backgroundColor,
+          padding: EdgeInsets.zero,
+          borderRadius: borderRadius,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (action.icon != null)
+              Flexible(
+                child: Icon(
+                  action.icon!,
+                  color: foregroundColor,
+                ),
+              ),
+            if (action.label != null)
+              Flexible(
+                child: Text(
+                  action.label!,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: foregroundColor,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -25,8 +25,14 @@ Widget _buildUseCase(BuildContext context, bool grouped) {
   final separeted =
       context.knobs.boolean(label: "Separated", initialValue: true);
 
+  final borderRadius = context.knobs.double
+      .slider(label: "Border Radius", initialValue: 10, min: 0, max: 32);
+
   final separatorBuilder =
       separeted ? (context, item, index) => const Divider(height: 1) : null;
+
+  final buttonTheme =
+      RioButtonTheme(borderRadius: BorderRadius.circular(borderRadius));
 
   // ignore: prefer_function_declarations_over_variables
   final itemBuilder = (context, item, index) {
@@ -48,6 +54,25 @@ Widget _buildUseCase(BuildContext context, bool grouped) {
     );
   };
 
+  final slidableActionProps = RioListSlidableActionProps<String>(
+    endActions: [
+      RioListSlidableAction(
+        icon: Icons.edit,
+        backgroundColor: RioTheme.of(context).colorScheme.surface,
+        foregroundColor: RioTheme.of(context).colorScheme.onSurface,
+        label: "Edit",
+        onPressed: (item) => print("Edit $item"),
+      ),
+      RioListSlidableAction(
+        icon: Icons.delete,
+        backgroundColor: Theme.of(context).colorScheme.errorContainer,
+        foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+        label: "Delete",
+        onPressed: (item) => print("Delete $item"),
+      ),
+    ],
+  );
+
   if (grouped) {
     final sticky = context.knobs.boolean(label: "Sticky", initialValue: true);
     final groupSpacing = context.knobs.double
@@ -64,6 +89,8 @@ Widget _buildUseCase(BuildContext context, bool grouped) {
       sticky: sticky,
       groupSpacing: groupSpacing,
       onItemPressed: (value) => print(value),
+      slidableActionProps: slidableActionProps,
+      buttonTheme: buttonTheme,
     );
   } else {
     return RioListView<String, String>.builder(
@@ -72,6 +99,8 @@ Widget _buildUseCase(BuildContext context, bool grouped) {
       separatorBuilder: separatorBuilder,
       itemSort: (a, b) => a.compareTo(b),
       onItemPressed: (value) => print(value),
+      slidableActionProps: slidableActionProps,
+      buttonTheme: buttonTheme,
     );
   }
 }

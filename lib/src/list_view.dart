@@ -159,6 +159,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
         groupSpacing = 0,
         sticky = false,
         groupSort = null,
+        firstHeaderPinned = false,
         groupBy = null;
 
   const RioListViewSliver.groupedBuilder({
@@ -175,6 +176,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
     this.onItemPressed,
     this.buttonTheme,
     this.slidableActionProps,
+    this.firstHeaderPinned = false,
   });
 
   final RioListGroupeHeaderBuilder<Item, GroupeValue>? headerBuilder;
@@ -189,6 +191,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
   final ValueChanged<Item>? onItemPressed;
   final RioButtonTheme? buttonTheme;
   final RioListSlidableActionProps<Item>? slidableActionProps;
+  final bool firstHeaderPinned;
 
   @override
   Widget build(BuildContext context) {
@@ -337,7 +340,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
 
     return MultiSliver(
       children: [
-        SliverStickyHeader(),
+        if (!firstHeaderPinned) SliverStickyHeader(),
         ...listViews,
       ],
     );

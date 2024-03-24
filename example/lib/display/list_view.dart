@@ -9,7 +9,7 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
   path: "Display",
 )
 Widget useCaseRioListView(BuildContext context) {
-  return Scaffold(body: SafeArea(child: _buildUseCase(context, false)));
+  return const Scaffold(body: SafeArea(child: _Example(grouped: true)));
 }
 
 @widgetbook.UseCase(
@@ -18,35 +18,36 @@ Widget useCaseRioListView(BuildContext context) {
   path: "Display",
 )
 Widget useCaseRioListViewGrouped(BuildContext context) {
-  return Scaffold(body: SafeArea(child: _buildUseCase(context, true)));
+  return const Scaffold(body: SafeArea(child: _Example(grouped: true)));
 }
 
-Widget _buildUseCase(BuildContext context, bool grouped) {
-  final separeted =
-      context.knobs.boolean(label: "Separated", initialValue: true);
+class _Example extends StatefulWidget {
+  const _Example({this.grouped = false});
+  final bool grouped;
 
-  final borderRadius = context.knobs.double
-      .slider(label: "Border Radius", initialValue: 10, min: 0, max: 32);
+  @override
+  State<_Example> createState() => _ExampleState();
+}
 
-  final separatorBuilder =
-      separeted ? (context, item, index) => const Divider(height: 1) : null;
+class _ExampleState extends State<_Example> {
+  final List<String> _selectedItems = [];
 
-  final buttonTheme =
-      RioButtonTheme(borderRadius: BorderRadius.circular(borderRadius));
-
-  // ignore: prefer_function_declarations_over_variables
-  final itemBuilder = (context, item, index) {
+  RioListItemBuilder<String> itemBuilder = (context, itemInfo) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          Text(item),
+          Text(itemInfo.value),
         ],
       ),
     );
   };
-  // ignore: prefer_function_declarations_over_variables
-  final headerBuilder = (context, state, group) {
+
+  RioListSepartorBuilder separatorBuilder = (context, index) {
+    return const Divider(height: 1);
+  };
+
+  RioListGroupeHeaderBuilder headerBuilder = (context, state, group) {
     return Container(
       color: RioTheme.of(context).colorScheme.surface,
       padding: const EdgeInsets.all(8.0),
@@ -54,58 +55,85 @@ Widget _buildUseCase(BuildContext context, bool grouped) {
     );
   };
 
-  final slidableActionProps = RioListSlidableActionProps<String>(
-    endActions: [
-      RioListSlidableAction(
-        icon: Icons.edit,
-        backgroundColor: RioTheme.of(context).colorScheme.surface,
-        foregroundColor: RioTheme.of(context).colorScheme.onSurface,
-        label: "Edit",
-        onPressed: (item) => print("Edit $item"),
-      ),
-      RioListSlidableAction(
-        icon: Icons.delete,
-        backgroundColor: Theme.of(context).colorScheme.errorContainer,
-        foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
-        label: "Delete",
-        onPressed: (item) => print("Delete $item"),
-      ),
-    ],
-  );
+  void onPressed(String item) {
+    if (_selectedItems.contains(item)) {
+      _selectedItems.remove(item);
+    } else {
+      _selectedItems.add(item);
+    }
+    setState(() {});
+  }
 
-  if (grouped) {
-    final sticky = context.knobs.boolean(label: "Sticky", initialValue: true);
-    final groupSpacing = context.knobs.double
-        .slider(label: "Group Spacing", initialValue: 8, min: 0, max: 32);
+  @override
+  Widget build(BuildContext context) {
+    final separeted =
+        context.knobs.boolean(label: "Separated", initialValue: true);
 
-    return RioListView<String, String>.groupedBuilder(
-      items: _name,
-      separatorBuilder: separatorBuilder,
-      itemBuilder: itemBuilder,
-      groupBy: (item) => item[0],
-      itemSort: (a, b) => a.compareTo(b),
-      groupSort: (a, b) => a.compareTo(b),
-      headerBuilder: headerBuilder,
-      sticky: sticky,
-      groupSpacing: groupSpacing,
-      onItemPressed: (value) => print(value),
-      slidableActionProps: slidableActionProps,
-      buttonTheme: buttonTheme,
+    final borderRadius = context.knobs.double
+        .slider(label: "Border Radius", initialValue: 10, min: 0, max: 32);
+
+    final separatorBuilder =
+        separeted ? (context, index) => const Divider(height: 1) : null;
+
+    final buttonTheme = RioButtonTheme(
+      borderRadius: BorderRadius.circular(borderRadius),
     );
-  } else {
-    return RioListView<String, String>.builder(
-      items: _name,
-      itemBuilder: itemBuilder,
-      separatorBuilder: separatorBuilder,
-      itemSort: (a, b) => a.compareTo(b),
-      onItemPressed: (value) => print(value),
-      slidableActionProps: slidableActionProps,
-      buttonTheme: buttonTheme,
+
+    final slidableActionProps = RioListSlidableActionProps<String>(
+      endActions: [
+        RioListSlidableAction(
+          icon: Icons.edit,
+          backgroundColor: RioTheme.of(context).colorScheme.surface,
+          foregroundColor: RioTheme.of(context).colorScheme.onSurface,
+          label: "Edit",
+          onPressed: (item) => print("Edit $item"),
+        ),
+        RioListSlidableAction(
+          icon: Icons.delete,
+          backgroundColor: Theme.of(context).colorScheme.errorContainer,
+          foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+          label: "Delete",
+          onPressed: (item) => print("Delete $item"),
+        ),
+      ],
     );
+
+    if (widget.grouped) {
+      final sticky = context.knobs.boolean(label: "Sticky", initialValue: true);
+      final groupSpacing = context.knobs.double
+          .slider(label: "Group Spacing", initialValue: 8, min: 0, max: 32);
+
+      return RioListView<String, String>.groupedBuilder(
+        items: _names,
+        separatorBuilder: separatorBuilder,
+        itemBuilder: itemBuilder,
+        groupBy: (item) => item[0],
+        itemSort: (a, b) => a.compareTo(b),
+        groupSort: (a, b) => a.compareTo(b),
+        headerBuilder: headerBuilder,
+        sticky: sticky,
+        groupSpacing: groupSpacing,
+        onItemPressed: onPressed,
+        selectedItems: _selectedItems,
+        slidableActionProps: slidableActionProps,
+        buttonTheme: buttonTheme,
+      );
+    } else {
+      return RioListView<String, String>.builder(
+        items: _names,
+        itemBuilder: itemBuilder,
+        separatorBuilder: separatorBuilder,
+        itemSort: (a, b) => a.compareTo(b),
+        onItemPressed: onPressed,
+        selectedItems: _selectedItems,
+        slidableActionProps: slidableActionProps,
+        buttonTheme: buttonTheme,
+      );
+    }
   }
 }
 
-List<String> _name = [
+List<String> _names = [
   "Liam Smith",
   "Olivia Johnson",
   "Noah Williams",

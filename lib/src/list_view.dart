@@ -274,7 +274,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
   Widget? _buildItem(BuildContext context, Item item, int index) {
     final selected = selectedItems.contains(item);
     final itemInfo =
-        RioListItemInfo(value: item, index: index, selected: selected);
+        RioListItemInfo<Item>(value: item, index: index, selected: selected);
     if (slidableActionProps != null) {
       return Slidable(
         key: Key(index.toString()),

@@ -80,20 +80,20 @@ class _ExampleState extends State<_Example> {
     );
 
     final slidableActionProps = RioListSlidableActionProps<String>(
-      endActions: [
+      endActionsBuilder: (context, item) => [
         RioListSlidableAction(
           icon: Icons.edit,
           backgroundColor: RioTheme.of(context).colorScheme.surface,
           foregroundColor: RioTheme.of(context).colorScheme.onSurface,
           label: "Edit",
-          onPressed: (item) => print("Edit $item"),
+          onPressed: () => print("Edit $item"),
         ),
         RioListSlidableAction(
           icon: Icons.delete,
           backgroundColor: Theme.of(context).colorScheme.errorContainer,
           foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
           label: "Delete",
-          onPressed: (item) => print("Delete $item"),
+          onPressed: () => print("Delete $item"),
         ),
       ],
     );

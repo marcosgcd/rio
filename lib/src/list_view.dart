@@ -12,6 +12,10 @@ typedef RioListGroupeHeaderBuilder<Item, GroupeValue> = Widget Function(
   SliverStickyHeaderState state,
   GroupeValue groupe,
 );
+typedef RioListActionsBuilder<Item> = List<RioListSlidableAction> Function(
+  BuildContext context,
+  RioListItemInfo<Item> itemInfo,
+);
 typedef RioListItemBuilder<Item> = Widget Function(
   BuildContext context,
   RioListItemInfo<Item> itemInfo,
@@ -34,8 +38,11 @@ class RioListItemInfo<Item> {
   final int index;
   final bool selected;
 
-  RioListItemInfo(
-      {required this.value, required this.index, required this.selected});
+  RioListItemInfo({
+    required this.value,
+    required this.index,
+    required this.selected,
+  });
 }
 
 Map<RioListSlidableActionMotion, Widget> _actionMotionMap = {
@@ -48,21 +55,21 @@ Map<RioListSlidableActionMotion, Widget> _actionMotionMap = {
 class RioListSlidableActionProps<Item> {
   RioListSlidableActionProps({
     this.disabled = false,
-    this.endActions,
-    this.startActions,
+    this.endActionsBuilder,
+    this.startActionsBuilder,
     this.endExtentRatio = 0.5,
     this.startExtentRatio = 0.5,
     this.motion = RioListSlidableActionMotion.stretch,
   });
   final bool disabled;
-  final List<RioListSlidableAction<Item>>? endActions;
-  final List<RioListSlidableAction<Item>>? startActions;
+  final RioListActionsBuilder<Item>? endActionsBuilder;
+  final RioListActionsBuilder<Item>? startActionsBuilder;
   final double endExtentRatio;
   final double startExtentRatio;
   final RioListSlidableActionMotion motion;
 }
 
-class RioListSlidableAction<Item> {
+class RioListSlidableAction {
   RioListSlidableAction({
     required this.onPressed,
     this.label,
@@ -71,7 +78,7 @@ class RioListSlidableAction<Item> {
     this.foregroundColor,
     this.flex = 1,
   });
-  final ValueChanged<Item> onPressed;
+  final VoidCallback onPressed;
   final String? label;
   final IconData? icon;
   final Color? backgroundColor;
@@ -272,13 +279,31 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
       return Slidable(
         key: Key(index.toString()),
         enabled: !slidableActionProps!.disabled,
-        endActionPane: slidableActionProps!.endActions != null
+        startActionPane: slidableActionProps!.startActionsBuilder != null
             ? ActionPane(
                 extentRatio: slidableActionProps!.endExtentRatio,
                 motion: _actionMotionMap[slidableActionProps!.motion]!,
-                children: slidableActionProps?.endActions
-                        ?.map(
-                          (action) => _SlidableActino(
+                children: slidableActionProps?.startActionsBuilder
+                        ?.call(context, itemInfo)
+                        .map(
+                          (action) => _SlidableActino<Item>(
+                            action: action,
+                            item: item,
+                            borderRadius: buttonTheme?.borderRadius,
+                          ),
+                        )
+                        .toList() ??
+                    [],
+              )
+            : null,
+        endActionPane: slidableActionProps!.endActionsBuilder != null
+            ? ActionPane(
+                extentRatio: slidableActionProps!.endExtentRatio,
+                motion: _actionMotionMap[slidableActionProps!.motion]!,
+                children: slidableActionProps?.endActionsBuilder
+                        ?.call(context, itemInfo)
+                        .map(
+                          (action) => _SlidableActino<Item>(
                             action: action,
                             item: item,
                             borderRadius: buttonTheme?.borderRadius,
@@ -397,7 +422,7 @@ class _SlidableActino<Item> extends StatelessWidget {
     required this.item,
     this.borderRadius,
   });
-  final RioListSlidableAction<Item> action;
+  final RioListSlidableAction action;
   final Item item;
   final BorderRadiusGeometry? borderRadius;
 
@@ -410,7 +435,7 @@ class _SlidableActino<Item> extends StatelessWidget {
       child: RioButton(
         onPressed: () {
           Slidable.of(context)?.close();
-          action.onPressed(item);
+          action.onPressed();
         },
         theme: RioButtonTheme(
           color: action.backgroundColor,

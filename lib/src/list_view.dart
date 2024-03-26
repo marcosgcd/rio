@@ -6,6 +6,7 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 typedef RioSliverStickyHeaderState = SliverStickyHeaderState;
 typedef RioListGroupeBy<Item, GroupeValue> = GroupeValue Function(Item item);
+typedef RioListCanSelect<Item> = bool Function(Item item);
 typedef RioListSort<T> = int Function(T a, T b);
 typedef RioListGroupeHeaderBuilder<Item, GroupeValue> = Widget Function(
   BuildContext context,
@@ -37,11 +38,13 @@ class RioListItemInfo<Item> {
   final Item value;
   final int index;
   final bool selected;
+  final bool canSelect;
 
   RioListItemInfo({
     required this.value,
     required this.index,
     required this.selected,
+    required this.canSelect,
   });
 }
 
@@ -98,6 +101,7 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
     this.selectedButtonTheme,
     this.slidableActionProps,
     this.selectedItems = const [],
+    this.canSelect,
   })  : headerBuilder = null,
         groupSpacing = 0,
         sticky = false,
@@ -122,6 +126,7 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
     this.slidableActionProps,
     this.firstHeaderPinned = false,
     this.selectedItems = const [],
+    this.canSelect,
   });
 
   final RioListGroupeHeaderBuilder<Item, GroupeValue>? headerBuilder;
@@ -130,6 +135,7 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
   final RioListSort<Item>? itemSort;
   final RioListSort<GroupeValue>? groupSort;
   final RioListGroupeBy<Item, GroupeValue>? groupBy;
+  final RioListCanSelect<Item>? canSelect;
   final List<Item> items;
   final bool sticky;
   final double groupSpacing;
@@ -163,6 +169,7 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
             selectedButtonTheme: selectedButtonTheme,
             selectedItems: selectedItems,
             slidableActionProps: slidableActionProps,
+            canSelect: canSelect,
           ),
         if (groupBy == null)
           RioListViewSliver<Item, GroupeValue>.builder(
@@ -175,6 +182,7 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
             slidableActionProps: slidableActionProps,
             selectedButtonTheme: selectedButtonTheme,
             selectedItems: selectedItems,
+            canSelect: canSelect,
           ),
       ],
     );
@@ -193,6 +201,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
     this.selectedButtonTheme,
     this.slidableActionProps,
     this.selectedItems = const [],
+    this.canSelect,
   })  : headerBuilder = null,
         groupSpacing = 0,
         sticky = false,
@@ -217,6 +226,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
     this.slidableActionProps,
     this.firstHeaderPinned = false,
     this.selectedItems = const [],
+    this.canSelect,
   });
 
   final RioListGroupeHeaderBuilder<Item, GroupeValue>? headerBuilder;
@@ -225,6 +235,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
   final RioListGroupeBy<Item, GroupeValue>? groupBy;
   final RioListSort<Item>? itemSort;
   final RioListSort<GroupeValue>? groupSort;
+  final RioListCanSelect<Item>? canSelect;
   final List<Item> items;
   final bool sticky;
   final double groupSpacing;
@@ -273,8 +284,13 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
 
   Widget? _buildItem(BuildContext context, Item item, int index) {
     final selected = selectedItems.contains(item);
-    final itemInfo =
-        RioListItemInfo<Item>(value: item, index: index, selected: selected);
+    final canSelect = this.canSelect?.call(item) ?? true;
+    final itemInfo = RioListItemInfo<Item>(
+      value: item,
+      index: index,
+      selected: selected,
+      canSelect: canSelect,
+    );
     if (slidableActionProps != null) {
       return Slidable(
         key: Key(index.toString()),

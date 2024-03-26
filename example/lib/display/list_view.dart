@@ -55,11 +55,11 @@ class _ExampleState extends State<_Example> {
     );
   };
 
-  void onPressed(String item) {
-    if (_selectedItems.contains(item)) {
-      _selectedItems.remove(item);
+  void onPressed(RioListItemInfo<String> item) {
+    if (_selectedItems.contains(item.value)) {
+      _selectedItems.remove(item.value);
     } else {
-      _selectedItems.add(item);
+      _selectedItems.add(item.value);
     }
     setState(() {});
   }

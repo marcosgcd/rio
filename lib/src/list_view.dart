@@ -139,7 +139,7 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
   final List<Item> items;
   final bool sticky;
   final double groupSpacing;
-  final ValueChanged<Item>? onItemPressed;
+  final ValueChanged<RioListItemInfo<Item>>? onItemPressed;
   final RioButtonTheme? buttonTheme;
   final RioListSlidableActionProps<Item>? slidableActionProps;
   final RioButtonTheme? selectedButtonTheme;
@@ -239,7 +239,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
   final List<Item> items;
   final bool sticky;
   final double groupSpacing;
-  final ValueChanged<Item>? onItemPressed;
+  final ValueChanged<RioListItemInfo<Item>>? onItemPressed;
   final RioButtonTheme? buttonTheme;
   final RioButtonTheme? selectedButtonTheme;
   final RioListSlidableActionProps<Item>? slidableActionProps;
@@ -336,7 +336,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
               selected: selected,
               onPressed: () async {
                 await Slidable.of(context)?.close();
-                onItemPressed?.call(item);
+                onItemPressed?.call(itemInfo);
               },
               child: itemBuilder.call(context, itemInfo),
             );
@@ -348,7 +348,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
     return _buildButton(
       context,
       selected: selected,
-      onPressed: () => onItemPressed?.call(item),
+      onPressed: () => onItemPressed?.call(itemInfo),
       child: itemBuilder.call(context, itemInfo),
     );
   }

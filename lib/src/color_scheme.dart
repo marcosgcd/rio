@@ -33,13 +33,18 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
     Color surface;
     Color popover;
     if (brightness == Brightness.light) {
+      final test1 = lighten(colorScheme.primary);
+      final test2 = darken(test1);
+
+      print("${colorScheme.primary} -> $test1 -> $test2");
+
       background = lighten(colorScheme.primary, 0.9);
       surface = lighten(colorScheme.primary, 0.95);
-      popover = darken(surface);
+      popover = lighten(colorScheme.primary, 0.80);
     } else {
       background = darken(colorScheme.primary, 0.9);
       surface = darken(colorScheme.primary, 0.82);
-      popover = lighten(surface);
+      popover = darken(colorScheme.primary, 0.70);
     }
 
     return RioColorScheme(

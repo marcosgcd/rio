@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 final HashMap<String, Color> _computedColorsCache = HashMap<String, Color>();
 
 Color darken(Color c, [double percent = 0.1]) {
-  assert(0.1 <= percent && percent <= 1);
+  assert(0.01 <= percent && percent <= 1);
   var f = 1 - percent;
   return Color.fromARGB(
     c.alpha,
@@ -17,7 +17,7 @@ Color darken(Color c, [double percent = 0.1]) {
 }
 
 Color lighten(Color c, [double percent = 0.1]) {
-  assert(0.1 <= percent && percent <= 1);
+  assert(0.01 <= percent && percent <= 1);
   var p = percent;
   return Color.fromARGB(
     c.alpha,

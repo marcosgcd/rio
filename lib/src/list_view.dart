@@ -305,6 +305,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
     if (slidableActionProps != null) {
       return Slidable(
         key: Key(index.toString()),
+        groupTag: 1,
         enabled: !slidableActionProps!.disabled,
         startActionPane: slidableActionProps!.startActionsBuilder != null
             ? ActionPane(

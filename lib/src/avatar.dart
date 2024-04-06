@@ -126,7 +126,7 @@ class RioAvatar extends StatelessWidget {
       child: IconTheme.merge(
         data: IconThemeData(size: radius),
         child: MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
           child: initials == null || !showInitials
               ? const Icon(Icons.person)
               : FittedBox(

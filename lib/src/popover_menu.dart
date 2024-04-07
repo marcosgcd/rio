@@ -19,6 +19,7 @@ Future<T?> showRioMenu<T>(
   required List<RioMenuItem<T>> items,
   RioPopoverDirection direction = RioPopoverDirection.bottom,
   RioPopoverTheme? theme,
+  double minWidth = 200,
 }) async {
   var popoverTheme = theme ?? RioTheme.of(context).popoverTheme;
   final borderRadius =
@@ -61,7 +62,7 @@ Future<T?> showRioMenu<T>(
       }).toList();
 
       return ConstrainedBox(
-        constraints: const BoxConstraints(minWidth: 200),
+        constraints: BoxConstraints(minWidth: minWidth),
         child: IntrinsicWidth(
           child: Column(
             mainAxisSize: MainAxisSize.min,

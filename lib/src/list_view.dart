@@ -103,6 +103,7 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
     this.slidableActionProps,
     this.selectedItems = const [],
     this.canSelect,
+    this.isItemSelected,
   })  : headerBuilder = null,
         groupSpacing = 0,
         sticky = false,
@@ -129,6 +130,7 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
     this.firstHeaderPinned = false,
     this.selectedItems = const [],
     this.canSelect,
+    this.isItemSelected,
   });
 
   final RioListGroupeHeaderBuilder<Item, GroupeValue>? headerBuilder;
@@ -147,6 +149,9 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
   final RioListSlidableActionProps<Item>? slidableActionProps;
   final RioButtonTheme? selectedButtonTheme;
   final bool firstHeaderPinned;
+
+  // Use this if you want custom selection logic
+  final bool Function(Item item)? isItemSelected;
 
   /// To use this, you must provide onItemPressed
   final List<Item> selectedItems;
@@ -171,6 +176,7 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
             firstHeaderPinned: firstHeaderPinned,
             selectedButtonTheme: selectedButtonTheme,
             selectedItems: selectedItems,
+            isItemSelected: isItemSelected,
             slidableActionProps: slidableActionProps,
             canSelect: canSelect,
           ),
@@ -185,6 +191,7 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
             slidableActionProps: slidableActionProps,
             selectedButtonTheme: selectedButtonTheme,
             selectedItems: selectedItems,
+            isItemSelected: isItemSelected,
             canSelect: canSelect,
           ),
       ],
@@ -206,6 +213,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
     this.slidableActionProps,
     this.selectedItems = const [],
     this.canSelect,
+    this.isItemSelected,
   })  : headerBuilder = null,
         groupSpacing = 0,
         sticky = false,
@@ -232,6 +240,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
     this.firstHeaderPinned = false,
     this.selectedItems = const [],
     this.canSelect,
+    this.isItemSelected,
   });
 
   final RioListGroupeHeaderBuilder<Item, GroupeValue>? headerBuilder;
@@ -250,6 +259,9 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
   final RioButtonTheme? selectedButtonTheme;
   final RioListSlidableActionProps<Item>? slidableActionProps;
   final bool firstHeaderPinned;
+
+  // Use this if you want custom selection logic
+  final bool Function(Item item)? isItemSelected;
 
   /// To use this, you must provide onItemPressed
   final List<Item> selectedItems;
@@ -294,7 +306,7 @@ class RioListViewSliver<Item, GroupeValue> extends StatelessWidget {
   }
 
   Widget? _buildItem(BuildContext context, Item item, int index) {
-    final selected = selectedItems.contains(item);
+    final selected = isItemSelected?.call(item) ?? selectedItems.contains(item);
     final canSelect = this.canSelect?.call(item) ?? true;
     final itemInfo = RioListItemInfo<Item>(
       value: item,

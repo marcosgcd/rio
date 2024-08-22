@@ -47,7 +47,7 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
       primary: colorScheme.primary,
       onPrimary: colorScheme.onPrimary,
       background: background,
-      onBackground: colorScheme.onBackground,
+      onBackground: colorScheme.onSurface,
       surface: surface,
       onSurface: colorScheme.onSurface,
       popover: popover,

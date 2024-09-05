@@ -9,7 +9,7 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
   path: "Display",
 )
 Widget useCaseRioListView(BuildContext context) {
-  return const Scaffold(body: SafeArea(child: _Example(grouped: true)));
+  return const Scaffold(body: SafeArea(child: _Example(grouped: false)));
 }
 
 @widgetbook.UseCase(

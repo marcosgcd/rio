@@ -23,6 +23,11 @@ class RioTheme extends ThemeExtension<RioTheme>
     this.popoverTheme = const RioPopoverTheme.defaultTheme(),
     this.checkboxTheme = const RioCheckboxTheme.defaultTheme(),
     this.avatarTheme = const RioAvatarTheme.defaultTheme(),
+    this.containerTheme = const RioContainerTheme.defaultTheme(),
+    this.navigationBarHorizontalTheme =
+        const RioNavigationBarTheme.defaultHorizontalTheme(),
+    this.navigationBarVerticalTheme =
+        const RioNavigationBarTheme.defaultVerticalTheme(),
   });
 
   @override
@@ -45,6 +50,13 @@ class RioTheme extends ThemeExtension<RioTheme>
   final RioPopoverTheme popoverTheme;
   @override
   final RioAvatarTheme avatarTheme;
+  @override
+  final RioContainerTheme containerTheme;
+  @override
+  final RioNavigationBarTheme navigationBarVerticalTheme;
+  @override
+  final RioNavigationBarTheme navigationBarHorizontalTheme;
+
   @override
   Brightness get brightness => colorScheme.brightness;
 

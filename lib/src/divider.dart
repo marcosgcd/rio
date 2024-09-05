@@ -1,21 +1,45 @@
 import 'package:flutter/material.dart';
 
 class RioDivider extends StatelessWidget {
-  const RioDivider({super.key, this.child});
+  const RioDivider({
+    super.key,
+    this.child,
+    this.direction = Axis.horizontal,
+  });
   final Widget? child;
+  final Axis direction;
+
+  const RioDivider.horizontal({
+    super.key,
+    this.child,
+  }) : direction = Axis.horizontal;
+
+  const RioDivider.vertical({
+    super.key,
+    this.child,
+  }) : direction = Axis.vertical;
 
   @override
   Widget build(BuildContext context) {
-    const divider = Divider(height: 1);
+    final divider = direction == Axis.horizontal
+        ? const Divider(height: 1)
+        : const VerticalDivider(width: 1);
+
     if (child == null) return divider;
-    return Row(
+
+    final padding = direction == Axis.horizontal
+        ? const EdgeInsets.symmetric(horizontal: 16)
+        : const EdgeInsets.symmetric(vertical: 16);
+
+    return Flex(
+      direction: direction,
       children: [
-        const Expanded(child: divider),
+        Expanded(child: divider),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: padding,
           child: child,
         ),
-        const Expanded(child: divider),
+        Expanded(child: divider),
       ],
     );
   }

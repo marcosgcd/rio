@@ -19,6 +19,7 @@ mixin _$RioColorSchemeTailorMixin
   Color get onSurface;
   Color get popover;
   Color get onPopover;
+  Color get caption;
 
   @override
   RioColorScheme copyWith({
@@ -31,6 +32,7 @@ mixin _$RioColorSchemeTailorMixin
     Color? onSurface,
     Color? popover,
     Color? onPopover,
+    Color? caption,
   }) {
     return RioColorScheme(
       brightness: brightness ?? this.brightness,
@@ -42,6 +44,7 @@ mixin _$RioColorSchemeTailorMixin
       onSurface: onSurface ?? this.onSurface,
       popover: popover ?? this.popover,
       onPopover: onPopover ?? this.onPopover,
+      caption: caption ?? this.caption,
     );
   }
 
@@ -59,6 +62,7 @@ mixin _$RioColorSchemeTailorMixin
       onSurface: Color.lerp(onSurface, other.onSurface, t)!,
       popover: Color.lerp(popover, other.popover, t)!,
       onPopover: Color.lerp(onPopover, other.onPopover, t)!,
+      caption: Color.lerp(caption, other.caption, t)!,
     );
   }
 
@@ -78,7 +82,8 @@ mixin _$RioColorSchemeTailorMixin
             const DeepCollectionEquality().equals(surface, other.surface) &&
             const DeepCollectionEquality().equals(onSurface, other.onSurface) &&
             const DeepCollectionEquality().equals(popover, other.popover) &&
-            const DeepCollectionEquality().equals(onPopover, other.onPopover));
+            const DeepCollectionEquality().equals(onPopover, other.onPopover) &&
+            const DeepCollectionEquality().equals(caption, other.caption));
   }
 
   @override
@@ -94,6 +99,7 @@ mixin _$RioColorSchemeTailorMixin
       const DeepCollectionEquality().hash(onSurface),
       const DeepCollectionEquality().hash(popover),
       const DeepCollectionEquality().hash(onPopover),
+      const DeepCollectionEquality().hash(caption),
     );
   }
 
@@ -110,6 +116,7 @@ mixin _$RioColorSchemeTailorMixin
       ..add(DiagnosticsProperty('surface', surface))
       ..add(DiagnosticsProperty('onSurface', onSurface))
       ..add(DiagnosticsProperty('popover', popover))
-      ..add(DiagnosticsProperty('onPopover', onPopover));
+      ..add(DiagnosticsProperty('onPopover', onPopover))
+      ..add(DiagnosticsProperty('caption', caption));
   }
 }

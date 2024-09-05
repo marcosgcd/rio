@@ -20,6 +20,9 @@ mixin _$RioThemeTailorMixin
   RioPinFieldTheme get pinFieldTheme;
   RioPopoverTheme get popoverTheme;
   RioAvatarTheme get avatarTheme;
+  RioContainerTheme get containerTheme;
+  RioNavigationBarTheme get navigationBarVerticalTheme;
+  RioNavigationBarTheme get navigationBarHorizontalTheme;
   Brightness get brightness;
 
   @override
@@ -34,6 +37,9 @@ mixin _$RioThemeTailorMixin
     RioPinFieldTheme? pinFieldTheme,
     RioPopoverTheme? popoverTheme,
     RioAvatarTheme? avatarTheme,
+    RioContainerTheme? containerTheme,
+    RioNavigationBarTheme? navigationBarVerticalTheme,
+    RioNavigationBarTheme? navigationBarHorizontalTheme,
     Brightness? brightness,
   }) {
     return RioTheme(
@@ -47,6 +53,11 @@ mixin _$RioThemeTailorMixin
       pinFieldTheme: pinFieldTheme ?? this.pinFieldTheme,
       popoverTheme: popoverTheme ?? this.popoverTheme,
       avatarTheme: avatarTheme ?? this.avatarTheme,
+      containerTheme: containerTheme ?? this.containerTheme,
+      navigationBarVerticalTheme:
+          navigationBarVerticalTheme ?? this.navigationBarVerticalTheme,
+      navigationBarHorizontalTheme:
+          navigationBarHorizontalTheme ?? this.navigationBarHorizontalTheme,
     );
   }
 
@@ -70,6 +81,12 @@ mixin _$RioThemeTailorMixin
           pinFieldTheme.lerp(other.pinFieldTheme, t) as RioPinFieldTheme,
       popoverTheme: popoverTheme.lerp(other.popoverTheme, t) as RioPopoverTheme,
       avatarTheme: avatarTheme.lerp(other.avatarTheme, t) as RioAvatarTheme,
+      containerTheme:
+          containerTheme.lerp(other.containerTheme, t) as RioContainerTheme,
+      navigationBarVerticalTheme: navigationBarVerticalTheme.lerp(
+          other.navigationBarVerticalTheme, t) as RioNavigationBarTheme,
+      navigationBarHorizontalTheme: navigationBarHorizontalTheme.lerp(
+          other.navigationBarHorizontalTheme, t) as RioNavigationBarTheme,
     );
   }
 
@@ -99,6 +116,12 @@ mixin _$RioThemeTailorMixin
             const DeepCollectionEquality()
                 .equals(avatarTheme, other.avatarTheme) &&
             const DeepCollectionEquality()
+                .equals(containerTheme, other.containerTheme) &&
+            const DeepCollectionEquality().equals(
+                navigationBarVerticalTheme, other.navigationBarVerticalTheme) &&
+            const DeepCollectionEquality().equals(navigationBarHorizontalTheme,
+                other.navigationBarHorizontalTheme) &&
+            const DeepCollectionEquality()
                 .equals(brightness, other.brightness));
   }
 
@@ -116,6 +139,9 @@ mixin _$RioThemeTailorMixin
       const DeepCollectionEquality().hash(pinFieldTheme),
       const DeepCollectionEquality().hash(popoverTheme),
       const DeepCollectionEquality().hash(avatarTheme),
+      const DeepCollectionEquality().hash(containerTheme),
+      const DeepCollectionEquality().hash(navigationBarVerticalTheme),
+      const DeepCollectionEquality().hash(navigationBarHorizontalTheme),
       const DeepCollectionEquality().hash(brightness),
     );
   }
@@ -135,6 +161,11 @@ mixin _$RioThemeTailorMixin
       ..add(DiagnosticsProperty('pinFieldTheme', pinFieldTheme))
       ..add(DiagnosticsProperty('popoverTheme', popoverTheme))
       ..add(DiagnosticsProperty('avatarTheme', avatarTheme))
+      ..add(DiagnosticsProperty('containerTheme', containerTheme))
+      ..add(DiagnosticsProperty(
+          'navigationBarVerticalTheme', navigationBarVerticalTheme))
+      ..add(DiagnosticsProperty(
+          'navigationBarHorizontalTheme', navigationBarHorizontalTheme))
       ..add(DiagnosticsProperty('brightness', brightness));
   }
 }

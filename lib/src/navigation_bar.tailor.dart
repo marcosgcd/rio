@@ -19,6 +19,7 @@ mixin _$RioNavigationBarThemeTailorMixin
   Color? get color;
   double? get itemIconSize;
   TextStyle? get itemTextStyle;
+  RioContainerTheme? get containerTheme;
 
   @override
   RioNavigationBarTheme copyWith({
@@ -31,6 +32,7 @@ mixin _$RioNavigationBarThemeTailorMixin
     Color? color,
     double? itemIconSize,
     TextStyle? itemTextStyle,
+    RioContainerTheme? containerTheme,
   }) {
     return RioNavigationBarTheme(
       size: size ?? this.size,
@@ -78,7 +80,9 @@ mixin _$RioNavigationBarThemeTailorMixin
             const DeepCollectionEquality()
                 .equals(itemIconSize, other.itemIconSize) &&
             const DeepCollectionEquality()
-                .equals(itemTextStyle, other.itemTextStyle));
+                .equals(itemTextStyle, other.itemTextStyle) &&
+            const DeepCollectionEquality()
+                .equals(containerTheme, other.containerTheme));
   }
 
   @override
@@ -94,6 +98,7 @@ mixin _$RioNavigationBarThemeTailorMixin
       const DeepCollectionEquality().hash(color),
       const DeepCollectionEquality().hash(itemIconSize),
       const DeepCollectionEquality().hash(itemTextStyle),
+      const DeepCollectionEquality().hash(containerTheme),
     );
   }
 
@@ -110,6 +115,7 @@ mixin _$RioNavigationBarThemeTailorMixin
       ..add(DiagnosticsProperty('border', border))
       ..add(DiagnosticsProperty('color', color))
       ..add(DiagnosticsProperty('itemIconSize', itemIconSize))
-      ..add(DiagnosticsProperty('itemTextStyle', itemTextStyle));
+      ..add(DiagnosticsProperty('itemTextStyle', itemTextStyle))
+      ..add(DiagnosticsProperty('containerTheme', containerTheme));
   }
 }

@@ -41,6 +41,7 @@ class RioNavigationBarTheme extends ThemeExtension<RioNavigationBarTheme>
     this.color,
     this.itemIconSize,
     this.itemTextStyle,
+    this.containerTheme,
   });
 
   const RioNavigationBarTheme.defaultVerticalTheme()
@@ -51,6 +52,7 @@ class RioNavigationBarTheme extends ThemeExtension<RioNavigationBarTheme>
         border = null,
         color = null,
         borderRadius = null,
+        containerTheme = null,
         itemIconSize = 32,
         itemTextStyle = const TextStyle(fontSize: 10);
 
@@ -62,6 +64,7 @@ class RioNavigationBarTheme extends ThemeExtension<RioNavigationBarTheme>
         border = null,
         color = null,
         borderRadius = null,
+        containerTheme = null,
         itemIconSize = 32,
         itemTextStyle = const TextStyle(fontSize: 10);
 
@@ -83,6 +86,8 @@ class RioNavigationBarTheme extends ThemeExtension<RioNavigationBarTheme>
   final double? itemIconSize;
   @override
   final TextStyle? itemTextStyle;
+  @override
+  final RioContainerTheme? containerTheme;
 
   RioNavigationBarTheme merge(RioNavigationBarTheme? other, Axis direction) {
     final defaultTheme = direction == Axis.horizontal
@@ -99,6 +104,7 @@ class RioNavigationBarTheme extends ThemeExtension<RioNavigationBarTheme>
       color: other?.color ?? color,
       itemIconSize: other?.itemIconSize ?? itemIconSize,
       itemTextStyle: other?.itemTextStyle ?? itemTextStyle,
+      containerTheme: other?.containerTheme ?? containerTheme,
     );
   }
 }
@@ -125,15 +131,17 @@ class RioNavigationBar extends StatelessWidget {
     List<Widget> children =
         items.map((item) => _buildItem(context, item, theme)).toList();
 
+    final containerTheme = RioContainerTheme(
+      color: theme.color,
+      borderRadius: theme.borderRadius,
+      padding: theme.padding,
+      margin: theme.margin,
+    ).merge(theme.containerTheme);
+
     return RioContainer(
       width: direction == Axis.horizontal ? null : theme.size,
       height: direction == Axis.horizontal ? theme.size : null,
-      theme: RioContainerTheme(
-        color: theme.color,
-        borderRadius: theme.borderRadius,
-        padding: theme.padding,
-        margin: theme.margin,
-      ),
+      theme: containerTheme,
       child: Flex(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         direction: direction,

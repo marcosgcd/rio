@@ -94,10 +94,10 @@ class RioContainer extends StatelessWidget {
             width: width,
             padding: theme.padding,
             decoration: BoxDecoration(
+              color: color.withOpacity(theme.opacity!),
               borderRadius: borderRadius,
             ),
             foregroundDecoration: BoxDecoration(
-              color: color.withOpacity(0.3),
               borderRadius: borderRadius,
               border: GradientBoxBorder(
                 gradient: LinearGradient(

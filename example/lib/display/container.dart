@@ -31,6 +31,12 @@ Widget useCase(BuildContext context) {
             height: 200,
             width: 200,
             theme: theme,
+            child: const Center(
+              child: Icon(
+                Icons.home,
+                size: 40,
+              ),
+            ),
           ),
         ),
       ],

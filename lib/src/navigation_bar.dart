@@ -168,7 +168,7 @@ class RioNavigationBar extends StatelessWidget {
         var buttonTheme = item.theme ??
             RioButtonTheme(
               gap: 2,
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.zero,
               variant:
                   selected ? RioButtonVariant.soft : RioButtonVariant.plain,
               color: selected ? colorScheme.primary : colorScheme.caption,

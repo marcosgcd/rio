@@ -48,16 +48,16 @@ Widget _useCase(BuildContext context, Axis direction) {
                 direction: direction,
                 items: const [
                   RioNavigationBarItem.item(
-                    icon: Icons.home,
-                    label: 'Home',
+                    icon: Icon(Icons.home),
+                    label: Text('Home'),
                   ),
                   RioNavigationBarItem.item(
-                    icon: Icons.search,
-                    label: 'Search',
+                    icon: Icon(Icons.search),
+                    label: Text('Search'),
                   ),
                   RioNavigationBarItem.item(
-                    icon: Icons.notifications,
-                    label: 'Notifications Long Text',
+                    icon: Icon(Icons.notifications),
+                    label: Text('Notifications Long Text'),
                   ),
                   RioNavigationBarItem.divider(
                     paddingHorizontal:
@@ -67,8 +67,8 @@ Widget _useCase(BuildContext context, Axis direction) {
                   ),
                   RioNavigationBarItem.spacer(),
                   RioNavigationBarItem.item(
-                    icon: Icons.person,
-                    label: 'Profile',
+                    icon: Icon(Icons.person),
+                    label: Text('Profile'),
                   ),
                 ],
               ),

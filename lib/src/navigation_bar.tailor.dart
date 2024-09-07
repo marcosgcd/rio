@@ -44,6 +44,7 @@ mixin _$RioNavigationBarThemeTailorMixin
       color: color ?? this.color,
       itemIconSize: itemIconSize ?? this.itemIconSize,
       itemTextStyle: itemTextStyle ?? this.itemTextStyle,
+      containerTheme: containerTheme ?? this.containerTheme,
     );
   }
 
@@ -61,6 +62,8 @@ mixin _$RioNavigationBarThemeTailorMixin
       color: Color.lerp(color, other.color, t),
       itemIconSize: t < 0.5 ? itemIconSize : other.itemIconSize,
       itemTextStyle: TextStyle.lerp(itemTextStyle, other.itemTextStyle, t),
+      containerTheme:
+          containerTheme?.lerp(other.containerTheme, t) as RioContainerTheme?,
     );
   }
 

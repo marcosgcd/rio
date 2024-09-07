@@ -11,11 +11,12 @@ part 'navigation_bar.freezed.dart';
 @freezed
 sealed class RioNavigationBarItem with _$RioNavigationBarItem {
   const factory RioNavigationBarItem.item({
-    required IconData icon,
-    required String label,
+    required Text label,
+    required Widget icon,
     RioButtonTheme? theme,
+    String? tooltip,
     @Default(false) bool selected,
-    VoidCallback? onPressed,
+    void Function(BuildContext context)? onPressed,
   }) = RioNavigationBarItemItem;
   const factory RioNavigationBarItem.spacer({
     @Default(1) int flex,
@@ -175,29 +176,45 @@ class RioNavigationBar extends StatelessWidget {
               color: selected ? colorScheme.primary : colorScheme.caption,
             );
 
-        return SizedBox(
-          width: theme.size,
-          height: theme.size,
-          child: RioButton(
-            theme: buttonTheme,
-            onPressed: item.onPressed,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  item.icon,
-                  size: theme.itemIconSize,
+        return Builder(
+          builder: (context) {
+            return SizedBox(
+              width: theme.size,
+              height: theme.size,
+              child: RioButton(
+                theme: buttonTheme,
+                onPressed: () {
+                  item.onPressed?.call(context);
+                },
+                child: Builder(
+                  builder: (context) {
+                    final textStyle = DefaultTextStyle.of(context)
+                        .style
+                        .merge(theme.itemTextStyle);
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconTheme(
+                          data: IconThemeData(
+                            size: theme.itemIconSize,
+                            color: textStyle.color,
+                          ),
+                          child: item.icon,
+                        ),
+                        SizedBox(height: theme.gap),
+                        DefaultTextStyle(
+                          style: textStyle,
+                          softWrap: false,
+                          overflow: TextOverflow.ellipsis,
+                          child: item.label,
+                        ),
+                      ],
+                    );
+                  },
                 ),
-                SizedBox(height: theme.gap),
-                Text(
-                  item.label,
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.itemTextStyle,
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       case RioNavigationBarItemSpacer():
         return Spacer(flex: item.flex);

@@ -169,49 +169,53 @@ class RioNavigationBar extends StatelessWidget {
             RioButtonTheme(
               gap: 2,
               padding: const EdgeInsets.all(8),
-              margin: gap,
               variant:
                   selected ? RioButtonVariant.soft : RioButtonVariant.plain,
               color: selected ? colorScheme.primary : colorScheme.caption,
             );
 
-        buttonTheme = buttonTheme.copyWith(margin: buttonTheme.margin ?? gap);
+        buttonTheme = buttonTheme.copyWith(
+          margin: EdgeInsets.zero,
+        );
 
         return Builder(
           builder: (context) {
-            return SizedBox(
-              width: theme.size,
-              height: theme.size,
-              child: RioButton(
-                theme: buttonTheme,
-                onPressed: () {
-                  item.onPressed?.call(context);
-                },
-                child: Builder(
-                  builder: (context) {
-                    final textStyle = DefaultTextStyle.of(context)
-                        .style
-                        .merge(theme.itemTextStyle);
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconTheme(
-                          data: IconThemeData(
-                            size: theme.itemIconSize,
-                            color: textStyle.color,
-                          ),
-                          child: item.icon,
-                        ),
-                        SizedBox(height: theme.gap),
-                        DefaultTextStyle(
-                          style: textStyle,
-                          softWrap: false,
-                          overflow: TextOverflow.ellipsis,
-                          child: item.label,
-                        ),
-                      ],
-                    );
+            return Container(
+              margin: item.theme?.margin ?? gap,
+              child: SizedBox(
+                width: theme.size,
+                height: theme.size,
+                child: RioButton(
+                  theme: buttonTheme,
+                  onPressed: () {
+                    item.onPressed?.call(context);
                   },
+                  child: Builder(
+                    builder: (context) {
+                      final textStyle = DefaultTextStyle.of(context)
+                          .style
+                          .merge(theme.itemTextStyle);
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconTheme(
+                            data: IconThemeData(
+                              size: theme.itemIconSize,
+                              color: textStyle.color,
+                            ),
+                            child: item.icon,
+                          ),
+                          SizedBox(height: theme.gap),
+                          DefaultTextStyle(
+                            style: textStyle,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                            child: item.label,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
             );

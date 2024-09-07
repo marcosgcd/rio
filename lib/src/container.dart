@@ -99,24 +99,28 @@ class RioContainer extends StatelessWidget {
             ),
             foregroundDecoration: BoxDecoration(
               borderRadius: borderRadius,
-              border: GradientBoxBorder(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  stops: const [0.1, 1.0],
-                  colors: [
-                    getSolidColorFromTransparent(
-                      RioTheme.of(context).colorScheme.primary.withOpacity(0.4),
-                      RioTheme.of(context).colorScheme.background,
+              border: theme.border ??
+                  GradientBoxBorder(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      stops: const [0.1, 1.0],
+                      colors: [
+                        getSolidColorFromTransparent(
+                          RioTheme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.4),
+                          RioTheme.of(context).colorScheme.background,
+                        ),
+                        getSolidColorFromTransparent(
+                          borderColor.withOpacity(0.2),
+                          RioTheme.of(context).colorScheme.background,
+                        ),
+                      ],
                     ),
-                    getSolidColorFromTransparent(
-                      borderColor.withOpacity(0.2),
-                      RioTheme.of(context).colorScheme.background,
-                    ),
-                  ],
-                ),
-                width: 2,
-              ),
+                    width: 2,
+                  ),
             ),
             child: child,
           ),

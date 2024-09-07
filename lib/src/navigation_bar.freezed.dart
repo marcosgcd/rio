@@ -18,13 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$RioNavigationBarItem {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)
+    required TResult Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)
         item,
     required TResult Function(int flex) spacer,
     required TResult Function(EdgeInsetsGeometry paddingVertical,
@@ -35,13 +30,8 @@ mixin _$RioNavigationBarItem {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)?
+    TResult? Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)?
         item,
     TResult? Function(int flex)? spacer,
     TResult? Function(EdgeInsetsGeometry paddingVertical,
@@ -52,13 +42,8 @@ mixin _$RioNavigationBarItem {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)?
+    TResult Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)?
         item,
     TResult Function(int flex)? spacer,
     TResult Function(EdgeInsetsGeometry paddingVertical,
@@ -125,7 +110,6 @@ abstract class _$$RioNavigationBarItemItemImplCopyWith<$Res> {
       {Text label,
       Widget icon,
       RioButtonTheme? theme,
-      String? tooltip,
       bool selected,
       void Function(BuildContext)? onPressed});
 }
@@ -146,7 +130,6 @@ class __$$RioNavigationBarItemItemImplCopyWithImpl<$Res>
     Object? label = null,
     Object? icon = null,
     Object? theme = freezed,
-    Object? tooltip = freezed,
     Object? selected = null,
     Object? onPressed = freezed,
   }) {
@@ -163,10 +146,6 @@ class __$$RioNavigationBarItemItemImplCopyWithImpl<$Res>
           ? _value.theme
           : theme // ignore: cast_nullable_to_non_nullable
               as RioButtonTheme?,
-      tooltip: freezed == tooltip
-          ? _value.tooltip
-          : tooltip // ignore: cast_nullable_to_non_nullable
-              as String?,
       selected: null == selected
           ? _value.selected
           : selected // ignore: cast_nullable_to_non_nullable
@@ -188,7 +167,6 @@ class _$RioNavigationBarItemItemImpl
       {required this.label,
       required this.icon,
       this.theme,
-      this.tooltip,
       this.selected = false,
       this.onPressed});
 
@@ -199,8 +177,6 @@ class _$RioNavigationBarItemItemImpl
   @override
   final RioButtonTheme? theme;
   @override
-  final String? tooltip;
-  @override
   @JsonKey()
   final bool selected;
   @override
@@ -208,7 +184,7 @@ class _$RioNavigationBarItemItemImpl
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RioNavigationBarItem.item(label: $label, icon: $icon, theme: $theme, tooltip: $tooltip, selected: $selected, onPressed: $onPressed)';
+    return 'RioNavigationBarItem.item(label: $label, icon: $icon, theme: $theme, selected: $selected, onPressed: $onPressed)';
   }
 
   @override
@@ -219,7 +195,6 @@ class _$RioNavigationBarItemItemImpl
       ..add(DiagnosticsProperty('label', label))
       ..add(DiagnosticsProperty('icon', icon))
       ..add(DiagnosticsProperty('theme', theme))
-      ..add(DiagnosticsProperty('tooltip', tooltip))
       ..add(DiagnosticsProperty('selected', selected))
       ..add(DiagnosticsProperty('onPressed', onPressed));
   }
@@ -232,7 +207,6 @@ class _$RioNavigationBarItemItemImpl
             (identical(other.label, label) || other.label == label) &&
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.theme, theme) || other.theme == theme) &&
-            (identical(other.tooltip, tooltip) || other.tooltip == tooltip) &&
             (identical(other.selected, selected) ||
                 other.selected == selected) &&
             (identical(other.onPressed, onPressed) ||
@@ -240,8 +214,8 @@ class _$RioNavigationBarItemItemImpl
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, label, icon, theme, tooltip, selected, onPressed);
+  int get hashCode =>
+      Object.hash(runtimeType, label, icon, theme, selected, onPressed);
 
   @JsonKey(ignore: true)
   @override
@@ -253,13 +227,8 @@ class _$RioNavigationBarItemItemImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)
+    required TResult Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)
         item,
     required TResult Function(int flex) spacer,
     required TResult Function(EdgeInsetsGeometry paddingVertical,
@@ -267,19 +236,14 @@ class _$RioNavigationBarItemItemImpl
         divider,
     required TResult Function(Widget child) custom,
   }) {
-    return item(label, icon, theme, tooltip, selected, onPressed);
+    return item(label, icon, theme, selected, onPressed);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)?
+    TResult? Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)?
         item,
     TResult? Function(int flex)? spacer,
     TResult? Function(EdgeInsetsGeometry paddingVertical,
@@ -287,19 +251,14 @@ class _$RioNavigationBarItemItemImpl
         divider,
     TResult? Function(Widget child)? custom,
   }) {
-    return item?.call(label, icon, theme, tooltip, selected, onPressed);
+    return item?.call(label, icon, theme, selected, onPressed);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)?
+    TResult Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)?
         item,
     TResult Function(int flex)? spacer,
     TResult Function(EdgeInsetsGeometry paddingVertical,
@@ -309,7 +268,7 @@ class _$RioNavigationBarItemItemImpl
     required TResult orElse(),
   }) {
     if (item != null) {
-      return item(label, icon, theme, tooltip, selected, onPressed);
+      return item(label, icon, theme, selected, onPressed);
     }
     return orElse();
   }
@@ -357,7 +316,6 @@ abstract class RioNavigationBarItemItem implements RioNavigationBarItem {
           {required final Text label,
           required final Widget icon,
           final RioButtonTheme? theme,
-          final String? tooltip,
           final bool selected,
           final void Function(BuildContext)? onPressed}) =
       _$RioNavigationBarItemItemImpl;
@@ -365,7 +323,6 @@ abstract class RioNavigationBarItemItem implements RioNavigationBarItem {
   Text get label;
   Widget get icon;
   RioButtonTheme? get theme;
-  String? get tooltip;
   bool get selected;
   void Function(BuildContext)? get onPressed;
   @JsonKey(ignore: true)
@@ -452,13 +409,8 @@ class _$RioNavigationBarItemSpacerImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)
+    required TResult Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)
         item,
     required TResult Function(int flex) spacer,
     required TResult Function(EdgeInsetsGeometry paddingVertical,
@@ -472,13 +424,8 @@ class _$RioNavigationBarItemSpacerImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)?
+    TResult? Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)?
         item,
     TResult? Function(int flex)? spacer,
     TResult? Function(EdgeInsetsGeometry paddingVertical,
@@ -492,13 +439,8 @@ class _$RioNavigationBarItemSpacerImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)?
+    TResult Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)?
         item,
     TResult Function(int flex)? spacer,
     TResult Function(EdgeInsetsGeometry paddingVertical,
@@ -657,13 +599,8 @@ class _$RioNavigationBarItemDividerImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)
+    required TResult Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)
         item,
     required TResult Function(int flex) spacer,
     required TResult Function(EdgeInsetsGeometry paddingVertical,
@@ -677,13 +614,8 @@ class _$RioNavigationBarItemDividerImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)?
+    TResult? Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)?
         item,
     TResult? Function(int flex)? spacer,
     TResult? Function(EdgeInsetsGeometry paddingVertical,
@@ -697,13 +629,8 @@ class _$RioNavigationBarItemDividerImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)?
+    TResult Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)?
         item,
     TResult Function(int flex)? spacer,
     TResult Function(EdgeInsetsGeometry paddingVertical,
@@ -847,13 +774,8 @@ class _$RioNavigationBarItemCustomImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)
+    required TResult Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)
         item,
     required TResult Function(int flex) spacer,
     required TResult Function(EdgeInsetsGeometry paddingVertical,
@@ -867,13 +789,8 @@ class _$RioNavigationBarItemCustomImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)?
+    TResult? Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)?
         item,
     TResult? Function(int flex)? spacer,
     TResult? Function(EdgeInsetsGeometry paddingVertical,
@@ -887,13 +804,8 @@ class _$RioNavigationBarItemCustomImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            Text label,
-            Widget icon,
-            RioButtonTheme? theme,
-            String? tooltip,
-            bool selected,
-            void Function(BuildContext)? onPressed)?
+    TResult Function(Text label, Widget icon, RioButtonTheme? theme,
+            bool selected, void Function(BuildContext)? onPressed)?
         item,
     TResult Function(int flex)? spacer,
     TResult Function(EdgeInsetsGeometry paddingVertical,

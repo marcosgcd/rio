@@ -14,7 +14,6 @@ sealed class RioNavigationBarItem with _$RioNavigationBarItem {
     required Text label,
     required Widget icon,
     RioButtonTheme? theme,
-    String? tooltip,
     @Default(false) bool selected,
     void Function(BuildContext context)? onPressed,
   }) = RioNavigationBarItemItem;
@@ -157,7 +156,7 @@ class RioNavigationBar extends StatelessWidget {
     RioNavigationBarTheme theme,
   ) {
     final isFirst = item == items.first;
-    final margin = switch (direction) {
+    final gap = switch (direction) {
       Axis.horizontal => EdgeInsets.only(left: isFirst ? 0 : theme.gap!),
       Axis.vertical => EdgeInsets.only(top: isFirst ? 0 : theme.gap!)
     };
@@ -166,15 +165,17 @@ class RioNavigationBar extends StatelessWidget {
         final colorScheme = RioTheme.of(context).colorScheme;
         final selected = item.selected;
 
-        final buttonTheme = item.theme ??
+        var buttonTheme = item.theme ??
             RioButtonTheme(
               gap: 2,
               padding: const EdgeInsets.all(8),
-              margin: margin,
+              margin: gap,
               variant:
                   selected ? RioButtonVariant.soft : RioButtonVariant.plain,
               color: selected ? colorScheme.primary : colorScheme.caption,
             );
+
+        buttonTheme = buttonTheme.copyWith(margin: buttonTheme.margin ?? gap);
 
         return Builder(
           builder: (context) {
@@ -229,7 +230,7 @@ class RioNavigationBar extends StatelessWidget {
         };
 
         return Container(
-          margin: margin,
+          margin: gap,
           padding: padding,
           child: divider,
         );

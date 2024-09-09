@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rio/rio.dart';
-import 'package:rio/src/utils.dart';
 import 'package:theme_tailor_annotation/theme_tailor_annotation.dart';
 
 part 'toolbar.tailor.dart';

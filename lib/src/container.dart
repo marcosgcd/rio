@@ -106,14 +106,14 @@ class RioContainer extends StatelessWidget {
                       end: Alignment.bottomRight,
                       stops: const [0.1, 1.0],
                       colors: [
-                        getSolidColorFromTransparent(
+                        RioColorUtils.getSolidColorFromTransparent(
                           RioTheme.of(context)
                               .colorScheme
                               .primary
                               .withOpacity(0.4),
                           RioTheme.of(context).colorScheme.background,
                         ),
-                        getSolidColorFromTransparent(
+                        RioColorUtils.getSolidColorFromTransparent(
                           borderColor.withOpacity(0.2),
                           RioTheme.of(context).colorScheme.background,
                         ),
@@ -128,21 +128,4 @@ class RioContainer extends StatelessWidget {
       ),
     );
   }
-}
-
-// TODO: move to separate Package
-Color getSolidColorFromTransparent(Color foreground, Color background) {
-  // Calculate the effective color without opacity
-  final alpha = foreground.opacity; // Foreground opacity
-  final inverseAlpha = 1.0 - alpha;
-
-  // Extract the blended color components
-  final red = (foreground.red * alpha + background.red * inverseAlpha).round();
-  final green =
-      (foreground.green * alpha + background.green * inverseAlpha).round();
-  final blue =
-      (foreground.blue * alpha + background.blue * inverseAlpha).round();
-
-  // Return the resulting color with full opacity
-  return Color.fromARGB(255, red, green, blue);
 }

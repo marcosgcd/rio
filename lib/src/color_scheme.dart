@@ -34,13 +34,13 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
     Color surface;
     Color popover;
     if (brightness == Brightness.light) {
-      background = lighten(colorScheme.primary, 0.9);
-      surface = lighten(colorScheme.primary, 0.95);
-      popover = lighten(colorScheme.primary, 0.80);
+      background = RioColorUtils.lighten(colorScheme.primary, 0.9);
+      surface = RioColorUtils.lighten(colorScheme.primary, 0.95);
+      popover = RioColorUtils.lighten(colorScheme.primary, 0.80);
     } else {
-      background = darken(colorScheme.primary, 0.9);
-      surface = darken(colorScheme.primary, 0.82);
-      popover = darken(colorScheme.primary, 0.70);
+      background = RioColorUtils.darken(colorScheme.primary, 0.9);
+      surface = RioColorUtils.darken(colorScheme.primary, 0.82);
+      popover = RioColorUtils.darken(colorScheme.primary, 0.70);
     }
 
     return RioColorScheme(
@@ -52,7 +52,7 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
       surface: surface,
       onSurface: colorScheme.onSurface,
       popover: popover,
-      onPopover: computeTextColorForBackground(popover),
+      onPopover: RioColorUtils.computeTextColorForBackground(popover),
       caption: colorScheme.onSurface.withOpacity(0.5),
     );
   }

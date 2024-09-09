@@ -370,7 +370,7 @@ class _RioButtonState extends State<RioButton> {
       case RioButtonVariant.solid:
         if (_disabled) return Colors.grey;
 
-        return computeTextColorForPrimary(
+        return RioColorUtils.computeTextColorForPrimary(
           color,
           brightness: Theme.of(context).brightness,
         );

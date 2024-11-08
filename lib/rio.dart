@@ -15,6 +15,7 @@ export 'src/text_field.dart';
 export 'src/theme.dart';
 export 'src/toggle_buttons.dart';
 export 'src/toolbar.dart';
+export 'src/tooltip.dart';
 export 'src/list_view.dart';
 export 'src/navigation_bar.dart';
 export 'src/utils.dart';

@@ -64,9 +64,11 @@ abstract class RioToggleButtonsItem<T> {
   const RioToggleButtonsItem({
     required this.value,
     this.disabled = false,
+    this.tooltip,
   });
   final T value;
   final bool disabled;
+  final String? tooltip;
 
   Widget build(
     BuildContext context, {
@@ -83,6 +85,7 @@ class RioToggleButtonsButton<T> extends RioToggleButtonsItem<T> {
     required this.label,
     required super.value,
     super.disabled,
+    super.tooltip,
     this.leading,
     this.trailing,
     this.buttonTheme,
@@ -113,6 +116,7 @@ class RioToggleButtonsButton<T> extends RioToggleButtonsItem<T> {
       disabled: disabled,
       leading: leading,
       trailing: trailing,
+      tooltip: tooltip,
       theme: buttonTheme.copyWith(
         variant: isSelected ? selectedVariant : RioButtonVariant.plain,
         borderRadius: borderRadius,

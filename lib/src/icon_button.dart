@@ -96,12 +96,14 @@ class RioIconButton extends StatelessWidget {
     this.onPressedAwaitMode = RioButtonOnPressedAwaitMode.none,
     this.onPressed,
     this.theme,
+    this.tooltip,
   });
   final Widget icon;
   final bool disabled;
   final bool loading;
   final RioButtonOnPressedAwaitMode onPressedAwaitMode;
   final FutureOr<void> Function()? onPressed;
+  final String? tooltip;
 
   final RioIconButtonTheme? theme;
 
@@ -123,6 +125,7 @@ class RioIconButton extends StatelessWidget {
       onPressedAwaitMode: onPressedAwaitMode,
       onPressed: onPressed,
       theme: theme,
+      tooltip: tooltip,
       child: icon,
     );
   }

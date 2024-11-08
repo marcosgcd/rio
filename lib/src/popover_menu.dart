@@ -9,6 +9,7 @@ class RioMenuItem<T> with _$RioMenuItem {
   factory RioMenuItem({
     required T value,
     required Widget title,
+    String? tooltip,
     Widget? icon,
     Color? color,
   }) = _RioMenuItem;
@@ -43,6 +44,7 @@ Future<T?> showRioMenu<T>(
         return ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 42),
           child: RioButton(
+            tooltip: item.tooltip,
             theme: RioButtonTheme(
               variant: RioButtonVariant.plain,
               iconPosition: RioButtonIconPosition.edge,

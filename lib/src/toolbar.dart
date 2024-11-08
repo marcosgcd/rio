@@ -24,11 +24,13 @@ abstract class RioToolbarItem {
     required this.label,
     this.disabled = false,
     this.icon,
+    this.tooltip,
   });
 
   final FutureOr<void> Function() action;
   final bool disabled;
   final Widget label;
+  final String? tooltip;
   final Widget? icon;
 
   Widget build(BuildContext context);
@@ -40,6 +42,7 @@ class RioToolbarItemButton extends RioToolbarItem {
     required super.label,
     super.disabled,
     super.icon,
+    super.tooltip,
     this.buttonTheme,
   });
 
@@ -57,6 +60,7 @@ class RioToolbarItemButton extends RioToolbarItem {
       theme: theme,
       leading: icon,
       onPressed: action,
+      tooltip: tooltip,
       child: label,
     );
   }
@@ -81,9 +85,17 @@ class RioToolbarItemIconButton extends RioToolbarItem {
           iconButtonTheme?.color ?? RioTheme.of(context).colorScheme.onSurface,
       variant: iconButtonTheme?.variant ?? RioButtonVariant.plain,
     );
+
+    var tooltip = this.tooltip;
+
+    if (tooltip == null && label is Text) {
+      tooltip = (label as Text).data;
+    }
+
     return RioIconButton(
       disabled: disabled,
       theme: theme,
+      tooltip: tooltip,
       onPressed: action,
       icon: icon!,
     );

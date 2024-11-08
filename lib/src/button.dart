@@ -120,12 +120,14 @@ class RioButton extends StatefulWidget {
     this.theme,
     this.leading,
     this.trailing,
+    this.tooltip,
     this.clipBehavior = Clip.none,
   });
 
   final Widget child;
   final Widget? leading;
   final Widget? trailing;
+  final String? tooltip;
   final bool disabled;
   final bool loading;
   final RioButtonOnPressedAwaitMode onPressedAwaitMode;
@@ -234,87 +236,90 @@ class _RioButtonState extends State<RioButton> {
         child: AnimatedPadding(
           duration: _duration,
           padding: _theme.margin!,
-          child: GestureDetector(
-            onTap: () async {
-              _handleTab(true);
-              await callBack?.call();
-              await Future.delayed(const Duration(milliseconds: 300));
-              _handleTab(false);
-            },
-            onTapDown: (_) => _handleTab(true),
-            onTapCancel: () => _handleTab(false),
-            child: FocusableActionDetector(
-              mouseCursor: _cursor,
-              onShowFocusHighlight: _handleFocusHighlight,
-              onShowHoverHighlight: _handleHoverHighlight,
-              enabled: !_disabled,
-              shortcuts: {
-                LogicalKeySet(
-                  LogicalKeyboardKey.enter,
-                  LogicalKeyboardKey.space,
-                ): const ActivateIntent(),
+          child: RioTooltip(
+            message: widget.tooltip,
+            child: GestureDetector(
+              onTap: () async {
+                _handleTab(true);
+                await callBack?.call();
+                await Future.delayed(const Duration(milliseconds: 300));
+                _handleTab(false);
               },
-              actions: {
-                ActivateIntent: CallbackAction<ActivateIntent>(
-                  onInvoke: (intent) async {
-                    _handleTab(true);
-                    await callBack?.call();
-                    await Future.delayed(const Duration(milliseconds: 300));
-                    _handleTab(false);
-                    return;
-                  },
-                ),
-              },
-              child: AnimatedContainer(
-                duration: _duration,
-                clipBehavior: widget.clipBehavior,
-                padding: EdgeInsets.only(
-                  left: _theme.padding!.left,
-                  right: _theme.padding!.right,
-                ),
-                decoration: decoration,
-                foregroundDecoration: foregroundDecoration,
-                child: AnimatedScale(
+              onTapDown: (_) => _handleTab(true),
+              onTapCancel: () => _handleTab(false),
+              child: FocusableActionDetector(
+                mouseCursor: _cursor,
+                onShowFocusHighlight: _handleFocusHighlight,
+                onShowHoverHighlight: _handleHoverHighlight,
+                enabled: !_disabled,
+                shortcuts: {
+                  LogicalKeySet(
+                    LogicalKeyboardKey.enter,
+                    LogicalKeyboardKey.space,
+                  ): const ActivateIntent(),
+                },
+                actions: {
+                  ActivateIntent: CallbackAction<ActivateIntent>(
+                    onInvoke: (intent) async {
+                      _handleTab(true);
+                      await callBack?.call();
+                      await Future.delayed(const Duration(milliseconds: 300));
+                      _handleTab(false);
+                      return;
+                    },
+                  ),
+                },
+                child: AnimatedContainer(
                   duration: _duration,
-                  scale: _scale,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Visibility.maintain(
-                        key: _contentKey,
-                        visible: !_loading,
-                        child: Row(
-                          mainAxisAlignment:
-                              _iconPositionMap[_theme.iconPosition]!,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize:
-                              _iconPositionRowSizedMap[_theme.iconPosition]!,
-                          children: [
-                            if (widget.leading != null)
-                              Padding(
-                                padding: EdgeInsets.only(right: _theme.gap!),
-                                child: widget.leading!,
-                              ),
-                            Flexible(
-                              child: AnimatedPadding(
-                                duration: _duration,
-                                padding: EdgeInsets.only(
-                                  top: _theme.padding!.top,
-                                  bottom: _theme.padding!.bottom,
+                  clipBehavior: widget.clipBehavior,
+                  padding: EdgeInsets.only(
+                    left: _theme.padding!.left,
+                    right: _theme.padding!.right,
+                  ),
+                  decoration: decoration,
+                  foregroundDecoration: foregroundDecoration,
+                  child: AnimatedScale(
+                    duration: _duration,
+                    scale: _scale,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Visibility.maintain(
+                          key: _contentKey,
+                          visible: !_loading,
+                          child: Row(
+                            mainAxisAlignment:
+                                _iconPositionMap[_theme.iconPosition]!,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize:
+                                _iconPositionRowSizedMap[_theme.iconPosition]!,
+                            children: [
+                              if (widget.leading != null)
+                                Padding(
+                                  padding: EdgeInsets.only(right: _theme.gap!),
+                                  child: widget.leading!,
                                 ),
-                                child: widget.child,
+                              Flexible(
+                                child: AnimatedPadding(
+                                  duration: _duration,
+                                  padding: EdgeInsets.only(
+                                    top: _theme.padding!.top,
+                                    bottom: _theme.padding!.bottom,
+                                  ),
+                                  child: widget.child,
+                                ),
                               ),
-                            ),
-                            if (widget.trailing != null)
-                              Padding(
-                                padding: EdgeInsets.only(left: _theme.gap!),
-                                child: widget.trailing!,
-                              ),
-                          ],
+                              if (widget.trailing != null)
+                                Padding(
+                                  padding: EdgeInsets.only(left: _theme.gap!),
+                                  child: widget.trailing!,
+                                ),
+                            ],
+                          ),
                         ),
-                      ),
-                      if (_loading) _Loading(size: textStyle.fontSize! * 1.5),
-                    ],
+                        if (_loading) _Loading(size: textStyle.fontSize! * 1.5),
+                      ],
+                    ),
                   ),
                 ),
               ),

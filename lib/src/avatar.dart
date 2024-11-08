@@ -84,6 +84,7 @@ class RioAvatar extends StatelessWidget {
     this.maxInitials = 2,
     this.onPressedMode = RioButtonOnPressedAwaitMode.none,
     this.theme,
+    this.tooltip,
   }) : assert(image != null || onImageError == null);
 
   final RioAvatarTheme? theme;
@@ -96,6 +97,7 @@ class RioAvatar extends StatelessWidget {
   final bool showInitials;
   final int maxInitials;
   final RioButtonOnPressedAwaitMode onPressedMode;
+  final String? tooltip;
   final Widget? child;
 
   @override
@@ -126,7 +128,8 @@ class RioAvatar extends StatelessWidget {
       child: IconTheme.merge(
         data: IconThemeData(size: radius),
         child: MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
+          data: MediaQuery.of(context)
+              .copyWith(textScaler: const TextScaler.linear(1.0)),
           child: initials == null || !showInitials
               ? const Icon(Icons.person)
               : FittedBox(
@@ -150,6 +153,7 @@ class RioAvatar extends StatelessWidget {
       child: RioButton(
         onPressedAwaitMode: onPressedMode,
         onPressed: onPressed,
+        tooltip: tooltip,
         clipBehavior: Clip.antiAlias,
         theme: theme.copyWith(
           color: color,

@@ -205,7 +205,7 @@ class RioNavigationBar extends StatelessWidget {
                             ),
                             child: item.icon,
                           ),
-                          SizedBox(height: theme.gap),
+                          SizedBox(height: buttonTheme.gap ?? theme.gap),
                           DefaultTextStyle(
                             style: textStyle,
                             softWrap: false,

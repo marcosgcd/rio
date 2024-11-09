@@ -15,7 +15,7 @@ class RioIconMerger extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Define the size of the main icon
-    final double iconSize = size ?? 24.0;
+    final double iconSize = size ?? IconTheme.of(context).size ?? 24.0;
 
     // Calculate the radius of the hole (20% of the icon size)
     final double holeRadius = iconSize * 0.25;

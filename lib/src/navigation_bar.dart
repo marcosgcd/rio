@@ -168,7 +168,10 @@ class RioNavigationBar extends StatelessWidget {
         var buttonTheme = item.theme ??
             RioButtonTheme(
               gap: 2,
-              padding: EdgeInsets.zero,
+              padding: EdgeInsets.symmetric(
+                horizontal: 0,
+                vertical: direction == Axis.vertical ? 8 : 0,
+              ),
               variant:
                   selected ? RioButtonVariant.soft : RioButtonVariant.plain,
               color: selected ? colorScheme.primary : colorScheme.caption,
@@ -184,7 +187,6 @@ class RioNavigationBar extends StatelessWidget {
               margin: item.theme?.margin ?? gap,
               child: SizedBox(
                 width: theme.size,
-                height: theme.size,
                 child: RioButton(
                   theme: buttonTheme,
                   onPressed: () {

@@ -22,7 +22,9 @@ Widget useCaseVertical(BuildContext context) {
 }
 
 Widget _useCase(BuildContext context, Axis direction) {
-  var theme = const RioNavigationBarTheme.defaultVerticalTheme();
+  var theme = direction == Axis.vertical
+      ? const RioNavigationBarTheme.defaultVerticalTheme()
+      : const RioNavigationBarTheme.defaultHorizontalTheme();
 
   theme = theme.copyWith(
     padding: EdgeInsets.all(

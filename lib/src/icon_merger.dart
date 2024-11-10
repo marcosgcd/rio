@@ -6,11 +6,19 @@ class RioIconMerger extends StatelessWidget {
     required this.icon,
     required this.subIcon,
     this.size,
+    this.holeRadiusMultiplier = 0.25,
+    this.subIconSizeMultiplier = 1.6,
+    this.holeCenterXMultiplier = 1.0,
+    this.holeCenterYMultiplier = 1.2,
   });
 
   final double? size;
   final IconData icon;
   final IconData subIcon;
+  final double holeRadiusMultiplier;
+  final double subIconSizeMultiplier;
+  final double holeCenterXMultiplier;
+  final double holeCenterYMultiplier;
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +26,14 @@ class RioIconMerger extends StatelessWidget {
     final double iconSize = size ?? IconTheme.of(context).size ?? 24.0;
 
     // Calculate the radius of the hole (20% of the icon size)
-    final double holeRadius = iconSize * 0.25;
+    final double holeRadius = iconSize * holeRadiusMultiplier;
 
     // Increase the size of the subIcon (120% of the hole radius)
-    final double subIconSize = holeRadius * 1.6;
+    final double subIconSize = holeRadius * subIconSizeMultiplier;
 
     // Adjust the hole center position to move it more towards the center
-    final double holeCenterX = iconSize - holeRadius * 1;
-    final double holeCenterY = iconSize - holeRadius * 1.2;
+    final double holeCenterX = iconSize - holeRadius * holeCenterXMultiplier;
+    final double holeCenterY = iconSize - holeRadius * holeCenterYMultiplier;
 
     return SizedBox(
       width: iconSize,

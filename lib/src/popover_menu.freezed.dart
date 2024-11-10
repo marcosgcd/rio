@@ -22,7 +22,9 @@ mixin _$RioMenuItem<T> {
   Widget? get icon => throw _privateConstructorUsedError;
   Color? get color => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RioMenuItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RioMenuItemCopyWith<T, RioMenuItem<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,6 +49,8 @@ class _$RioMenuItemCopyWithImpl<T, $Res, $Val extends RioMenuItem<T>>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RioMenuItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -101,6 +105,8 @@ class __$$RioMenuItemImplCopyWithImpl<T, $Res>
       _$RioMenuItemImpl<T> _value, $Res Function(_$RioMenuItemImpl<T>) _then)
       : super(_value, _then);
 
+  /// Create a copy of RioMenuItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -177,7 +183,9 @@ class _$RioMenuItemImpl<T> implements _RioMenuItem<T> {
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(value), title, tooltip, icon, color);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RioMenuItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RioMenuItemImplCopyWith<T, _$RioMenuItemImpl<T>> get copyWith =>
@@ -203,8 +211,11 @@ abstract class _RioMenuItem<T> implements RioMenuItem<T> {
   Widget? get icon;
   @override
   Color? get color;
+
+  /// Create a copy of RioMenuItem
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RioMenuItemImplCopyWith<T, _$RioMenuItemImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

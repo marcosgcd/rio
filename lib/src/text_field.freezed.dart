@@ -21,7 +21,9 @@ mixin _$RioTextFieldDecoration {
   String? get helperText => throw _privateConstructorUsedError;
   String? get errorText => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RioTextFieldDecoration
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RioTextFieldDecorationCopyWith<RioTextFieldDecoration> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,6 +49,8 @@ class _$RioTextFieldDecorationCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RioTextFieldDecoration
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -99,6 +103,8 @@ class __$$RioTextFieldDecorationImplCopyWithImpl<$Res>
       $Res Function(_$RioTextFieldDecorationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RioTextFieldDecoration
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -179,7 +185,9 @@ class _$RioTextFieldDecorationImpl
   int get hashCode =>
       Object.hash(runtimeType, label, hintText, helperText, errorText);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RioTextFieldDecoration
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RioTextFieldDecorationImplCopyWith<_$RioTextFieldDecorationImpl>
@@ -202,8 +210,11 @@ abstract class _RioTextFieldDecoration implements RioTextFieldDecoration {
   String? get helperText;
   @override
   String? get errorText;
+
+  /// Create a copy of RioTextFieldDecoration
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RioTextFieldDecorationImplCopyWith<_$RioTextFieldDecorationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

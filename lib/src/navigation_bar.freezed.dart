@@ -97,6 +97,9 @@ class _$RioNavigationBarItemCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of RioNavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -124,6 +127,8 @@ class __$$RioNavigationBarItemItemImplCopyWithImpl<$Res>
       $Res Function(_$RioNavigationBarItemItemImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RioNavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -217,7 +222,9 @@ class _$RioNavigationBarItemItemImpl
   int get hashCode =>
       Object.hash(runtimeType, label, icon, theme, selected, onPressed);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RioNavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RioNavigationBarItemItemImplCopyWith<_$RioNavigationBarItemItemImpl>
@@ -325,7 +332,10 @@ abstract class RioNavigationBarItemItem implements RioNavigationBarItem {
   RioButtonTheme? get theme;
   bool get selected;
   void Function(BuildContext)? get onPressed;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RioNavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RioNavigationBarItemItemImplCopyWith<_$RioNavigationBarItemItemImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -350,6 +360,8 @@ class __$$RioNavigationBarItemSpacerImplCopyWithImpl<$Res>
       $Res Function(_$RioNavigationBarItemSpacerImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RioNavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -399,7 +411,9 @@ class _$RioNavigationBarItemSpacerImpl
   @override
   int get hashCode => Object.hash(runtimeType, flex);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RioNavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RioNavigationBarItemSpacerImplCopyWith<_$RioNavigationBarItemSpacerImpl>
@@ -498,7 +512,10 @@ abstract class RioNavigationBarItemSpacer implements RioNavigationBarItem {
       _$RioNavigationBarItemSpacerImpl;
 
   int get flex;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RioNavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RioNavigationBarItemSpacerImplCopyWith<_$RioNavigationBarItemSpacerImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -525,6 +542,8 @@ class __$$RioNavigationBarItemDividerImplCopyWithImpl<$Res>
       $Res Function(_$RioNavigationBarItemDividerImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RioNavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -589,7 +608,9 @@ class _$RioNavigationBarItemDividerImpl
   int get hashCode =>
       Object.hash(runtimeType, paddingVertical, paddingHorizontal);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RioNavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RioNavigationBarItemDividerImplCopyWith<_$RioNavigationBarItemDividerImpl>
@@ -691,7 +712,10 @@ abstract class RioNavigationBarItemDivider implements RioNavigationBarItem {
 
   EdgeInsetsGeometry get paddingVertical;
   EdgeInsetsGeometry get paddingHorizontal;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RioNavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RioNavigationBarItemDividerImplCopyWith<_$RioNavigationBarItemDividerImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -716,6 +740,8 @@ class __$$RioNavigationBarItemCustomImplCopyWithImpl<$Res>
       $Res Function(_$RioNavigationBarItemCustomImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RioNavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -764,7 +790,9 @@ class _$RioNavigationBarItemCustomImpl
   @override
   int get hashCode => Object.hash(runtimeType, child);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RioNavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RioNavigationBarItemCustomImplCopyWith<_$RioNavigationBarItemCustomImpl>
@@ -863,7 +891,10 @@ abstract class RioNavigationBarItemCustom implements RioNavigationBarItem {
       _$RioNavigationBarItemCustomImpl;
 
   Widget get child;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RioNavigationBarItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RioNavigationBarItemCustomImplCopyWith<_$RioNavigationBarItemCustomImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

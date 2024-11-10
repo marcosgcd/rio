@@ -7,8 +7,6 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:rio/rio.dart';
 import 'package:theme_tailor_annotation/theme_tailor_annotation.dart';
 
-import 'utils.dart';
-
 part 'button.tailor.dart';
 
 @TailorMixinComponent()

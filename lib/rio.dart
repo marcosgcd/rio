@@ -1,4 +1,4 @@
-library rio;
+library;
 
 export 'src/avatar.dart';
 export 'src/button.dart';

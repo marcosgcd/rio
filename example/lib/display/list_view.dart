@@ -86,14 +86,14 @@ class _ExampleState extends State<_Example> {
           backgroundColor: RioTheme.of(context).colorScheme.surface,
           foregroundColor: RioTheme.of(context).colorScheme.onSurface,
           label: "Edit",
-          onPressed: () => print("Edit $item"),
+          onPressed: () => debugPrint("Edit $item"),
         ),
         RioListSlidableAction(
           icon: Icons.delete,
           backgroundColor: Theme.of(context).colorScheme.errorContainer,
           foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
           label: "Delete",
-          onPressed: () => print("Delete $item"),
+          onPressed: () => debugPrint("Delete $item"),
         ),
       ],
     );

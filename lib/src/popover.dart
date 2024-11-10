@@ -69,6 +69,7 @@ Future<T?> showRioPopover<T>(
     barrierColor: popoverTheme.barrierColor!,
     arrowHeight: 0,
     arrowWidth: 0,
+    shadow: [],
     contentDxOffset: offset?.dx ?? 0,
     contentDyOffset: offset?.dy ?? 0,
     backgroundColor: Colors.transparent,

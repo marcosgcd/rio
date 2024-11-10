@@ -21,6 +21,7 @@ Future<T?> showRioMenu<T>(
   RioPopoverDirection direction = RioPopoverDirection.bottom,
   RioPopoverTheme? theme,
   double minWidth = 200,
+  Offset? offset,
 }) async {
   var popoverTheme = theme ?? RioTheme.of(context).popoverTheme;
   final borderRadius =
@@ -35,6 +36,7 @@ Future<T?> showRioMenu<T>(
   return showRioPopover(
     context,
     direction: direction,
+    offset: offset,
     theme: popoverTheme,
     bodyBuilder: (poContext) {
       final itemRadios = Radius.circular(borderRadius);

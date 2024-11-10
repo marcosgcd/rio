@@ -48,8 +48,10 @@ Future<T?> showRioPopover<T>(
   required Widget Function(BuildContext context) bodyBuilder,
   RioPopoverDirection direction = RioPopoverDirection.bottom,
   RioPopoverTheme? theme,
+  Offset? offset,
 }) async {
   var popoverTheme = RioTheme.of(context).popoverTheme.merge(theme);
+
   final containerTheme = popoverTheme.containerTheme ??
       RioTheme.of(context).containerTheme.copyWith(
             color: RioTheme.of(context).colorScheme.popover,
@@ -64,6 +66,13 @@ Future<T?> showRioPopover<T>(
   return popover.showPopover<T>(
     context: context,
     direction: direction,
+    barrierColor: popoverTheme.barrierColor!,
+    arrowHeight: 0,
+    arrowWidth: 0,
+    contentDxOffset: offset?.dx ?? 0,
+    contentDyOffset: offset?.dy ?? 0,
+    backgroundColor: Colors.transparent,
+    radius: popoverTheme.borderRadius!,
     bodyBuilder: (_) => Theme(
       data: Theme.of(context),
       child: Builder(
@@ -83,10 +92,5 @@ Future<T?> showRioPopover<T>(
         },
       ),
     ),
-    barrierColor: popoverTheme.barrierColor!,
-    arrowHeight: 0,
-    arrowWidth: 0,
-    backgroundColor: Colors.transparent,
-    radius: popoverTheme.borderRadius!,
   );
 }

@@ -181,7 +181,7 @@ class RioToggleButtons<T> extends StatelessWidget {
   });
   final RioToggleButtonsVariant variant;
   final RioToggleButtonsTheme? theme;
-  final List<RioToggleButtonsItem> items;
+  final List<RioToggleButtonsItem<T>> items;
   final List<T> selected;
   final Axis direction;
   final ValueChanged<List<T>> onChanged;

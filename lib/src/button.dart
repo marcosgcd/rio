@@ -187,7 +187,6 @@ class _RioButtonState extends State<RioButton> {
   }
 
   void _handleFocusHighlight(bool value) {
-    if (_disabled || !mounted || widget.onPressed == null) return;
     setState(() {
       _isFocused = value;
       _scale = _resolveScale();
@@ -195,7 +194,6 @@ class _RioButtonState extends State<RioButton> {
   }
 
   void _handleHoverHighlight(bool value) {
-    if (_disabled || !mounted || widget.onPressed == null) return;
     setState(() {
       _isHovered = value;
       _scale = _resolveScale();
@@ -251,7 +249,7 @@ class _RioButtonState extends State<RioButton> {
                 mouseCursor: _cursor,
                 onShowFocusHighlight: _handleFocusHighlight,
                 onShowHoverHighlight: _handleHoverHighlight,
-                enabled: !_disabled,
+                enabled: !_disabled && widget.onPressed != null,
                 shortcuts: {
                   LogicalKeySet(
                     LogicalKeyboardKey.enter,

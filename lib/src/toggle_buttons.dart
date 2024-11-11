@@ -178,12 +178,14 @@ class RioToggleButtons<T> extends StatelessWidget {
     this.variant = RioToggleButtonsVariant.solid,
     this.direction = Axis.horizontal,
     required this.selected,
+    this.expandItems = false,
   });
   final RioToggleButtonsVariant variant;
   final RioToggleButtonsTheme? theme;
   final List<RioToggleButtonsItem<T>> items;
   final List<T> selected;
   final Axis direction;
+  final bool expandItems;
   final ValueChanged<List<T>> onChanged;
 
   @override
@@ -251,7 +253,11 @@ class RioToggleButtons<T> extends StatelessWidget {
         },
       );
 
-      buttons.add(button);
+      if (expandItems) {
+        buttons.add(Expanded(child: button));
+      } else {
+        buttons.add(button);
+      }
 
       if (!isLast) {
         buttons.add(divider);

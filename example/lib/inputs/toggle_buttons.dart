@@ -139,6 +139,28 @@ class _ToggleButtonsUseCaseState extends State<ToggleButtonsUseCase> {
                 });
               },
             ),
+            Container(
+              width: 500,
+              color: Colors.grey[200]!.withOpacity(0.2),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: RioToggleButtons(
+                      variant: widget.variant,
+                      expandItems: true,
+                      theme: theme,
+                      items: items,
+                      selected: _selected,
+                      onChanged: (value) {
+                        setState(() {
+                          _selected = value;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
             RioToggleButtons(
               variant: widget.variant,
               theme: theme,

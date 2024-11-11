@@ -54,6 +54,7 @@ class RioContainerTheme extends ThemeExtension<RioContainerTheme>
       borderRadius: other?.borderRadius ?? borderRadius,
       border: other?.border ?? border,
       color: other?.color ?? color,
+      opacity: other?.opacity ?? opacity,
     );
   }
 }

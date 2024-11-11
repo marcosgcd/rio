@@ -87,8 +87,8 @@ class RioContainer extends StatelessWidget {
         color: Colors.transparent,
         borderRadius: borderRadius,
         clipBehavior: Clip.antiAlias,
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: theme.blur!, sigmaY: theme.blur!),
+        child: _Blur(
+          blur: theme.blur!,
           child: Container(
             height: height,
             width: width,
@@ -126,6 +126,30 @@ class RioContainer extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Blur extends StatelessWidget {
+  const _Blur({
+    required this.child,
+    required this.blur,
+  });
+  final Widget child;
+  final double blur;
+
+  @override
+  Widget build(BuildContext context) {
+    if (blur == 0) {
+      return child;
+    }
+
+    return BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: blur,
+        sigmaY: blur,
+      ),
+      child: child,
     );
   }
 }

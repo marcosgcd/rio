@@ -3,27 +3,38 @@ import 'package:flutter/material.dart';
 class RioDivider extends StatelessWidget {
   const RioDivider({
     super.key,
-    this.child,
     this.direction = Axis.horizontal,
+    this.color,
+    this.child,
   });
   final Widget? child;
   final Axis direction;
+  final Color? color;
 
   const RioDivider.horizontal({
     super.key,
+    this.color,
     this.child,
   }) : direction = Axis.horizontal;
 
   const RioDivider.vertical({
     super.key,
+    this.color,
     this.child,
   }) : direction = Axis.vertical;
 
   @override
   Widget build(BuildContext context) {
+    final color = this.color ?? Theme.of(context).dividerColor;
     final divider = direction == Axis.horizontal
-        ? const Divider(height: 1)
-        : const VerticalDivider(width: 1);
+        ? Divider(
+            height: 1,
+            color: color,
+          )
+        : VerticalDivider(
+            width: 1,
+            color: color,
+          );
 
     if (child == null) return divider;
 

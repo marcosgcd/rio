@@ -195,8 +195,8 @@ class RioToggleButtons<T> extends StatelessWidget {
     final borderRadius = theme.borderRadius ??
         BorderRadius.circular(RioTheme.of(context).defaultBorderRadius);
 
-    final borderColor = theme.borderSide?.color ??
-        RioTheme.of(context).colorScheme.onSurface.withOpacity(0.2);
+    final borderColor =
+        theme.borderSide?.color ?? RioTheme.of(context).colorScheme.border;
     final border = Border.all(
       color: borderColor,
       style: theme.borderSide?.style ?? BorderStyle.solid,

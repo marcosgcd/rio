@@ -20,6 +20,7 @@ mixin _$RioColorSchemeTailorMixin
   Color get popover;
   Color get onPopover;
   Color get caption;
+  Color get border;
 
   @override
   RioColorScheme copyWith({
@@ -33,6 +34,7 @@ mixin _$RioColorSchemeTailorMixin
     Color? popover,
     Color? onPopover,
     Color? caption,
+    Color? border,
   }) {
     return RioColorScheme(
       brightness: brightness ?? this.brightness,
@@ -45,6 +47,7 @@ mixin _$RioColorSchemeTailorMixin
       popover: popover ?? this.popover,
       onPopover: onPopover ?? this.onPopover,
       caption: caption ?? this.caption,
+      border: border ?? this.border,
     );
   }
 
@@ -63,6 +66,7 @@ mixin _$RioColorSchemeTailorMixin
       popover: Color.lerp(popover, other.popover, t)!,
       onPopover: Color.lerp(onPopover, other.onPopover, t)!,
       caption: Color.lerp(caption, other.caption, t)!,
+      border: Color.lerp(border, other.border, t)!,
     );
   }
 
@@ -83,7 +87,8 @@ mixin _$RioColorSchemeTailorMixin
             const DeepCollectionEquality().equals(onSurface, other.onSurface) &&
             const DeepCollectionEquality().equals(popover, other.popover) &&
             const DeepCollectionEquality().equals(onPopover, other.onPopover) &&
-            const DeepCollectionEquality().equals(caption, other.caption));
+            const DeepCollectionEquality().equals(caption, other.caption) &&
+            const DeepCollectionEquality().equals(border, other.border));
   }
 
   @override
@@ -100,6 +105,7 @@ mixin _$RioColorSchemeTailorMixin
       const DeepCollectionEquality().hash(popover),
       const DeepCollectionEquality().hash(onPopover),
       const DeepCollectionEquality().hash(caption),
+      const DeepCollectionEquality().hash(border),
     );
   }
 
@@ -117,6 +123,7 @@ mixin _$RioColorSchemeTailorMixin
       ..add(DiagnosticsProperty('onSurface', onSurface))
       ..add(DiagnosticsProperty('popover', popover))
       ..add(DiagnosticsProperty('onPopover', onPopover))
-      ..add(DiagnosticsProperty('caption', caption));
+      ..add(DiagnosticsProperty('caption', caption))
+      ..add(DiagnosticsProperty('border', border));
   }
 }

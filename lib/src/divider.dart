@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rio/rio.dart';
 
 class RioDivider extends StatelessWidget {
   const RioDivider({
@@ -25,7 +26,7 @@ class RioDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = this.color ?? Theme.of(context).dividerColor;
+    final color = this.color ?? RioTheme.of(context).colorScheme.border;
     final divider = direction == Axis.horizontal
         ? Divider(
             height: 1,

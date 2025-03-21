@@ -68,10 +68,7 @@ class RioTheme extends ThemeExtension<RioTheme>
     return ThemeData(
       brightness: brightness,
       scaffoldBackgroundColor: colorScheme.background,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: colorScheme.primary,
-        brightness: brightness,
-      ),
+      colorScheme: colorScheme.toColorScheme(),
       extensions: [
         this,
       ],

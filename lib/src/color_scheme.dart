@@ -20,7 +20,36 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
     required this.onPopover,
     required this.caption,
     required this.border,
+    required this.error,
+    required this.onError,
   });
+
+  @override
+  final Brightness brightness;
+  @override
+  final Color primary;
+  @override
+  final Color onPrimary;
+  @override
+  final Color background;
+  @override
+  final Color onBackground;
+  @override
+  final Color surface;
+  @override
+  final Color onSurface;
+  @override
+  final Color popover;
+  @override
+  final Color onPopover;
+  @override
+  final Color error;
+  @override
+  final Color onError;
+  @override
+  final Color caption;
+  @override
+  final Color border;
 
   factory RioColorScheme.fromSeed(
     Color seedColor, {
@@ -54,31 +83,24 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
       onSurface: colorScheme.onSurface,
       popover: popover,
       onPopover: RioColorUtils.computeTextColorForBackground(popover),
-      caption: colorScheme.onSurface.withOpacity(0.5),
-      border: colorScheme.onSurface.withOpacity(0.2),
+      caption: colorScheme.onSurface.withValues(alpha: 0.5),
+      border: colorScheme.onSurface.withValues(alpha: 0.2),
+      error: colorScheme.error,
+      onError: colorScheme.onError,
     );
   }
 
-  @override
-  final Brightness brightness;
-  @override
-  final Color primary;
-  @override
-  final Color onPrimary;
-  @override
-  final Color background;
-  @override
-  final Color onBackground;
-  @override
-  final Color surface;
-  @override
-  final Color onSurface;
-  @override
-  final Color popover;
-  @override
-  final Color onPopover;
-  @override
-  final Color caption;
-  @override
-  final Color border;
+  ColorScheme toColorScheme() {
+    return ColorScheme(
+      brightness: brightness,
+      primary: primary,
+      onPrimary: onPrimary,
+      secondary: primary,
+      onSecondary: onPrimary,
+      surface: surface,
+      onSurface: onSurface,
+      error: error,
+      onError: onError,
+    );
+  }
 }

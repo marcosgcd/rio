@@ -19,6 +19,8 @@ mixin _$RioColorSchemeTailorMixin
   Color get onSurface;
   Color get popover;
   Color get onPopover;
+  Color get error;
+  Color get onError;
   Color get caption;
   Color get border;
 
@@ -33,6 +35,8 @@ mixin _$RioColorSchemeTailorMixin
     Color? onSurface,
     Color? popover,
     Color? onPopover,
+    Color? error,
+    Color? onError,
     Color? caption,
     Color? border,
   }) {
@@ -46,6 +50,8 @@ mixin _$RioColorSchemeTailorMixin
       onSurface: onSurface ?? this.onSurface,
       popover: popover ?? this.popover,
       onPopover: onPopover ?? this.onPopover,
+      error: error ?? this.error,
+      onError: onError ?? this.onError,
       caption: caption ?? this.caption,
       border: border ?? this.border,
     );
@@ -65,6 +71,8 @@ mixin _$RioColorSchemeTailorMixin
       onSurface: Color.lerp(onSurface, other.onSurface, t)!,
       popover: Color.lerp(popover, other.popover, t)!,
       onPopover: Color.lerp(onPopover, other.onPopover, t)!,
+      error: Color.lerp(error, other.error, t)!,
+      onError: Color.lerp(onError, other.onError, t)!,
       caption: Color.lerp(caption, other.caption, t)!,
       border: Color.lerp(border, other.border, t)!,
     );
@@ -87,6 +95,8 @@ mixin _$RioColorSchemeTailorMixin
             const DeepCollectionEquality().equals(onSurface, other.onSurface) &&
             const DeepCollectionEquality().equals(popover, other.popover) &&
             const DeepCollectionEquality().equals(onPopover, other.onPopover) &&
+            const DeepCollectionEquality().equals(error, other.error) &&
+            const DeepCollectionEquality().equals(onError, other.onError) &&
             const DeepCollectionEquality().equals(caption, other.caption) &&
             const DeepCollectionEquality().equals(border, other.border));
   }
@@ -104,6 +114,8 @@ mixin _$RioColorSchemeTailorMixin
       const DeepCollectionEquality().hash(onSurface),
       const DeepCollectionEquality().hash(popover),
       const DeepCollectionEquality().hash(onPopover),
+      const DeepCollectionEquality().hash(error),
+      const DeepCollectionEquality().hash(onError),
       const DeepCollectionEquality().hash(caption),
       const DeepCollectionEquality().hash(border),
     );
@@ -123,6 +135,8 @@ mixin _$RioColorSchemeTailorMixin
       ..add(DiagnosticsProperty('onSurface', onSurface))
       ..add(DiagnosticsProperty('popover', popover))
       ..add(DiagnosticsProperty('onPopover', onPopover))
+      ..add(DiagnosticsProperty('error', error))
+      ..add(DiagnosticsProperty('onError', onError))
       ..add(DiagnosticsProperty('caption', caption))
       ..add(DiagnosticsProperty('border', border));
   }

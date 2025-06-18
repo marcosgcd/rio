@@ -27,10 +27,6 @@ class WidgetbookApp extends StatelessWidget {
           initialDevice: Devices.ios.iPhone13ProMax,
         ),
       ],
-      integrations: [
-        // To make addons & knobs work with Widgetbook Cloud
-        WidgetbookCloudIntegration(),
-      ],
 
       appBuilder: (context, child) {
         return MaterialApp(

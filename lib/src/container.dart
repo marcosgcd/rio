@@ -95,7 +95,7 @@ class RioContainer extends StatelessWidget {
             width: width,
             padding: theme.padding,
             decoration: BoxDecoration(
-              color: color.withOpacity(theme.opacity!),
+              color: color.withValues(alpha: theme.opacity!),
               borderRadius: borderRadius,
             ),
             foregroundDecoration: BoxDecoration(
@@ -111,11 +111,11 @@ class RioContainer extends StatelessWidget {
                           RioTheme.of(context)
                               .colorScheme
                               .primary
-                              .withOpacity(0.4),
+                              .withValues(alpha: 0.4),
                           RioTheme.of(context).colorScheme.background,
                         ),
                         RioColorUtils.getSolidColorFromTransparent(
-                          borderColor.withOpacity(0.2),
+                          borderColor.withValues(alpha: 0.2),
                           RioTheme.of(context).colorScheme.background,
                         ),
                       ],

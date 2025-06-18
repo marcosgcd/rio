@@ -206,7 +206,7 @@ class _RioCheckboxState extends State<RioCheckbox> {
                               height: 24,
                               width: 24,
                               decoration: BoxDecoration(
-                                color: fillColor.withOpacity(0.2),
+                                color: fillColor.withValues(alpha: 0.2),
                                 borderRadius: _borderRadius,
                               ),
                             ),
@@ -237,14 +237,14 @@ class _RioCheckboxState extends State<RioCheckbox> {
 
   Color _resolveFillColor(Color color) {
     if (widget.disabled) {
-      return Colors.grey.withOpacity(0.4);
+      return Colors.grey.withValues(alpha: 0.4);
     }
     return color;
   }
 
   Color? _resolveBorderColor(Color color) {
     if (widget.disabled) {
-      return Colors.grey.withOpacity(0.4);
+      return Colors.grey.withValues(alpha: 0.4);
     }
 
     if (_isFocused) return color;

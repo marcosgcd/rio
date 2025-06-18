@@ -260,7 +260,7 @@ class _RioTextFieldState extends State<RioTextField> {
               scrollPadding: widget.scrollPadding,
               decoration: InputDecoration(
                 filled: _theme.filled == true,
-                fillColor: color.withOpacity(0.05),
+                fillColor: color.withValues(alpha: 0.05),
                 focusColor: color,
                 contentPadding: _theme.contentPadding,
                 hintText: decoration?.hintText,

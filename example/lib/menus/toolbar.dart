@@ -47,7 +47,10 @@ Widget useCaseRioToolbarDefault(BuildContext context) {
         decoration: BoxDecoration(
           border: Border.all(
             width: 1,
-            color: RioTheme.of(context).colorScheme.onSurface.withOpacity(0.1),
+            color: RioTheme.of(context)
+                .colorScheme
+                .onSurface
+                .withValues(alpha: 0.1),
           ),
         ),
         width: width,

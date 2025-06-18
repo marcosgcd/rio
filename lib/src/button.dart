@@ -354,14 +354,14 @@ class _RioButtonState extends State<RioButton> {
     switch (_theme.variant!) {
       case RioButtonVariant.solid:
         if (_disabled) {
-          return Colors.grey.withOpacity(0.4);
+          return Colors.grey.withValues(alpha: 0.4);
         }
         return color;
       case RioButtonVariant.soft:
         if (_disabled) {
-          return Colors.grey.withOpacity(0.12);
+          return Colors.grey.withValues(alpha: 0.12);
         }
-        return color.withOpacity(0.12);
+        return color.withValues(alpha: 0.12);
       case RioButtonVariant.outlined:
       case RioButtonVariant.plain:
         return Colors.transparent;
@@ -378,7 +378,7 @@ class _RioButtonState extends State<RioButton> {
           brightness: Theme.of(context).brightness,
         );
       case RioButtonVariant.soft:
-        if (_disabled) return Colors.grey.withOpacity(0.8);
+        if (_disabled) return Colors.grey.withValues(alpha: 0.8);
 
         break;
       case RioButtonVariant.outlined:
@@ -398,19 +398,19 @@ class _RioButtonState extends State<RioButton> {
 
     switch (_theme.variant) {
       case RioButtonVariant.solid:
-        if (_isPressedDown) return textColor.withOpacity(0.6);
-        if (isHovered) return textColor.withOpacity(0.4);
-        if (_isFocused) return textColor.withOpacity(0.2);
+        if (_isPressedDown) return textColor.withValues(alpha: 0.6);
+        if (isHovered) return textColor.withValues(alpha: 0.4);
+        if (_isFocused) return textColor.withValues(alpha: 0.2);
         break;
       case RioButtonVariant.plain:
-        if (_isPressedDown) return textColor.withOpacity(0.1);
-        if (isHovered) return textColor.withOpacity(0.05);
-        if (_isFocused) return textColor.withOpacity(0.01);
+        if (_isPressedDown) return textColor.withValues(alpha: 0.1);
+        if (isHovered) return textColor.withValues(alpha: 0.05);
+        if (_isFocused) return textColor.withValues(alpha: 0.01);
         break;
       default:
-        if (_isPressedDown) return textColor.withOpacity(0.3);
-        if (isHovered) return textColor.withOpacity(0.2);
-        if (_isFocused) return textColor.withOpacity(0.1);
+        if (_isPressedDown) return textColor.withValues(alpha: 0.3);
+        if (isHovered) return textColor.withValues(alpha: 0.2);
+        if (_isFocused) return textColor.withValues(alpha: 0.1);
     }
 
     return Colors.transparent;
@@ -426,7 +426,7 @@ class _RioButtonState extends State<RioButton> {
 
     switch (_theme.variant) {
       case RioButtonVariant.outlined:
-        return Border.all(color: textColor.withOpacity(0.2));
+        return Border.all(color: textColor.withValues(alpha: 0.2));
 
       default:
         return Border.all(color: Colors.transparent);

@@ -70,7 +70,7 @@ class RioPinField extends StatelessWidget {
         BorderRadius.circular(RioTheme.of(context).defaultBorderRadius);
 
     final borderColor =
-        RioTheme.of(context).colorScheme.onSurface.withOpacity(0.2);
+        RioTheme.of(context).colorScheme.onSurface.withValues(alpha: 0.2);
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 100),
@@ -101,11 +101,11 @@ class RioPinField extends StatelessWidget {
             borderRadius: borderRadius,
             activeColor: borderColor,
             disabledColor: borderColor,
-            activeFillColor: color.withOpacity(0.12),
+            activeFillColor: color.withValues(alpha: 0.12),
             inactiveColor: borderColor,
             inactiveFillColor: Colors.transparent,
             selectedColor: color,
-            selectedFillColor: color.withOpacity(0.12),
+            selectedFillColor: color.withValues(alpha: 0.12),
           ),
           onCompleted: onCompleted,
           onChanged: (value) {},

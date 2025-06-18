@@ -141,7 +141,7 @@ class _ToggleButtonsUseCaseState extends State<ToggleButtonsUseCase> {
             ),
             Container(
               width: 500,
-              color: Colors.grey[200]!.withOpacity(0.2),
+              color: Colors.grey[200]!.withValues(alpha: 0.2),
               child: Row(
                 children: [
                   Expanded(

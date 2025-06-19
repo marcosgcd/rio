@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart' show kCupertinoModalBarrierColor;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:rio/rio.dart';
-import 'package:screen_corner_radius/screen_corner_radius.dart';
 import 'package:theme_tailor_annotation/theme_tailor_annotation.dart';
 
 part 'modal.tailor.dart';
@@ -89,13 +89,11 @@ class RioModal extends StatelessWidget {
     required this.child,
     this.theme,
     this.onDismissed,
-    this.screenRadius,
   });
 
   final Widget child;
   final RioModalTheme? theme;
   final VoidCallback? onDismissed;
-  final ScreenRadius? screenRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -114,22 +112,19 @@ class RioModal extends StatelessWidget {
         modalTheme.borderRadius ??
         RioTheme.of(context).defaultBorderRadius;
 
-    final borderRadiusValue =
-        modalTheme.borderRadius ?? RioTheme.of(context).defaultBorderRadius;
-
     final modalBorderRadius = BorderRadius.only(
       topLeft: Radius.circular(topRadius),
       topRight: Radius.circular(topRadius),
-      bottomLeft:
-          Radius.circular(screenRadius?.bottomLeft ?? borderRadiusValue),
-      bottomRight:
-          Radius.circular(screenRadius?.bottomRight ?? borderRadiusValue),
+      bottomLeft: Radius.zero,
+      bottomRight: Radius.zero,
     );
 
     final effectiveCloseButtonTheme = modalTheme.closeButtonTheme ??
         const RioIconButtonTheme(
           variant: RioButtonVariant.soft,
         );
+
+    final borderColor = RioTheme.of(context).colorScheme.onSurface;
 
     return Dismissible(
       key: const Key('rio_modal'),
@@ -164,6 +159,27 @@ class RioModal extends StatelessWidget {
               child: RioContainer(
                 theme: containerTheme.copyWith(
                   borderRadius: modalBorderRadius,
+                  border: GradientBoxBorder(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: const [0.1, 1.0],
+                      colors: [
+                        RioColorUtils.getSolidColorFromTransparent(
+                          RioTheme.of(context)
+                              .colorScheme
+                              .primary
+                              .withValues(alpha: 0.4),
+                          RioTheme.of(context).colorScheme.background,
+                        ),
+                        RioColorUtils.getSolidColorFromTransparent(
+                          borderColor.withValues(alpha: 0.01),
+                          RioTheme.of(context).colorScheme.background,
+                        ),
+                      ],
+                    ),
+                    width: 2,
+                  ),
                 ),
                 child: SizedBox(
                   width: double.infinity,
@@ -321,11 +337,6 @@ Future<T?> showRioModal<T>(
   final navigator = Navigator.of(context);
   final modalTheme = const RioModalTheme.defaultTheme().merge(theme);
 
-  ScreenRadius? screenRadius;
-  try {
-    screenRadius = await ScreenCornerRadius.get();
-  } catch (_) {}
-
   return navigator.push<T>(
     BottomModalRoute<T>(
       barrierDismissible: modalTheme.barrierDismissible ?? barrierDismissible,
@@ -334,7 +345,6 @@ Future<T?> showRioModal<T>(
       barrierColor: modalTheme.barrierColor ?? barrierColor,
       builder: (context) => RioModal(
         theme: theme,
-        screenRadius: screenRadius,
         onDismissed: onDismissed,
         child: builder(context),
       ),

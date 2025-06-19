@@ -21,6 +21,7 @@ class RioTheme extends ThemeExtension<RioTheme>
     this.textFieldTheme = const RioTextFieldTheme.defaultTheme(),
     this.pinFieldTheme = const RioPinFieldTheme.defaultTheme(),
     this.popoverTheme = const RioPopoverTheme.defaultTheme(),
+    this.modalTheme = const RioModalTheme.defaultTheme(),
     this.checkboxTheme = const RioCheckboxTheme.defaultTheme(),
     this.avatarTheme = const RioAvatarTheme.defaultTheme(),
     this.containerTheme = const RioContainerTheme.defaultTheme(),
@@ -48,6 +49,8 @@ class RioTheme extends ThemeExtension<RioTheme>
   final RioPinFieldTheme pinFieldTheme;
   @override
   final RioPopoverTheme popoverTheme;
+  @override
+  final RioModalTheme modalTheme;
   @override
   final RioAvatarTheme avatarTheme;
   @override

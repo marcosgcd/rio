@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint, unused_element, unnecessary_cast
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'theme.dart';
 
@@ -19,6 +20,7 @@ mixin _$RioThemeTailorMixin
   RioTextFieldTheme get textFieldTheme;
   RioPinFieldTheme get pinFieldTheme;
   RioPopoverTheme get popoverTheme;
+  RioModalTheme get modalTheme;
   RioAvatarTheme get avatarTheme;
   RioContainerTheme get containerTheme;
   RioNavigationBarTheme get navigationBarVerticalTheme;
@@ -36,6 +38,7 @@ mixin _$RioThemeTailorMixin
     RioTextFieldTheme? textFieldTheme,
     RioPinFieldTheme? pinFieldTheme,
     RioPopoverTheme? popoverTheme,
+    RioModalTheme? modalTheme,
     RioAvatarTheme? avatarTheme,
     RioContainerTheme? containerTheme,
     RioNavigationBarTheme? navigationBarVerticalTheme,
@@ -52,6 +55,7 @@ mixin _$RioThemeTailorMixin
       textFieldTheme: textFieldTheme ?? this.textFieldTheme,
       pinFieldTheme: pinFieldTheme ?? this.pinFieldTheme,
       popoverTheme: popoverTheme ?? this.popoverTheme,
+      modalTheme: modalTheme ?? this.modalTheme,
       avatarTheme: avatarTheme ?? this.avatarTheme,
       containerTheme: containerTheme ?? this.containerTheme,
       navigationBarVerticalTheme:
@@ -80,6 +84,7 @@ mixin _$RioThemeTailorMixin
       pinFieldTheme:
           pinFieldTheme.lerp(other.pinFieldTheme, t) as RioPinFieldTheme,
       popoverTheme: popoverTheme.lerp(other.popoverTheme, t) as RioPopoverTheme,
+      modalTheme: modalTheme.lerp(other.modalTheme, t) as RioModalTheme,
       avatarTheme: avatarTheme.lerp(other.avatarTheme, t) as RioAvatarTheme,
       containerTheme:
           containerTheme.lerp(other.containerTheme, t) as RioContainerTheme,
@@ -114,6 +119,8 @@ mixin _$RioThemeTailorMixin
             const DeepCollectionEquality()
                 .equals(popoverTheme, other.popoverTheme) &&
             const DeepCollectionEquality()
+                .equals(modalTheme, other.modalTheme) &&
+            const DeepCollectionEquality()
                 .equals(avatarTheme, other.avatarTheme) &&
             const DeepCollectionEquality()
                 .equals(containerTheme, other.containerTheme) &&
@@ -138,6 +145,7 @@ mixin _$RioThemeTailorMixin
       const DeepCollectionEquality().hash(textFieldTheme),
       const DeepCollectionEquality().hash(pinFieldTheme),
       const DeepCollectionEquality().hash(popoverTheme),
+      const DeepCollectionEquality().hash(modalTheme),
       const DeepCollectionEquality().hash(avatarTheme),
       const DeepCollectionEquality().hash(containerTheme),
       const DeepCollectionEquality().hash(navigationBarVerticalTheme),
@@ -160,6 +168,7 @@ mixin _$RioThemeTailorMixin
       ..add(DiagnosticsProperty('textFieldTheme', textFieldTheme))
       ..add(DiagnosticsProperty('pinFieldTheme', pinFieldTheme))
       ..add(DiagnosticsProperty('popoverTheme', popoverTheme))
+      ..add(DiagnosticsProperty('modalTheme', modalTheme))
       ..add(DiagnosticsProperty('avatarTheme', avatarTheme))
       ..add(DiagnosticsProperty('containerTheme', containerTheme))
       ..add(DiagnosticsProperty(

@@ -25,10 +25,11 @@ import 'inputs/icon_button.dart' as _i11;
 import 'inputs/pin_field.dart' as _i12;
 import 'inputs/text_field.dart' as _i13;
 import 'inputs/toggle_buttons.dart' as _i14;
-import 'menus/navigation_bar.dart' as _i16;
-import 'menus/popover.dart' as _i17;
-import 'menus/popover_menu.dart' as _i15;
-import 'menus/toolbar.dart' as _i18;
+import 'menus/bottom_navigation.dart' as _i15;
+import 'menus/navigation_bar.dart' as _i17;
+import 'menus/popover.dart' as _i18;
+import 'menus/popover_menu.dart' as _i16;
+import 'menus/toolbar.dart' as _i19;
 
 final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookFolder(
@@ -220,11 +221,28 @@ final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookFolder(
     name: 'menus',
     children: [
+      _i1.WidgetbookComponent(
+        name: 'RioBottomNavigation',
+        useCases: [
+          _i1.WidgetbookUseCase(
+            name: 'Custom Theme',
+            builder: _i15.useCaseBottomNavigationCustomTheme,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Default',
+            builder: _i15.useCaseBottomNavigation,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'With Action',
+            builder: _i15.useCaseBottomNavigationWithAction,
+          ),
+        ],
+      ),
       _i1.WidgetbookLeafComponent(
         name: 'RioMenu',
         useCase: _i1.WidgetbookUseCase(
           name: 'Default',
-          builder: _i15.useCaseRioPopover,
+          builder: _i16.useCaseRioPopover,
         ),
       ),
       _i1.WidgetbookComponent(
@@ -232,11 +250,11 @@ final directories = <_i1.WidgetbookNode>[
         useCases: [
           _i1.WidgetbookUseCase(
             name: 'Horizontal',
-            builder: _i16.useCaseHorizontal,
+            builder: _i17.useCaseHorizontal,
           ),
           _i1.WidgetbookUseCase(
             name: 'Vertical',
-            builder: _i16.useCaseVertical,
+            builder: _i17.useCaseVertical,
           ),
         ],
       ),
@@ -244,7 +262,7 @@ final directories = <_i1.WidgetbookNode>[
         name: 'RioPopover',
         useCase: _i1.WidgetbookUseCase(
           name: 'Default',
-          builder: _i17.useCaseRioPopover,
+          builder: _i18.useCaseRioPopover,
         ),
       ),
       _i1.WidgetbookComponent(
@@ -252,11 +270,11 @@ final directories = <_i1.WidgetbookNode>[
         useCases: [
           _i1.WidgetbookUseCase(
             name: 'Custom',
-            builder: _i18.useCaseRioToolbarCustom,
+            builder: _i19.useCaseRioToolbarCustom,
           ),
           _i1.WidgetbookUseCase(
             name: 'Default',
-            builder: _i18.useCaseRioToolbarDefault,
+            builder: _i19.useCaseRioToolbarDefault,
           ),
         ],
       ),

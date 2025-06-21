@@ -1,6 +1,7 @@
 library;
 
 export 'src/avatar.dart';
+export 'src/bottom_navigation.dart';
 export 'src/button.dart';
 export 'src/checkbox.dart';
 export 'src/child_size_changed.dart';

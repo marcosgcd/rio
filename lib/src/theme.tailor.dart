@@ -23,6 +23,7 @@ mixin _$RioThemeTailorMixin
   RioModalTheme get modalTheme;
   RioAvatarTheme get avatarTheme;
   RioContainerTheme get containerTheme;
+  RioBottomNavigationTheme get bottomNavigationTheme;
   RioNavigationBarTheme get navigationBarVerticalTheme;
   RioNavigationBarTheme get navigationBarHorizontalTheme;
   Brightness get brightness;
@@ -41,6 +42,7 @@ mixin _$RioThemeTailorMixin
     RioModalTheme? modalTheme,
     RioAvatarTheme? avatarTheme,
     RioContainerTheme? containerTheme,
+    RioBottomNavigationTheme? bottomNavigationTheme,
     RioNavigationBarTheme? navigationBarVerticalTheme,
     RioNavigationBarTheme? navigationBarHorizontalTheme,
     Brightness? brightness,
@@ -58,6 +60,8 @@ mixin _$RioThemeTailorMixin
       modalTheme: modalTheme ?? this.modalTheme,
       avatarTheme: avatarTheme ?? this.avatarTheme,
       containerTheme: containerTheme ?? this.containerTheme,
+      bottomNavigationTheme:
+          bottomNavigationTheme ?? this.bottomNavigationTheme,
       navigationBarVerticalTheme:
           navigationBarVerticalTheme ?? this.navigationBarVerticalTheme,
       navigationBarHorizontalTheme:
@@ -88,6 +92,8 @@ mixin _$RioThemeTailorMixin
       avatarTheme: avatarTheme.lerp(other.avatarTheme, t) as RioAvatarTheme,
       containerTheme:
           containerTheme.lerp(other.containerTheme, t) as RioContainerTheme,
+      bottomNavigationTheme: bottomNavigationTheme.lerp(
+          other.bottomNavigationTheme, t) as RioBottomNavigationTheme,
       navigationBarVerticalTheme: navigationBarVerticalTheme.lerp(
           other.navigationBarVerticalTheme, t) as RioNavigationBarTheme,
       navigationBarHorizontalTheme: navigationBarHorizontalTheme.lerp(
@@ -124,6 +130,8 @@ mixin _$RioThemeTailorMixin
                 .equals(avatarTheme, other.avatarTheme) &&
             const DeepCollectionEquality()
                 .equals(containerTheme, other.containerTheme) &&
+            const DeepCollectionEquality()
+                .equals(bottomNavigationTheme, other.bottomNavigationTheme) &&
             const DeepCollectionEquality().equals(
                 navigationBarVerticalTheme, other.navigationBarVerticalTheme) &&
             const DeepCollectionEquality().equals(navigationBarHorizontalTheme,
@@ -148,6 +156,7 @@ mixin _$RioThemeTailorMixin
       const DeepCollectionEquality().hash(modalTheme),
       const DeepCollectionEquality().hash(avatarTheme),
       const DeepCollectionEquality().hash(containerTheme),
+      const DeepCollectionEquality().hash(bottomNavigationTheme),
       const DeepCollectionEquality().hash(navigationBarVerticalTheme),
       const DeepCollectionEquality().hash(navigationBarHorizontalTheme),
       const DeepCollectionEquality().hash(brightness),
@@ -171,6 +180,7 @@ mixin _$RioThemeTailorMixin
       ..add(DiagnosticsProperty('modalTheme', modalTheme))
       ..add(DiagnosticsProperty('avatarTheme', avatarTheme))
       ..add(DiagnosticsProperty('containerTheme', containerTheme))
+      ..add(DiagnosticsProperty('bottomNavigationTheme', bottomNavigationTheme))
       ..add(DiagnosticsProperty(
           'navigationBarVerticalTheme', navigationBarVerticalTheme))
       ..add(DiagnosticsProperty(

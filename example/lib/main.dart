@@ -32,7 +32,7 @@ class WidgetbookApp extends StatelessWidget {
         return MaterialApp(
           title: "Rio",
           debugShowCheckedModeBanner: false,
-          themeMode: ThemeMode.dark,
+          themeMode: ThemeMode.light,
           theme: RioTheme(
             colorScheme: RioColorScheme.fromSeed(Colors.green),
           ).toThemeData(),

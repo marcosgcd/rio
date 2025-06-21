@@ -25,6 +25,7 @@ class RioTheme extends ThemeExtension<RioTheme>
     this.checkboxTheme = const RioCheckboxTheme.defaultTheme(),
     this.avatarTheme = const RioAvatarTheme.defaultTheme(),
     this.containerTheme = const RioContainerTheme.defaultTheme(),
+    this.bottomNavigationTheme = const RioBottomNavigationTheme.defaultTheme(),
     this.navigationBarHorizontalTheme =
         const RioNavigationBarTheme.defaultHorizontalTheme(),
     this.navigationBarVerticalTheme =
@@ -55,6 +56,8 @@ class RioTheme extends ThemeExtension<RioTheme>
   final RioAvatarTheme avatarTheme;
   @override
   final RioContainerTheme containerTheme;
+  @override
+  final RioBottomNavigationTheme bottomNavigationTheme;
   @override
   final RioNavigationBarTheme navigationBarVerticalTheme;
   @override

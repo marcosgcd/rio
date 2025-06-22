@@ -78,20 +78,61 @@ class RioBottomNavigationItem {
   final String? tooltip;
 }
 
+/// Configuration for action buttons in the bottom navigation
+///
+/// You can either provide an [onPressed] callback for simple actions,
+/// or use [dialogBuilder] for easy Hero-animated dialogs.
+///
+/// Example with dialog builder and Hero animation:
+/// ```dart
+/// RioBottomNavigationAction(
+///   heroTag: 'my-action',
+///   createRectTween: (begin, end) => CustomRectTween(begin: begin, end: end),
+///   dialogBuilder: (context) => MyDialogContent(),
+///   child: Icon(Icons.add),
+/// )
+/// ```
 class RioBottomNavigationAction {
   const RioBottomNavigationAction({
-    required this.onPressed,
+    this.onPressed,
     this.child,
     this.tooltip,
     this.buttonTheme,
     this.containerTheme,
-  });
+    this.heroTag,
+    this.createRectTween,
+    this.dialogBuilder,
+  }) : assert(
+          onPressed != null || dialogBuilder != null,
+          'Either onPressed or dialogBuilder must be provided',
+        );
 
-  final void Function(BuildContext context) onPressed;
+  /// Custom action callback. Use this for simple actions.
+  /// If [dialogBuilder] is provided, this is ignored.
+  final void Function(BuildContext context)? onPressed;
+
+  /// Child widget displayed in the action button, defaults to [Icons.add]
   final Widget? child;
+
+  /// Tooltip text for the action button
   final String? tooltip;
+
+  /// Custom button theme, defaults to [RioButtonVariant.soft]
   final RioButtonTheme? buttonTheme;
+
+  /// Custom container theme for wrapping the button
   final RioContainerTheme? containerTheme;
+
+  /// Hero tag for Hero animations. Required when using [dialogBuilder] with Hero animation.
+  final Object? heroTag;
+
+  /// Custom rect tween for Hero animations. Only used when [heroTag] is provided.
+  final CreateRectTween? createRectTween;
+
+  /// Builder for dialog content. When provided, tapping the action button will show
+  /// a dialog with this content. If [heroTag] is also provided, the dialog will
+  /// animate with Hero animation from the action button.
+  final Widget Function(BuildContext context)? dialogBuilder;
 }
 
 class RioBottomNavigation extends StatefulWidget {
@@ -229,35 +270,9 @@ class _RioBottomNavigationState extends State<RioBottomNavigation> {
                   right: actionVisible ? theme.actionButtonSpacing! : 0,
                 ),
                 child: _lastVisibleAction != null
-                    ? RioContainer(
-                        theme: actionVisible
-                            ? action.containerTheme
-                            : _lastVisibleAction!.containerTheme,
-                        child: Builder(
-                          builder: (context) {
-                            return RioButton(
-                              tooltip: actionVisible ? action.tooltip : null,
-                              theme: const RioButtonTheme(
-                                variant: RioButtonVariant.soft,
-                              ).merge(
-                                (actionVisible
-                                    ? action.buttonTheme
-                                    : _lastVisibleAction!.buttonTheme),
-                              ),
-                              onPressed: () {
-                                if (actionVisible) {
-                                  action.onPressed(context);
-                                } else {
-                                  _lastVisibleAction!.onPressed(context);
-                                }
-                              },
-                              child: actionVisible
-                                  ? (action.child ?? const Icon(Icons.add))
-                                  : (_lastVisibleAction!.child ??
-                                      const Icon(Icons.add)),
-                            );
-                          },
-                        ),
+                    ? IgnorePointer(
+                        ignoring: !actionVisible,
+                        child: _buildActionButton(action, actionVisible),
                       )
                     : const SizedBox.shrink(),
               ),
@@ -266,5 +281,69 @@ class _RioBottomNavigationState extends State<RioBottomNavigation> {
         ),
       ),
     );
+  }
+
+  Widget _buildActionButton(
+    RioBottomNavigationAction? action,
+    bool actionVisible,
+  ) {
+    final currentAction = actionVisible ? action! : _lastVisibleAction!;
+
+    final actionContainer = RioContainer(
+      theme: currentAction.containerTheme,
+      child: Builder(
+        builder: (context) {
+          return RioButton(
+            tooltip: actionVisible ? action?.tooltip : null,
+            theme: const RioButtonTheme(
+              variant: RioButtonVariant.soft,
+            ).merge(currentAction.buttonTheme),
+            onPressed: () => _handleActionPressed(context, currentAction),
+            child: currentAction.child ?? const Icon(Icons.add),
+          );
+        },
+      ),
+    );
+
+    // If no heroTag is provided, return the action button without Hero
+    if (currentAction.heroTag == null) {
+      return actionContainer;
+    }
+
+    // Wrap with Hero if heroTag is provided
+    return Hero(
+      tag: currentAction.heroTag!,
+      createRectTween: currentAction.createRectTween,
+      child: actionContainer,
+    );
+  }
+
+  void _handleActionPressed(
+    BuildContext context,
+    RioBottomNavigationAction action,
+  ) {
+    if (action.dialogBuilder != null) {
+      // Show dialog with Hero animation if heroTag is provided
+      if (action.heroTag != null) {
+        showHeroDialog(
+          context: context,
+          builder: (context) => Hero(
+            tag: action.heroTag!,
+            createRectTween: action.createRectTween,
+            child: action.dialogBuilder!(context),
+          ),
+        );
+      } else {
+        // Show regular dialog
+        showDialog(
+          context: context,
+          builder: (context) => Center(
+            child: action.dialogBuilder!(context),
+          ),
+        );
+      }
+    } else if (action.onPressed != null) {
+      action.onPressed!(context);
+    }
   }
 }

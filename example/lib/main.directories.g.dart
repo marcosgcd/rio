@@ -233,6 +233,14 @@ final directories = <_i1.WidgetbookNode>[
             builder: _i15.useCaseBottomNavigation,
           ),
           _i1.WidgetbookUseCase(
+            name: 'Default Soft Action',
+            builder: _i15.useCaseBottomNavigationDefaultSoft,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Hero Animation',
+            builder: _i15.useCaseBottomNavigationHeroAnimation,
+          ),
+          _i1.WidgetbookUseCase(
             name: 'With Action',
             builder: _i15.useCaseBottomNavigationWithAction,
           ),

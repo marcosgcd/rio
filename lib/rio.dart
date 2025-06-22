@@ -8,6 +8,7 @@ export 'src/child_size_changed.dart';
 export 'src/color_scheme.dart';
 export 'src/container.dart';
 export 'src/divider.dart';
+export 'src/hero_dialog_route.dart';
 export 'src/icon_button.dart';
 export 'src/icon_merger.dart';
 export 'src/pin_field.dart';

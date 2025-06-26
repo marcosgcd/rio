@@ -81,7 +81,7 @@ class RioBottomNavigationItem {
 /// Configuration for action buttons in the bottom navigation
 ///
 /// You can either provide an [onPressed] callback for simple actions,
-/// or use [dialogBuilder] for easy Hero-animated dialogs.
+/// or use [dialogBuilder] for easy Rio-styled dialogs with optional Hero animation.
 ///
 /// Example with dialog builder and Hero animation:
 /// ```dart
@@ -89,6 +89,14 @@ class RioBottomNavigationItem {
 ///   heroTag: 'my-action',
 ///   createRectTween: (begin, end) => CustomRectTween(begin: begin, end: end),
 ///   dialogBuilder: (context) => MyDialogContent(),
+///   child: Icon(Icons.add),
+/// )
+/// ```
+///
+/// Example with simple action:
+/// ```dart
+/// RioBottomNavigationAction(
+///   onPressed: (context) => ScaffoldMessenger.of(context).showSnackBar(...),
 ///   child: Icon(Icons.add),
 /// )
 /// ```
@@ -102,6 +110,7 @@ class RioBottomNavigationAction {
     this.heroTag,
     this.createRectTween,
     this.dialogBuilder,
+    this.dialogTheme,
   }) : assert(
           onPressed != null || dialogBuilder != null,
           'Either onPressed or dialogBuilder must be provided',
@@ -120,7 +129,7 @@ class RioBottomNavigationAction {
   /// Custom button theme, defaults to [RioButtonVariant.soft]
   final RioButtonTheme? buttonTheme;
 
-  /// Custom container theme for wrapping the button
+  /// Custom container theme for wrapping the action button
   final RioContainerTheme? containerTheme;
 
   /// Hero tag for Hero animations. Required when using [dialogBuilder] with Hero animation.
@@ -133,6 +142,10 @@ class RioBottomNavigationAction {
   /// a dialog with this content. If [heroTag] is also provided, the dialog will
   /// animate with Hero animation from the action button.
   final Widget Function(BuildContext context)? dialogBuilder;
+
+  /// Theme for the dialog shown when [dialogBuilder] is used.
+  /// Use this to customize the dialog's container appearance, padding, etc.
+  final RioDialogTheme? dialogTheme;
 }
 
 class RioBottomNavigation extends StatefulWidget {
@@ -289,32 +302,45 @@ class _RioBottomNavigationState extends State<RioBottomNavigation> {
   ) {
     final currentAction = actionVisible ? action! : _lastVisibleAction!;
 
-    final actionContainer = RioContainer(
-      theme: currentAction.containerTheme,
-      child: Builder(
-        builder: (context) {
-          return RioButton(
-            tooltip: actionVisible ? action?.tooltip : null,
-            theme: const RioButtonTheme(
-              variant: RioButtonVariant.soft,
-            ).merge(currentAction.buttonTheme),
-            onPressed: () => _handleActionPressed(context, currentAction),
-            child: currentAction.child ?? const Icon(Icons.add),
-          );
-        },
-      ),
-    );
-
-    // If no heroTag is provided, return the action button without Hero
+    // If no heroTag is provided, return the action button with container
     if (currentAction.heroTag == null) {
-      return actionContainer;
+      return RioContainer(
+        theme: currentAction.containerTheme,
+        child: Builder(
+          builder: (context) {
+            return RioButton(
+              tooltip: actionVisible ? action?.tooltip : null,
+              theme: const RioButtonTheme(
+                variant: RioButtonVariant.soft,
+              ).merge(currentAction.buttonTheme),
+              onPressed: () => _handleActionPressed(context, currentAction),
+              child: currentAction.child ?? const Icon(Icons.add),
+            );
+          },
+        ),
+      );
     }
 
-    // Wrap with Hero if heroTag is provided
-    return Hero(
-      tag: currentAction.heroTag!,
-      createRectTween: currentAction.createRectTween,
-      child: actionContainer,
+    // For Hero animations, wrap only the button content, not the container
+    // This prevents double containers/borders in the Hero transition
+    return RioContainer(
+      theme: currentAction.containerTheme,
+      child: Hero(
+        tag: currentAction.heroTag!,
+        createRectTween: currentAction.createRectTween,
+        child: Builder(
+          builder: (context) {
+            return RioButton(
+              tooltip: actionVisible ? action?.tooltip : null,
+              theme: const RioButtonTheme(
+                variant: RioButtonVariant.soft,
+              ).merge(currentAction.buttonTheme),
+              onPressed: () => _handleActionPressed(context, currentAction),
+              child: currentAction.child ?? const Icon(Icons.add),
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -323,25 +349,14 @@ class _RioBottomNavigationState extends State<RioBottomNavigation> {
     RioBottomNavigationAction action,
   ) {
     if (action.dialogBuilder != null) {
-      // Show dialog with Hero animation if heroTag is provided
-      if (action.heroTag != null) {
-        showHeroDialog(
-          context: context,
-          builder: (context) => Hero(
-            tag: action.heroTag!,
-            createRectTween: action.createRectTween,
-            child: action.dialogBuilder!(context),
-          ),
-        );
-      } else {
-        // Show regular dialog
-        showDialog(
-          context: context,
-          builder: (context) => Center(
-            child: action.dialogBuilder!(context),
-          ),
-        );
-      }
+      // Use the new unified showRioDialog with optional Hero animation
+      showRioDialog(
+        context,
+        theme: action.dialogTheme,
+        heroTag: action.heroTag,
+        createRectTween: action.createRectTween,
+        builder: action.dialogBuilder!,
+      );
     } else if (action.onPressed != null) {
       action.onPressed!(context);
     }

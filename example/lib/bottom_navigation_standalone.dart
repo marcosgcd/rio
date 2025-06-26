@@ -97,7 +97,7 @@ class _BottomNavigationExampleState extends State<BottomNavigationExample> {
                     ],
                   );
 
-                  if (result != null && mounted) {
+                  if (result != null && context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Selected: $result')),
                     );
@@ -109,8 +109,9 @@ class _BottomNavigationExampleState extends State<BottomNavigationExample> {
                   variant: RioButtonVariant.soft,
                   color: RioTheme.of(context).colorScheme.primary,
                 ),
-                containerTheme: const RioContainerTheme(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                containerTheme: RioContainerTheme(
+                  borderRadius: BorderRadius.circular(
+                      RioTheme.of(context).defaultBorderRadius),
                 ),
               );
 
@@ -127,8 +128,9 @@ class _BottomNavigationExampleState extends State<BottomNavigationExample> {
                   variant: RioButtonVariant.soft,
                   color: Colors.green,
                 ),
-                containerTheme: const RioContainerTheme(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                containerTheme: RioContainerTheme(
+                  borderRadius: BorderRadius.circular(
+                      RioTheme.of(context).defaultBorderRadius),
                 ),
               );
 
@@ -146,65 +148,58 @@ class _BottomNavigationExampleState extends State<BottomNavigationExample> {
                   color: Colors.orange,
                 ),
                 containerTheme: const RioContainerTheme(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  borderRadius: BorderRadius.all(Radius.circular(50)),
                 ),
-                dialogBuilder: (context) => RioContainer(
-                  theme: RioContainerTheme(
-                    color: RioTheme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                  ),
-                  width: 300,
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.edit,
-                          size: 48,
-                          color: Colors.orange,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'Edit Profile',
-                          style: Theme.of(context).textTheme.headlineSmall,
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 16),
-                        const Text(
-                          'This dialog opened with a smooth Hero animation from the action button!',
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 24),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            RioButton(
-                              theme: const RioButtonTheme(
-                                variant: RioButtonVariant.outlined,
-                              ),
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: const Text('Cancel'),
+                dialogBuilder: (context) => Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.edit,
+                        size: 48,
+                        color: Colors.orange,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Edit Profile',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'This dialog opened with a smooth Hero animation from the action button!',
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 24),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          RioButton(
+                            theme: const RioButtonTheme(
+                              variant: RioButtonVariant.outlined,
                             ),
-                            RioButton(
-                              theme: const RioButtonTheme(
-                                variant: RioButtonVariant.soft,
-                                color: Colors.orange,
-                              ),
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Profile updated!'),
-                                  ),
-                                );
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('Save'),
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text('Cancel'),
+                          ),
+                          RioButton(
+                            theme: const RioButtonTheme(
+                              variant: RioButtonVariant.soft,
+                              color: Colors.orange,
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                            onPressed: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Profile updated!'),
+                                ),
+                              );
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Save'),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               );

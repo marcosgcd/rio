@@ -5,7 +5,7 @@ import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:rio/rio.dart';
 import 'package:theme_tailor_annotation/theme_tailor_annotation.dart';
 
-part 'modal.tailor.dart';
+part 'modal_bottom_sheet.tailor.dart';
 
 @TailorMixinComponent()
 class RioModalTheme extends ThemeExtension<RioModalTheme>

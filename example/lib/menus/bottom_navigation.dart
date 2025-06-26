@@ -214,8 +214,9 @@ class _BottomNavigationExampleState extends State<_BottomNavigationExample> {
                               : Colors.orange,
                     ),
                     // Custom container theme for rounded corners
-                    containerTheme: const RioContainerTheme(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    containerTheme: RioContainerTheme(
+                      borderRadius: BorderRadius.circular(
+                          RioTheme.of(context).defaultBorderRadius),
                     ),
                   );
                 }
@@ -322,82 +323,83 @@ class _BottomNavigationHeroExampleState
                         ? Colors.green
                         : Colors.pink,
               ),
-              containerTheme: const RioContainerTheme(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
+              containerTheme: RioContainerTheme(
+                borderRadius: BorderRadius.circular(
+                    RioTheme.of(context).defaultBorderRadius),
               ),
-              // Use the new simplified dialogBuilder approach!
-              dialogBuilder: (context) => RioContainer(
-                theme: RioContainerTheme(
+              // Use dialogTheme to style the dialog container instead of wrapping in RioContainer
+              dialogTheme: RioDialogTheme(
+                containerTheme: RioContainerTheme(
                   color: RioTheme.of(context).colorScheme.surface,
-                  borderRadius: const BorderRadius.all(Radius.circular(16)),
+                  borderRadius: BorderRadius.circular(
+                      RioTheme.of(context).defaultBorderRadius),
                 ),
-                width: 300,
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                maxWidth: 300,
+                padding: const EdgeInsets.all(24),
+              ),
+              dialogBuilder: (context) => Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    index == 0
+                        ? Icons.add
+                        : index == 1
+                            ? Icons.search
+                            : Icons.favorite,
+                    size: 48,
+                    color: index == 0
+                        ? RioTheme.of(context).colorScheme.primary
+                        : index == 1
+                            ? Colors.green
+                            : Colors.pink,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Add ${items[index].label}',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'This dialog opened with a smooth Hero animation from the bottom navigation action button!',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Icon(
-                        index == 0
-                            ? Icons.add
-                            : index == 1
-                                ? Icons.search
-                                : Icons.favorite,
-                        size: 48,
-                        color: index == 0
-                            ? RioTheme.of(context).colorScheme.primary
-                            : index == 1
-                                ? Colors.green
-                                : Colors.pink,
+                      RioButton(
+                        theme: const RioButtonTheme(
+                          variant: RioButtonVariant.outlined,
+                        ),
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('Cancel'),
                       ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'Add ${items[index].label}',
-                        style: Theme.of(context).textTheme.headlineSmall,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'This dialog opened with a smooth Hero animation from the bottom navigation action button!',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 24),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          RioButton(
-                            theme: const RioButtonTheme(
-                              variant: RioButtonVariant.outlined,
+                      RioButton(
+                        theme: RioButtonTheme(
+                          variant: RioButtonVariant.soft,
+                          color: index == 0
+                              ? RioTheme.of(context).colorScheme.primary
+                              : index == 1
+                                  ? Colors.green
+                                  : Colors.pink,
+                        ),
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Add ${items[index].label} action completed!',
+                              ),
                             ),
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: const Text('Cancel'),
-                          ),
-                          RioButton(
-                            theme: RioButtonTheme(
-                              variant: RioButtonVariant.soft,
-                              color: index == 0
-                                  ? RioTheme.of(context).colorScheme.primary
-                                  : index == 1
-                                      ? Colors.green
-                                      : Colors.pink,
-                            ),
-                            onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      'Add ${items[index].label} action completed!'),
-                                ),
-                              );
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('Confirm'),
-                          ),
-                        ],
+                          );
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Confirm'),
                       ),
                     ],
                   ),
-                ),
+                ],
               ),
             );
           }
@@ -489,14 +491,16 @@ class _SimplifiedHeroExampleState extends State<_SimplifiedHeroExample> {
                       ? Colors.green
                       : Colors.blue,
             ),
-            containerTheme: const RioContainerTheme(
-              borderRadius: BorderRadius.all(Radius.circular(12)),
+            containerTheme: RioContainerTheme(
+              borderRadius: BorderRadius.circular(
+                  RioTheme.of(context).defaultBorderRadius),
             ),
             // This is the new simplified dialogBuilder approach!
             dialogBuilder: (context) => RioContainer(
               theme: RioContainerTheme(
                 color: RioTheme.of(context).colorScheme.surface,
-                borderRadius: const BorderRadius.all(Radius.circular(16)),
+                borderRadius: BorderRadius.circular(
+                    RioTheme.of(context).defaultBorderRadius),
               ),
               width: 300,
               child: Padding(

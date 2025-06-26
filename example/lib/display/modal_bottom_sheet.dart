@@ -100,7 +100,7 @@ Widget calendarModal(BuildContext context) {
             builder: (context) => _CalendarModalContent(),
           );
 
-          if (selectedDate != null) {
+          if (selectedDate != null && context.mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text('Selected date: ${selectedDate.toLocal()}'),

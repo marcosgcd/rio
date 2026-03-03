@@ -222,11 +222,10 @@ class _RioTextFieldState extends State<RioTextField> {
             color: colorScheme.onSurface.withValues(alpha: 0.38),
           );
     final effectiveStatusText = hasError ? decoration?.errorText : decoration?.helperText;
+    final hasStatusText = effectiveStatusText?.isNotEmpty ?? false;
     final helperStyle = Theme.of(context).textTheme.bodySmall?.copyWith(
           color: hasError ? colorScheme.error : colorScheme.caption,
         );
-    final helperLineHeight =
-        (helperStyle?.fontSize ?? 12) * (helperStyle?.height ?? 1.2);
 
     final isFilledVariant = _theme.filled == true;
     final neutralBorderColor = colorScheme.onSurface.withValues(
@@ -420,21 +419,19 @@ class _RioTextFieldState extends State<RioTextField> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 6),
-              child: SizedBox(
-                height: helperLineHeight,
+            RioExpandableVisibility(
+              expanded: hasStatusText,
+              duration: const Duration(milliseconds: 220),
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4),
                 child: Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
-                    effectiveStatusText?.isNotEmpty == true ? effectiveStatusText! : ' ',
+                    effectiveStatusText ?? '',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: helperStyle?.copyWith(
-                      color: effectiveStatusText?.isNotEmpty == true
-                          ? helperStyle.color
-                          : Colors.transparent,
-                    ),
+                    style: helperStyle,
                   ),
                 ),
               ),

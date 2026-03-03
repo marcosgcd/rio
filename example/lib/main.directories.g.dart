@@ -17,6 +17,7 @@ import 'display/avatar.dart' as _i2;
 import 'display/container.dart' as _i3;
 import 'display/dialog.dart' as _i4;
 import 'display/divider.dart' as _i5;
+import 'display/expandable_visibility.dart' as _i21;
 import 'display/icon_merger.dart' as _i6;
 import 'display/list_view.dart' as _i7;
 import 'display/modal_bottom_sheet.dart' as _i8;
@@ -83,6 +84,13 @@ final directories = <_i1.WidgetbookNode>[
             builder: _i5.useCaseRioVertical,
           ),
         ],
+      ),
+      _i1.WidgetbookLeafComponent(
+        name: 'RioExpandableVisibility',
+        useCase: _i1.WidgetbookUseCase(
+          name: 'Default',
+          builder: _i21.useCaseRioExpandableVisibility,
+        ),
       ),
       _i1.WidgetbookLeafComponent(
         name: 'RioIconMerger',

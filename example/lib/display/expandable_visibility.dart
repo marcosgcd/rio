@@ -9,6 +9,7 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
   path: "Display",
 )
 Widget useCaseRioExpandableVisibility(BuildContext context) {
+  final expand = context.knobs.boolean(label: "Expand", initialValue: true);
   final fade = context.knobs.boolean(label: "Fade", initialValue: true);
   final maintainState =
       context.knobs.boolean(label: "Maintain State", initialValue: true);
@@ -27,6 +28,7 @@ Widget useCaseRioExpandableVisibility(BuildContext context) {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 420),
           child: _ExpandableVisibilityDemo(
+            expand: expand,
             fade: fade,
             maintainState: maintainState,
             initiallyExpanded: initiallyExpanded,
@@ -40,12 +42,14 @@ Widget useCaseRioExpandableVisibility(BuildContext context) {
 
 class _ExpandableVisibilityDemo extends StatefulWidget {
   const _ExpandableVisibilityDemo({
+    required this.expand,
     required this.fade,
     required this.maintainState,
     required this.initiallyExpanded,
     required this.duration,
   });
 
+  final bool expand;
   final bool fade;
   final bool maintainState;
   final bool initiallyExpanded;
@@ -95,6 +99,7 @@ class _ExpandableVisibilityDemoState extends State<_ExpandableVisibilityDemo> {
           RioExpandableVisibility(
             expanded: _expanded,
             duration: widget.duration,
+            expand: widget.expand,
             fade: widget.fade,
             maintainState: widget.maintainState,
             alignment: Alignment.topCenter,
@@ -112,7 +117,8 @@ class _ExpandableVisibilityDemoState extends State<_ExpandableVisibilityDemo> {
                     const Text("Expandable content"),
                     const SizedBox(height: 8),
                     Text(
-                      "Use \"Maintain State\" to test whether inner state survives collapse.",
+                      "Use \"Expand\" for height animation and \"Fade\" for opacity. "
+                      "Maintain State controls whether inner state survives collapse.",
                       style: TextStyle(color: colors.caption),
                     ),
                     const SizedBox(height: 12),

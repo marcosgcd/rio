@@ -9,6 +9,7 @@ class RioExpandableVisibility extends StatefulWidget {
     this.curve = Curves.easeOutCubic,
     this.reverseCurve = Curves.easeInCubic,
     this.alignment = Alignment.center,
+    this.expand = true,
     this.fade = true,
     this.maintainState = true,
   });
@@ -19,6 +20,7 @@ class RioExpandableVisibility extends StatefulWidget {
   final Curve curve;
   final Curve reverseCurve;
   final Alignment alignment;
+  final bool expand;
   final bool fade;
   final bool maintainState;
 
@@ -97,11 +99,12 @@ class _RioExpandableVisibilityState extends State<RioExpandableVisibility>
             : widget.child,
         builder: (context, child) {
           final value = _animation.value;
+          final opacity = widget.fade ? value : (widget.expanded ? 1.0 : 0.0);
           return Align(
             alignment: widget.alignment,
-            heightFactor: value,
+            heightFactor: widget.expand ? value : null,
             child: Opacity(
-              opacity: widget.fade ? value : 1,
+              opacity: opacity,
               child: child,
             ),
           );

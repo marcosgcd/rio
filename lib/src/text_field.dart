@@ -36,7 +36,7 @@ class RioTextFieldTheme extends ThemeExtension<RioTextFieldTheme>
   const RioTextFieldTheme.defaultTheme()
       : margin = EdgeInsets.zero,
         contentPadding =
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         borderRadius = null,
         filled = false,
         color = null,
@@ -184,6 +184,9 @@ class RioTextField extends StatefulWidget {
 
 class _RioTextFieldState extends State<RioTextField> {
   late FocusNode _focusNode;
+  late bool _ownsFocusNode;
+  bool _hasFocus = false;
+  bool _isHovered = false;
 
   late RioTextFieldTheme _theme;
 
@@ -195,43 +198,103 @@ class _RioTextFieldState extends State<RioTextField> {
   void initState() {
     super.initState();
 
-    _focusNode = widget.focusNode ?? FocusNode();
+    _attachFocusNode(
+      widget.focusNode ?? FocusNode(),
+      ownsNode: widget.focusNode == null,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final rioTheme = RioTheme.of(context);
     final colorScheme = rioTheme.colorScheme;
-    final hasError = widget.decoration?.errorText != null;
-    var color = _theme.color ?? colorScheme.primary;
+    final isEnabled = !widget.disabled;
+    final hasError = widget.decoration?.errorText?.isNotEmpty ?? false;
+    final activeColor = _theme.color ?? colorScheme.primary;
     final decoration = widget.decoration;
     final effectiveHintStyle =
         (_theme.hintStyle ?? Theme.of(context).textTheme.bodyMedium)
             ?.copyWith(color: _theme.hintStyle?.color ?? colorScheme.hint);
+    final baseTextStyle = _theme.textStyle ?? Theme.of(context).textTheme.bodyMedium;
+    final effectiveTextStyle = isEnabled
+        ? baseTextStyle
+        : baseTextStyle?.copyWith(
+            color: colorScheme.onSurface.withValues(alpha: 0.38),
+          );
+    final effectiveStatusText = hasError ? decoration?.errorText : decoration?.helperText;
+    final helperStyle = Theme.of(context).textTheme.bodySmall?.copyWith(
+          color: hasError ? colorScheme.error : colorScheme.caption,
+        );
+    final helperLineHeight =
+        (helperStyle?.fontSize ?? 12) * (helperStyle?.height ?? 1.2);
 
-    if (hasError) {
-      color = Theme.of(context).colorScheme.error;
-    }
+    final isFilledVariant = _theme.filled == true;
+    final neutralBorderColor = colorScheme.onSurface.withValues(
+      alpha: isFilledVariant ? 0.12 : 0.16,
+    );
+    final hoverBorderColor = colorScheme.onSurface.withValues(
+      alpha: isFilledVariant ? 0.18 : 0.26,
+    );
+    final disabledBorderColor = colorScheme.onSurface.withValues(alpha: 0.08);
 
-    final baseBorder = OutlineInputBorder(
+    final enabledBorder = OutlineInputBorder(
       borderRadius: _borderRadius,
       borderSide: BorderSide(
-        color: hasError ? Theme.of(context).colorScheme.error : colorScheme.border,
+        color: _isHovered ? hoverBorderColor : neutralBorderColor,
+        width: 1,
       ),
     );
+    final errorBorder = OutlineInputBorder(
+      borderRadius: _borderRadius,
+      borderSide: BorderSide(
+        color: colorScheme.error,
+        width: 1,
+      ),
+    );
+    final disabledBorder = OutlineInputBorder(
+      borderRadius: _borderRadius,
+      borderSide: BorderSide(
+        color: disabledBorderColor,
+        width: 1,
+      ),
+    );
+    final focusedBorderColor =
+        hasError
+            ? colorScheme.error
+            : activeColor.withValues(alpha: isFilledVariant ? 0.4 : 0.4);
     final focusedBorder = OutlineInputBorder(
       borderRadius: _borderRadius,
       borderSide: BorderSide(
-        color: color,
+        color: focusedBorderColor,
+        width: 2,
       ),
     );
+
+    Color? fillColor;
+    if (isFilledVariant) {
+      fillColor = _theme.fillColor ?? activeColor.withValues(alpha: 0.05);
+      if (!isEnabled) {
+        fillColor = colorScheme.onSurface.withValues(alpha: 0.03);
+      } else if (hasError) {
+        fillColor =
+            colorScheme.error.withValues(alpha: _hasFocus ? 0.03 : 0.02);
+      } else if (_hasFocus) {
+        fillColor = activeColor.withValues(alpha: 0.03);
+      }
+    }
+
+    final focusShadowColor = hasError ? colorScheme.error : focusedBorderColor;
+    final focusShadowOpacity = hasError ? 0.16 : 0.12;
+    final showFocusShadow = _hasFocus && isEnabled;
 
     return Padding(
       padding: _theme.margin!,
       child: GestureDetector(
-        onTap: () {
-          _focusNode.requestFocus();
-        },
+        onTap: isEnabled
+            ? () {
+                _focusNode.requestFocus();
+              }
+            : null,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,84 +310,158 @@ class _RioTextFieldState extends State<RioTextField> {
                   child: decoration!.label!,
                 ),
               ),
-            TextField(
-              autofocus: widget.autofocus,
-              autocorrect: widget.autocorrect,
-              autofillHints: widget.autofillHints,
-              buildCounter: widget.buildCounter,
-              inputFormatters: widget.inputFormatters,
-              controller: widget.controller,
-              obscureText: widget.obscureText,
-              keyboardAppearance: widget.keyboardAppearance,
-              keyboardType: widget.keyboardType,
-              maxLength: widget.maxLength,
-              cursorColor: widget.cursorColor ?? color,
-              focusNode: _focusNode,
-              onChanged: widget.onChanged,
-              textInputAction: widget.textInputAction,
-              strutStyle: widget.strutStyle,
-              textAlignVertical: widget.textAlignVertical,
-              textDirection: widget.textDirection,
-              textCapitalization: widget.textCapitalization,
-              readOnly: widget.readOnly,
-              showCursor: widget.showCursor,
-              enableSuggestions: widget.enableSuggestions,
-              maxLengthEnforcement: widget.maxLengthEnforcement,
-              maxLines: widget.maxLines,
-              minLines: widget.minLines,
-              expands: widget.expands,
-              cursorHeight: widget.cursorHeight,
-              cursorRadius: widget.cursorRadius,
-              cursorWidth: widget.cursorWidth,
-              enableInteractiveSelection: widget.enableInteractiveSelection,
-              enabled: !widget.disabled,
-              dragStartBehavior: widget.dragStartBehavior,
-              mouseCursor: widget.disabled
-                  ? SystemMouseCursors.forbidden
-                  : widget.mouseCursor,
-              obscuringCharacter: widget.obscuringCharacter,
-              style: _theme.textStyle,
-              onTap: widget.onTap,
-              onSubmitted: widget.onSubmitted,
-              onEditingComplete: widget.onEditingComplete,
-              contextMenuBuilder: widget.contextMenuBuilder,
-              smartDashesType: widget.smartDashesType,
-              smartQuotesType: widget.smartQuotesType,
-              scrollController: widget.scrollController,
-              scrollPhysics: widget.scrollPhysics,
-              scrollPadding: widget.scrollPadding,
-              decoration: InputDecoration(
-                filled: _theme.filled == true,
-                fillColor: _theme.fillColor ?? color.withValues(alpha: 0.05),
-                focusColor: color,
-                contentPadding: _theme.contentPadding,
-                hintText: decoration?.hintText,
-                hintStyle: effectiveHintStyle,
-                isDense: true,
-                border: baseBorder,
-                enabledBorder: baseBorder,
-                disabledBorder: baseBorder,
-                focusedBorder: focusedBorder,
-              ),
-            ),
-            if (decoration?.helperText != null ||
-                (decoration?.errorText != null &&
-                    decoration!.errorText!.isNotEmpty))
-              Padding(
-                padding: const EdgeInsets.only(top: 6),
-                child: Text(
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: decoration?.errorText != null
-                            ? Theme.of(context).colorScheme.error
-                            : null,
+            MouseRegion(
+              cursor: isEnabled ? (widget.mouseCursor ?? SystemMouseCursors.text) : SystemMouseCursors.forbidden,
+              onEnter: isEnabled
+                  ? (_) {
+                      if (!_isHovered) {
+                        setState(() {
+                          _isHovered = true;
+                        });
+                      }
+                    }
+                  : null,
+              onExit: isEnabled
+                  ? (_) {
+                      if (_isHovered) {
+                        setState(() {
+                          _isHovered = false;
+                        });
+                      }
+                    }
+                  : null,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 140),
+                curve: Curves.easeOutCubic,
+                decoration: BoxDecoration(
+                  borderRadius: _borderRadius,
+                  boxShadow: [
+                    if (showFocusShadow)
+                      BoxShadow(
+                        color: focusShadowColor.withValues(
+                          alpha: focusShadowOpacity,
+                        ),
+                        blurRadius: 12,
+                        spreadRadius: 1,
                       ),
-                  decoration?.errorText ?? decoration!.helperText!,
+                  ],
+                ),
+                child: TextField(
+                  autofocus: widget.autofocus,
+                  autocorrect: widget.autocorrect,
+                  autofillHints: widget.autofillHints,
+                  buildCounter: widget.buildCounter,
+                  inputFormatters: widget.inputFormatters,
+                  controller: widget.controller,
+                  obscureText: widget.obscureText,
+                  keyboardAppearance: widget.keyboardAppearance,
+                  keyboardType: widget.keyboardType,
+                  maxLength: widget.maxLength,
+                  cursorColor: widget.cursorColor ??
+                      (hasError ? colorScheme.error : activeColor),
+                  focusNode: _focusNode,
+                  onChanged: widget.onChanged,
+                  textInputAction: widget.textInputAction,
+                  strutStyle: widget.strutStyle,
+                  textAlign: widget.textAlign,
+                  textAlignVertical: widget.textAlignVertical,
+                  textDirection: widget.textDirection,
+                  textCapitalization: widget.textCapitalization,
+                  readOnly: widget.readOnly,
+                  showCursor: widget.showCursor,
+                  enableSuggestions: widget.enableSuggestions,
+                  maxLengthEnforcement: widget.maxLengthEnforcement,
+                  maxLines: widget.maxLines,
+                  minLines: widget.minLines,
+                  expands: widget.expands,
+                  cursorHeight: widget.cursorHeight,
+                  cursorRadius: widget.cursorRadius,
+                  cursorWidth: widget.cursorWidth,
+                  enableInteractiveSelection: widget.enableInteractiveSelection,
+                  enabled: isEnabled,
+                  dragStartBehavior: widget.dragStartBehavior,
+                  mouseCursor: isEnabled
+                      ? (widget.mouseCursor ?? SystemMouseCursors.text)
+                      : SystemMouseCursors.forbidden,
+                  obscuringCharacter: widget.obscuringCharacter,
+                  style: effectiveTextStyle,
+                  onTap: widget.onTap,
+                  onSubmitted: widget.onSubmitted,
+                  onEditingComplete: widget.onEditingComplete,
+                  contextMenuBuilder: widget.contextMenuBuilder,
+                  smartDashesType: widget.smartDashesType,
+                  smartQuotesType: widget.smartQuotesType,
+                  scrollController: widget.scrollController,
+                  scrollPhysics: widget.scrollPhysics,
+                  scrollPadding: widget.scrollPadding,
+                  decoration: InputDecoration(
+                    filled: isFilledVariant,
+                    fillColor: fillColor,
+                    hoverColor:
+                        isFilledVariant ? activeColor.withValues(alpha: 0.04) : null,
+                    contentPadding: _theme.contentPadding,
+                    hintText: decoration?.hintText,
+                    hintStyle: effectiveHintStyle,
+                    isDense: false,
+                    suffixIcon: hasError
+                        ? Icon(
+                            Icons.error_outline_rounded,
+                            size: 18,
+                            color: colorScheme.error,
+                          )
+                        : null,
+                    border: enabledBorder,
+                    enabledBorder: hasError ? errorBorder : enabledBorder,
+                    disabledBorder: disabledBorder,
+                    focusedBorder: focusedBorder,
+                    errorBorder: errorBorder,
+                    focusedErrorBorder: errorBorder,
+                  ),
                 ),
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: SizedBox(
+                height: helperLineHeight,
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    effectiveStatusText?.isNotEmpty == true ? effectiveStatusText! : ' ',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: helperStyle?.copyWith(
+                      color: effectiveStatusText?.isNotEmpty == true
+                          ? helperStyle.color
+                          : Colors.transparent,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void _attachFocusNode(
+    FocusNode focusNode, {
+    required bool ownsNode,
+  }) {
+    _focusNode = focusNode;
+    _ownsFocusNode = ownsNode;
+    _focusNode.addListener(_handleFocusChange);
+    _hasFocus = _focusNode.hasFocus;
+  }
+
+  void _handleFocusChange() {
+    if (_hasFocus == _focusNode.hasFocus) {
+      return;
+    }
+    setState(() {
+      _hasFocus = _focusNode.hasFocus;
+    });
   }
 
   @override
@@ -335,13 +472,27 @@ class _RioTextFieldState extends State<RioTextField> {
 
   @override
   void didUpdateWidget(covariant RioTextField oldWidget) {
+    if (oldWidget.focusNode != widget.focusNode) {
+      _focusNode.removeListener(_handleFocusChange);
+      if (_ownsFocusNode) {
+        _focusNode.dispose();
+      }
+      _attachFocusNode(
+        widget.focusNode ?? FocusNode(),
+        ownsNode: widget.focusNode == null,
+      );
+    }
+    if (widget.disabled) {
+      _isHovered = false;
+    }
     _theme = RioTheme.of(context).textFieldTheme.merge(widget.theme);
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   void dispose() {
-    if (widget.focusNode == null) {
+    _focusNode.removeListener(_handleFocusChange);
+    if (_ownsFocusNode) {
       _focusNode.dispose();
     }
     super.dispose();

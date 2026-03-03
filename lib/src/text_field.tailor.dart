@@ -16,6 +16,9 @@ mixin _$RioTextFieldThemeTailorMixin
   BorderRadius? get borderRadius;
   bool? get filled;
   Color? get color;
+  Color? get fillColor;
+  TextStyle? get textStyle;
+  TextStyle? get hintStyle;
 
   @override
   RioTextFieldTheme copyWith({
@@ -24,6 +27,9 @@ mixin _$RioTextFieldThemeTailorMixin
     BorderRadius? borderRadius,
     bool? filled,
     Color? color,
+    Color? fillColor,
+    TextStyle? textStyle,
+    TextStyle? hintStyle,
   }) {
     return RioTextFieldTheme(
       margin: margin ?? this.margin,
@@ -31,6 +37,9 @@ mixin _$RioTextFieldThemeTailorMixin
       borderRadius: borderRadius ?? this.borderRadius,
       filled: filled ?? this.filled,
       color: color ?? this.color,
+      fillColor: fillColor ?? this.fillColor,
+      textStyle: textStyle ?? this.textStyle,
+      hintStyle: hintStyle ?? this.hintStyle,
     );
   }
 
@@ -44,6 +53,9 @@ mixin _$RioTextFieldThemeTailorMixin
       borderRadius: t < 0.5 ? borderRadius : other.borderRadius,
       filled: t < 0.5 ? filled : other.filled,
       color: Color.lerp(color, other.color, t),
+      fillColor: Color.lerp(fillColor, other.fillColor, t),
+      textStyle: TextStyle.lerp(textStyle, other.textStyle, t),
+      hintStyle: TextStyle.lerp(hintStyle, other.hintStyle, t),
     );
   }
 
@@ -58,7 +70,11 @@ mixin _$RioTextFieldThemeTailorMixin
             const DeepCollectionEquality()
                 .equals(borderRadius, other.borderRadius) &&
             const DeepCollectionEquality().equals(filled, other.filled) &&
-            const DeepCollectionEquality().equals(color, other.color));
+            const DeepCollectionEquality().equals(color, other.color) &&
+            const DeepCollectionEquality()
+                .equals(fillColor, other.fillColor) &&
+            const DeepCollectionEquality().equals(textStyle, other.textStyle) &&
+            const DeepCollectionEquality().equals(hintStyle, other.hintStyle));
   }
 
   @override
@@ -70,6 +86,9 @@ mixin _$RioTextFieldThemeTailorMixin
       const DeepCollectionEquality().hash(borderRadius),
       const DeepCollectionEquality().hash(filled),
       const DeepCollectionEquality().hash(color),
+      const DeepCollectionEquality().hash(fillColor),
+      const DeepCollectionEquality().hash(textStyle),
+      const DeepCollectionEquality().hash(hintStyle),
     );
   }
 
@@ -82,6 +101,9 @@ mixin _$RioTextFieldThemeTailorMixin
       ..add(DiagnosticsProperty('contentPadding', contentPadding))
       ..add(DiagnosticsProperty('borderRadius', borderRadius))
       ..add(DiagnosticsProperty('filled', filled))
-      ..add(DiagnosticsProperty('color', color));
+      ..add(DiagnosticsProperty('color', color))
+      ..add(DiagnosticsProperty('fillColor', fillColor))
+      ..add(DiagnosticsProperty('textStyle', textStyle))
+      ..add(DiagnosticsProperty('hintStyle', hintStyle));
   }
 }

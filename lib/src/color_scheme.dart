@@ -20,6 +20,7 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
     required this.onPopover,
     required this.caption,
     required this.border,
+    required this.hint,
     required this.error,
     required this.onError,
   });
@@ -50,6 +51,8 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
   final Color caption;
   @override
   final Color border;
+  @override
+  final Color hint;
 
   factory RioColorScheme.fromSeed(
     Color seedColor, {
@@ -85,6 +88,7 @@ class RioColorScheme extends ThemeExtension<RioColorScheme>
       onPopover: RioColorUtils.computeTextColorForBackground(popover),
       caption: colorScheme.onSurface.withValues(alpha: 0.5),
       border: colorScheme.onSurface.withValues(alpha: 0.2),
+      hint: colorScheme.onSurface.withValues(alpha: 0.35),
       error: colorScheme.error,
       onError: colorScheme.onError,
     );

@@ -24,6 +24,7 @@ mixin _$RioColorSchemeTailorMixin
   Color get onError;
   Color get caption;
   Color get border;
+  Color get hint;
 
   @override
   RioColorScheme copyWith({
@@ -40,6 +41,7 @@ mixin _$RioColorSchemeTailorMixin
     Color? onError,
     Color? caption,
     Color? border,
+    Color? hint,
   }) {
     return RioColorScheme(
       brightness: brightness ?? this.brightness,
@@ -55,6 +57,7 @@ mixin _$RioColorSchemeTailorMixin
       onError: onError ?? this.onError,
       caption: caption ?? this.caption,
       border: border ?? this.border,
+      hint: hint ?? this.hint,
     );
   }
 
@@ -76,6 +79,7 @@ mixin _$RioColorSchemeTailorMixin
       onError: Color.lerp(onError, other.onError, t)!,
       caption: Color.lerp(caption, other.caption, t)!,
       border: Color.lerp(border, other.border, t)!,
+      hint: Color.lerp(hint, other.hint, t)!,
     );
   }
 
@@ -99,7 +103,8 @@ mixin _$RioColorSchemeTailorMixin
             const DeepCollectionEquality().equals(error, other.error) &&
             const DeepCollectionEquality().equals(onError, other.onError) &&
             const DeepCollectionEquality().equals(caption, other.caption) &&
-            const DeepCollectionEquality().equals(border, other.border));
+            const DeepCollectionEquality().equals(border, other.border) &&
+            const DeepCollectionEquality().equals(hint, other.hint));
   }
 
   @override
@@ -119,6 +124,7 @@ mixin _$RioColorSchemeTailorMixin
       const DeepCollectionEquality().hash(onError),
       const DeepCollectionEquality().hash(caption),
       const DeepCollectionEquality().hash(border),
+      const DeepCollectionEquality().hash(hint),
     );
   }
 
@@ -139,6 +145,7 @@ mixin _$RioColorSchemeTailorMixin
       ..add(DiagnosticsProperty('error', error))
       ..add(DiagnosticsProperty('onError', onError))
       ..add(DiagnosticsProperty('caption', caption))
-      ..add(DiagnosticsProperty('border', border));
+      ..add(DiagnosticsProperty('border', border))
+      ..add(DiagnosticsProperty('hint', hint));
   }
 }

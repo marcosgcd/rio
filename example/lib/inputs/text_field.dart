@@ -25,34 +25,82 @@ Widget _buildUseCase(
   required bool filled,
 }) {
   return Scaffold(
-    body: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          RioTextField(
-            theme: RioTextFieldTheme(
-              filled: filled,
+    body: SafeArea(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            RioTextField(
+              theme: RioTextFieldTheme(
+                filled: filled,
+              ),
+              decoration: const RioTextFieldDecoration(
+                label: Text("Name"),
+                hintText: "Max Mustermann",
+                helperText: "Vor- und Nachname",
+              ),
             ),
-            decoration: const RioTextFieldDecoration(
-              label: Text("Text"),
-              hintText: "Hint",
-              helperText: "Helper",
+            const SizedBox(height: 16),
+            RioTextField(
+              theme: RioTextFieldTheme(
+                filled: filled,
+              ),
+              keyboardType: TextInputType.emailAddress,
+              decoration: const RioTextFieldDecoration(
+                label: Text("E-Mail"),
+                hintText: "max@example.com",
+                helperText: "Wir senden keine Werbung",
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          RioTextField(
-            theme: RioTextFieldTheme(
-              filled: filled,
+            const SizedBox(height: 16),
+            RioTextField(
+              theme: RioTextFieldTheme(
+                filled: filled,
+              ),
+              obscureText: true,
+              decoration: const RioTextFieldDecoration(
+                label: Text("Passwort"),
+                hintText: "Mindestens 8 Zeichen",
+              ),
             ),
-            decoration: const RioTextFieldDecoration(
-              label: Text("Text"),
-              hintText: "Hint",
-              helperText: "Helper",
-              errorText: "Error",
+            const SizedBox(height: 16),
+            RioTextField(
+              theme: RioTextFieldTheme(
+                filled: filled,
+              ),
+              decoration: const RioTextFieldDecoration(
+                label: Text("Telefon"),
+                hintText: "+49 170 1234567",
+                helperText: "Optional",
+                errorText: "Ungültiges Format",
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 16),
+            RioTextField(
+              theme: RioTextFieldTheme(
+                filled: filled,
+              ),
+              maxLines: 4,
+              decoration: const RioTextFieldDecoration(
+                label: Text("Notiz"),
+                hintText: "Zusätzliche Informationen",
+                helperText: "Mehrzeiliges Feld",
+              ),
+            ),
+            const SizedBox(height: 16),
+            RioTextField(
+              theme: RioTextFieldTheme(
+                filled: filled,
+              ),
+              disabled: true,
+              decoration: const RioTextFieldDecoration(
+                label: Text("Disabled"),
+                hintText: "Nicht bearbeitbar",
+                helperText: "Nur zur Anzeige",
+              ),
+            ),
+          ],
+        ),
       ),
     ),
   );

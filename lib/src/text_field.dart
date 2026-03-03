@@ -28,6 +28,9 @@ class RioTextFieldTheme extends ThemeExtension<RioTextFieldTheme>
     this.borderRadius,
     this.filled,
     this.color,
+    this.fillColor,
+    this.textStyle,
+    this.hintStyle,
   });
 
   const RioTextFieldTheme.defaultTheme()
@@ -36,7 +39,10 @@ class RioTextFieldTheme extends ThemeExtension<RioTextFieldTheme>
             const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         borderRadius = null,
         filled = false,
-        color = null;
+        color = null,
+        fillColor = null,
+        textStyle = null,
+        hintStyle = null;
 
   @override
   final EdgeInsets? margin;
@@ -48,6 +54,12 @@ class RioTextFieldTheme extends ThemeExtension<RioTextFieldTheme>
   final bool? filled;
   @override
   final Color? color;
+  @override
+  final Color? fillColor;
+  @override
+  final TextStyle? textStyle;
+  @override
+  final TextStyle? hintStyle;
 
   RioTextFieldTheme merge(RioTextFieldTheme? other) {
     return const RioTextFieldTheme.defaultTheme().copyWith(
@@ -56,6 +68,9 @@ class RioTextFieldTheme extends ThemeExtension<RioTextFieldTheme>
       borderRadius: other?.borderRadius ?? borderRadius,
       filled: other?.filled ?? filled,
       color: other?.color ?? color,
+      fillColor: other?.fillColor ?? fillColor,
+      textStyle: other?.textStyle ?? textStyle,
+      hintStyle: other?.hintStyle ?? hintStyle,
     );
   }
 }
@@ -185,12 +200,31 @@ class _RioTextFieldState extends State<RioTextField> {
 
   @override
   Widget build(BuildContext context) {
-    var color = _theme.color ?? RioTheme.of(context).colorScheme.primary;
+    final rioTheme = RioTheme.of(context);
+    final colorScheme = rioTheme.colorScheme;
+    final hasError = widget.decoration?.errorText != null;
+    var color = _theme.color ?? colorScheme.primary;
     final decoration = widget.decoration;
+    final effectiveHintStyle =
+        (_theme.hintStyle ?? Theme.of(context).textTheme.bodyMedium)
+            ?.copyWith(color: _theme.hintStyle?.color ?? colorScheme.hint);
 
-    if (decoration?.errorText != null) {
+    if (hasError) {
       color = Theme.of(context).colorScheme.error;
     }
+
+    final baseBorder = OutlineInputBorder(
+      borderRadius: _borderRadius,
+      borderSide: BorderSide(
+        color: hasError ? Theme.of(context).colorScheme.error : colorScheme.border,
+      ),
+    );
+    final focusedBorder = OutlineInputBorder(
+      borderRadius: _borderRadius,
+      borderSide: BorderSide(
+        color: color,
+      ),
+    );
 
     return Padding(
       padding: _theme.margin!,
@@ -249,6 +283,7 @@ class _RioTextFieldState extends State<RioTextField> {
                   ? SystemMouseCursors.forbidden
                   : widget.mouseCursor,
               obscuringCharacter: widget.obscuringCharacter,
+              style: _theme.textStyle,
               onTap: widget.onTap,
               onSubmitted: widget.onSubmitted,
               onEditingComplete: widget.onEditingComplete,
@@ -260,16 +295,16 @@ class _RioTextFieldState extends State<RioTextField> {
               scrollPadding: widget.scrollPadding,
               decoration: InputDecoration(
                 filled: _theme.filled == true,
-                fillColor: color.withValues(alpha: 0.05),
+                fillColor: _theme.fillColor ?? color.withValues(alpha: 0.05),
                 focusColor: color,
                 contentPadding: _theme.contentPadding,
                 hintText: decoration?.hintText,
+                hintStyle: effectiveHintStyle,
                 isDense: true,
-                errorText: decoration?.errorText != null ? "" : null,
-                errorStyle: const TextStyle(height: 0),
-                border: OutlineInputBorder(
-                  borderRadius: _borderRadius,
-                ),
+                border: baseBorder,
+                enabledBorder: baseBorder,
+                disabledBorder: baseBorder,
+                focusedBorder: focusedBorder,
               ),
             ),
             if (decoration?.helperText != null ||

@@ -124,15 +124,29 @@ class RioFormBuilderTextField extends StatefulWidget {
 }
 
 class _RioFormBuilderTextFieldState extends State<RioFormBuilderTextField> {
+  final _fieldKey =
+      GlobalKey<FormBuilderFieldState<FormBuilderField<String>, String>>();
+
   late TextEditingController _controller;
   late bool _ownsController;
+
+  String? _effectiveInitialValue() {
+    if (widget.initialValue != null) {
+      return widget.initialValue;
+    }
+    final externalController = widget.controller;
+    if (externalController != null && externalController.text.isNotEmpty) {
+      return externalController.text;
+    }
+    return null;
+  }
 
   @override
   void initState() {
     super.initState();
     _attachController(
       widget.controller ??
-          TextEditingController(text: widget.initialValue ?? ''),
+          TextEditingController(text: _effectiveInitialValue() ?? ''),
       owns: widget.controller == null,
     );
   }
@@ -146,7 +160,7 @@ class _RioFormBuilderTextFieldState extends State<RioFormBuilderTextField> {
       }
       _attachController(
         widget.controller ??
-            TextEditingController(text: widget.initialValue ?? ''),
+            TextEditingController(text: _effectiveInitialValue() ?? ''),
         owns: widget.controller == null,
       );
     }
@@ -171,14 +185,17 @@ class _RioFormBuilderTextFieldState extends State<RioFormBuilderTextField> {
   @override
   Widget build(BuildContext context) {
     return FormBuilderField<String>(
+      key: _fieldKey,
       name: widget.name,
-      initialValue: widget.initialValue ?? _controller.text,
+      initialValue: _effectiveInitialValue(),
       onSaved: widget.onSaved,
       validator: widget.validator,
       valueTransformer: widget.valueTransformer,
       onChanged: widget.onChanged,
       onReset: () {
-        final resetValue = widget.initialValue ?? '';
+        final resetValue = _fieldKey.currentState?.initialValue ??
+            _effectiveInitialValue() ??
+            '';
         _controller.value = TextEditingValue(
           text: resetValue,
           selection: TextSelection.collapsed(offset: resetValue.length),
@@ -459,7 +476,7 @@ class RioFormBuilderToggleButtons<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return FormBuilderField<List<T>>(
       name: name,
-      initialValue: initialValue ?? <T>[],
+      initialValue: initialValue,
       onSaved: onSaved,
       validator: validator,
       valueTransformer: valueTransformer,
@@ -567,12 +584,23 @@ class _RioFormBuilderPinFieldState extends State<RioFormBuilderPinField> {
   late TextEditingController _controller;
   late bool _ownsController;
 
+  String? _effectiveInitialValue() {
+    if (widget.initialValue != null) {
+      return widget.initialValue;
+    }
+    final externalController = widget.controller;
+    if (externalController != null && externalController.text.isNotEmpty) {
+      return externalController.text;
+    }
+    return null;
+  }
+
   @override
   void initState() {
     super.initState();
     _attachController(
       widget.controller ??
-          TextEditingController(text: widget.initialValue ?? ''),
+          TextEditingController(text: _effectiveInitialValue() ?? ''),
       owns: widget.controller == null,
     );
     _controller.addListener(_handleControllerChanged);
@@ -588,7 +616,7 @@ class _RioFormBuilderPinFieldState extends State<RioFormBuilderPinField> {
       }
       _attachController(
         widget.controller ??
-            TextEditingController(text: widget.initialValue ?? ''),
+            TextEditingController(text: _effectiveInitialValue() ?? ''),
         owns: widget.controller == null,
       );
       _controller.addListener(_handleControllerChanged);
@@ -628,13 +656,15 @@ class _RioFormBuilderPinFieldState extends State<RioFormBuilderPinField> {
     return FormBuilderField<String>(
       key: _fieldKey,
       name: widget.name,
-      initialValue: widget.initialValue ?? _controller.text,
+      initialValue: _effectiveInitialValue(),
       onSaved: widget.onSaved,
       validator: widget.validator,
       valueTransformer: widget.valueTransformer,
       onChanged: widget.onChanged,
       onReset: () {
-        _controller.text = widget.initialValue ?? '';
+        _controller.text = _fieldKey.currentState?.initialValue ??
+            _effectiveInitialValue() ??
+            '';
         widget.onReset?.call();
       },
       focusNode: widget.focusNode,

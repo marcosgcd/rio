@@ -101,6 +101,21 @@ class _RioFormBuilderShowcaseState extends State<_RioFormBuilderShowcase> {
                   },
                 ),
                 const SizedBox(height: 16),
+                RioFormBuilderDateField(
+                  name: 'birthday',
+                  initialValue: DateTime(1990, 1, 1),
+                  decoration: const RioTextFieldDecoration(
+                    label: Text('Birthday'),
+                    hintText: 'Select date',
+                  ),
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Birthday is required';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
                 RioFormBuilderCheckbox(
                   name: 'terms',
                   initialValue: false,

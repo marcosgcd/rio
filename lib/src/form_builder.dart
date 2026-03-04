@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
@@ -428,6 +429,95 @@ class RioFormBuilderDropdownField<T> extends StatelessWidget {
           menuMinWidth: menuMinWidth,
           offset: offset,
           disabled: disabled || !state.enabled,
+        );
+      },
+    );
+  }
+}
+
+class RioFormBuilderDateField extends StatelessWidget {
+  const RioFormBuilderDateField({
+    super.key,
+    required this.name,
+    this.initialValue,
+    this.onSaved,
+    this.validator,
+    this.valueTransformer,
+    this.onChanged,
+    this.onReset,
+    this.focusNode,
+    this.autovalidateMode,
+    this.enabled = true,
+    this.disabled = false,
+    this.theme,
+    this.decoration,
+    this.modalTheme,
+    this.clearable = true,
+    this.minimumDate,
+    this.maximumDate,
+    this.initialDate,
+    this.dateOrder,
+    this.clearTooltip,
+    this.clearText,
+  });
+
+  final String name;
+  final DateTime? initialValue;
+  final FormFieldSetter<DateTime?>? onSaved;
+  final FormFieldValidator<DateTime?>? validator;
+  final ValueTransformer<DateTime?>? valueTransformer;
+  final ValueChanged<DateTime?>? onChanged;
+  final VoidCallback? onReset;
+  final FocusNode? focusNode;
+  final AutovalidateMode? autovalidateMode;
+  final bool enabled;
+  final bool disabled;
+  final RioTextFieldTheme? theme;
+  final RioTextFieldDecoration? decoration;
+  final RioModalTheme? modalTheme;
+  final bool clearable;
+  final DateTime? minimumDate;
+  final DateTime? maximumDate;
+  final DateTime? initialDate;
+  final DatePickerDateOrder? dateOrder;
+  final String? clearTooltip;
+  final String? clearText;
+
+  @override
+  Widget build(BuildContext context) {
+    return FormBuilderField<DateTime?>(
+      name: name,
+      initialValue: initialValue,
+      onSaved: onSaved,
+      validator: validator,
+      valueTransformer: valueTransformer,
+      onChanged: onChanged,
+      onReset: onReset,
+      focusNode: focusNode,
+      autovalidateMode: autovalidateMode,
+      enabled: enabled,
+      builder: (field) {
+        final state = field
+            as FormBuilderFieldState<FormBuilderField<DateTime?>, DateTime?>;
+        final decoration =
+            (this.decoration ?? const RioTextFieldDecoration()).copyWith(
+          errorText: state.errorText ?? this.decoration?.errorText,
+        );
+
+        return RioDateField(
+          value: state.value,
+          onChanged: state.didChange,
+          theme: theme,
+          decoration: decoration,
+          modalTheme: modalTheme,
+          disabled: disabled || !state.enabled,
+          clearable: clearable,
+          minimumDate: minimumDate,
+          maximumDate: maximumDate,
+          initialDate: initialDate,
+          dateOrder: dateOrder,
+          clearTooltip: clearTooltip,
+          clearText: clearText,
         );
       },
     );

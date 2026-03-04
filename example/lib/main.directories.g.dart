@@ -23,6 +23,7 @@ import 'display/list_view.dart' as _i7;
 import 'display/modal_bottom_sheet.dart' as _i8;
 import 'inputs/button.dart' as _i10;
 import 'inputs/checkbox.dart' as _i11;
+import 'inputs/date_field.dart' as _i24;
 import 'inputs/dropdown_field.dart' as _i22;
 import 'inputs/form_builder.dart' as _i23;
 import 'inputs/icon_button.dart' as _i12;
@@ -206,6 +207,19 @@ final directories = <_i1.WidgetbookNode>[
           _i1.WidgetbookUseCase(
             name: 'Lots of options',
             builder: _i22.useCaseRioDropdownFieldManyOptions,
+          ),
+        ],
+      ),
+      _i1.WidgetbookComponent(
+        name: 'RioDateField',
+        useCases: [
+          _i1.WidgetbookUseCase(
+            name: 'Default',
+            builder: _i24.useCaseRioDateFieldDefault,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Filled',
+            builder: _i24.useCaseRioDateFieldFilled,
           ),
         ],
       ),

@@ -7,6 +7,7 @@ export 'src/checkbox.dart';
 export 'src/child_size_changed.dart';
 export 'src/color_scheme.dart';
 export 'src/container.dart';
+export 'src/date_field.dart';
 export 'src/divider.dart';
 export 'src/dialog.dart';
 export 'src/dropdown_field.dart';

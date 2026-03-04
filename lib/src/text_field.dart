@@ -80,6 +80,9 @@ class RioTextField extends StatefulWidget {
     super.key,
     this.theme,
     this.decoration,
+    this.inputKey,
+    this.prefixIcon,
+    this.suffixIcon,
     this.autofocus = false,
     this.focusNode,
     this.autocorrect = true,
@@ -126,6 +129,9 @@ class RioTextField extends StatefulWidget {
   });
   final RioTextFieldTheme? theme;
   final RioTextFieldDecoration? decoration;
+  final Key? inputKey;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
 
   final bool autofocus;
   final FocusNode? focusNode;
@@ -215,17 +221,36 @@ class _RioTextFieldState extends State<RioTextField> {
     final effectiveHintStyle =
         (_theme.hintStyle ?? Theme.of(context).textTheme.bodyMedium)
             ?.copyWith(color: _theme.hintStyle?.color ?? colorScheme.hint);
-    final baseTextStyle = _theme.textStyle ?? Theme.of(context).textTheme.bodyMedium;
+    final baseTextStyle =
+        _theme.textStyle ?? Theme.of(context).textTheme.bodyMedium;
     final effectiveTextStyle = isEnabled
         ? baseTextStyle
         : baseTextStyle?.copyWith(
             color: colorScheme.onSurface.withValues(alpha: 0.38),
           );
-    final effectiveStatusText = hasError ? decoration?.errorText : decoration?.helperText;
+    final effectiveStatusText =
+        hasError ? decoration?.errorText : decoration?.helperText;
     final hasStatusText = effectiveStatusText?.isNotEmpty ?? false;
     final helperStyle = Theme.of(context).textTheme.bodySmall?.copyWith(
           color: hasError ? colorScheme.error : colorScheme.caption,
         );
+    final errorSuffixIcon = Icon(
+      Icons.error_outline_rounded,
+      size: 18,
+      color: colorScheme.error,
+    );
+    final effectiveSuffixIcon = switch ((hasError, widget.suffixIcon)) {
+      (true, final Widget suffix) => Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            errorSuffixIcon,
+            const SizedBox(width: 4),
+            suffix,
+          ],
+        ),
+      (true, null) => errorSuffixIcon,
+      (false, _) => widget.suffixIcon,
+    };
 
     final isFilledVariant = _theme.filled == true;
     final neutralBorderColor = colorScheme.onSurface.withValues(
@@ -257,10 +282,9 @@ class _RioTextFieldState extends State<RioTextField> {
         width: 1,
       ),
     );
-    final focusedBorderColor =
-        hasError
-            ? colorScheme.error
-            : activeColor.withValues(alpha: isFilledVariant ? 0.4 : 0.4);
+    final focusedBorderColor = hasError
+        ? colorScheme.error
+        : activeColor.withValues(alpha: isFilledVariant ? 0.4 : 0.4);
     final focusedBorder = OutlineInputBorder(
       borderRadius: _borderRadius,
       borderSide: BorderSide(
@@ -310,7 +334,9 @@ class _RioTextFieldState extends State<RioTextField> {
                 ),
               ),
             MouseRegion(
-              cursor: isEnabled ? (widget.mouseCursor ?? SystemMouseCursors.text) : SystemMouseCursors.forbidden,
+              cursor: isEnabled
+                  ? (widget.mouseCursor ?? SystemMouseCursors.text)
+                  : SystemMouseCursors.forbidden,
               onEnter: isEnabled
                   ? (_) {
                       if (!_isHovered) {
@@ -330,6 +356,7 @@ class _RioTextFieldState extends State<RioTextField> {
                     }
                   : null,
               child: AnimatedContainer(
+                key: widget.inputKey,
                 duration: const Duration(milliseconds: 140),
                 curve: Curves.easeOutCubic,
                 decoration: BoxDecoration(
@@ -396,19 +423,15 @@ class _RioTextFieldState extends State<RioTextField> {
                   decoration: InputDecoration(
                     filled: isFilledVariant,
                     fillColor: fillColor,
-                    hoverColor:
-                        isFilledVariant ? activeColor.withValues(alpha: 0.04) : null,
+                    hoverColor: isFilledVariant
+                        ? activeColor.withValues(alpha: 0.04)
+                        : null,
                     contentPadding: _theme.contentPadding,
+                    prefixIcon: widget.prefixIcon,
                     hintText: decoration?.hintText,
                     hintStyle: effectiveHintStyle,
                     isDense: false,
-                    suffixIcon: hasError
-                        ? Icon(
-                            Icons.error_outline_rounded,
-                            size: 18,
-                            color: colorScheme.error,
-                          )
-                        : null,
+                    suffixIcon: effectiveSuffixIcon,
                     border: enabledBorder,
                     enabledBorder: hasError ? errorBorder : enabledBorder,
                     disabledBorder: disabledBorder,

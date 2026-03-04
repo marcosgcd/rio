@@ -88,11 +88,13 @@ class RioModal extends StatelessWidget {
     super.key,
     required this.child,
     this.theme,
+    this.floatingHeader,
     this.onDismissed,
   });
 
   final Widget child;
   final RioModalTheme? theme;
+  final Widget? floatingHeader;
   final VoidCallback? onDismissed;
 
   @override
@@ -125,6 +127,8 @@ class RioModal extends StatelessWidget {
         );
 
     final borderColor = RioTheme.of(context).colorScheme.onSurface;
+    final hasFloatingHeader = floatingHeader != null;
+    final showCloseButton = modalTheme.showCloseButton!;
 
     return Dismissible(
       key: const Key('rio_modal'),
@@ -141,19 +145,66 @@ class RioModal extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            if (modalTheme.showCloseButton!)
-              RioContainer(
-                theme: containerTheme.copyWith(
-                  margin: const EdgeInsets.only(bottom: 8, right: 8),
-                ),
-                child: RioIconButton(
-                  theme: effectiveCloseButtonTheme,
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    onDismissed?.call();
-                  },
-                ),
+            if (hasFloatingHeader || showCloseButton)
+              Row(
+                children: [
+                  if (hasFloatingHeader)
+                    Flexible(
+                      fit: FlexFit.loose,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: RioContainer(
+                          theme: containerTheme.copyWith(
+                            margin: const EdgeInsets.only(
+                              bottom: 8,
+                              left: 8,
+                              right: 8,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                            child: DefaultTextStyle(
+                              style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: RioTheme.of(context)
+                                            .colorScheme
+                                            .onSurface,
+                                      ) ??
+                                  TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: RioTheme.of(context)
+                                        .colorScheme
+                                        .onSurface,
+                                  ),
+                              child: floatingHeader!,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  else
+                    const Spacer(),
+                  if (showCloseButton)
+                    RioContainer(
+                      theme: containerTheme.copyWith(
+                        margin: const EdgeInsets.only(bottom: 8, right: 8),
+                      ),
+                      child: RioIconButton(
+                        theme: effectiveCloseButtonTheme,
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          onDismissed?.call();
+                        },
+                      ),
+                    ),
+                ],
               ),
             Flexible(
               child: RioContainer(
@@ -329,6 +380,7 @@ Future<T?> showRioModal<T>(
   BuildContext context, {
   required Widget Function(BuildContext context) builder,
   RioModalTheme? theme,
+  Widget? floatingHeader,
   VoidCallback? onDismissed,
   bool barrierDismissible = true,
   bool resizeToAvoidBottomInset = false,
@@ -345,6 +397,7 @@ Future<T?> showRioModal<T>(
       barrierColor: modalTheme.barrierColor ?? barrierColor,
       builder: (context) => RioModal(
         theme: theme,
+        floatingHeader: floatingHeader,
         onDismissed: onDismissed,
         child: builder(context),
       ),

@@ -23,6 +23,7 @@ import 'display/list_view.dart' as _i7;
 import 'display/modal_bottom_sheet.dart' as _i8;
 import 'inputs/button.dart' as _i10;
 import 'inputs/checkbox.dart' as _i11;
+import 'inputs/dropdown_field.dart' as _i22;
 import 'inputs/icon_button.dart' as _i12;
 import 'inputs/pin_field.dart' as _i13;
 import 'inputs/text_field.dart' as _i14;
@@ -177,6 +178,35 @@ final directories = <_i1.WidgetbookNode>[
           name: 'Checkbox',
           builder: _i11.useCaseRioCeckbox,
         ),
+      ),
+      _i1.WidgetbookComponent(
+        name: 'RioDropdownField<String>',
+        useCases: [
+          _i1.WidgetbookUseCase(
+            name: 'Default',
+            builder: _i22.useCaseRioDropdownFieldDefault,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Filled',
+            builder: _i22.useCaseRioDropdownFieldFilled,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Behavior Auto',
+            builder: _i22.useCaseRioDropdownFieldBehaviorAuto,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Behavior Dropdown',
+            builder: _i22.useCaseRioDropdownFieldBehaviorDropdown,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Behavior Modal',
+            builder: _i22.useCaseRioDropdownFieldBehaviorModal,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Lots of options',
+            builder: _i22.useCaseRioDropdownFieldManyOptions,
+          ),
+        ],
       ),
       _i1.WidgetbookComponent(
         name: 'RioIconButton',

@@ -48,6 +48,8 @@ Future<T?> showRioPopover<T>(
   required Widget Function(BuildContext context) bodyBuilder,
   RioPopoverDirection direction = RioPopoverDirection.bottom,
   RioPopoverTheme? theme,
+  double? width,
+  double? height,
   Offset? offset,
 }) async {
   var popoverTheme = RioTheme.of(context).popoverTheme.merge(theme);
@@ -67,6 +69,8 @@ Future<T?> showRioPopover<T>(
     context: context,
     direction: direction,
     barrierColor: popoverTheme.barrierColor!,
+    width: width,
+    height: height,
     arrowHeight: 0,
     arrowWidth: 0,
     shadow: [],

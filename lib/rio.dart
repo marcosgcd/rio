@@ -9,6 +9,7 @@ export 'src/color_scheme.dart';
 export 'src/container.dart';
 export 'src/divider.dart';
 export 'src/dialog.dart';
+export 'src/dropdown_field.dart';
 export 'src/expandable_visibility.dart';
 export 'src/icon_button.dart';
 export 'src/icon_merger.dart';

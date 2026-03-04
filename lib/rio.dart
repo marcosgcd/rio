@@ -11,6 +11,7 @@ export 'src/divider.dart';
 export 'src/dialog.dart';
 export 'src/dropdown_field.dart';
 export 'src/expandable_visibility.dart';
+export 'src/form_builder.dart';
 export 'src/icon_button.dart';
 export 'src/icon_merger.dart';
 export 'src/pin_field.dart';

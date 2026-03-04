@@ -24,6 +24,7 @@ import 'display/modal_bottom_sheet.dart' as _i8;
 import 'inputs/button.dart' as _i10;
 import 'inputs/checkbox.dart' as _i11;
 import 'inputs/dropdown_field.dart' as _i22;
+import 'inputs/form_builder.dart' as _i23;
 import 'inputs/icon_button.dart' as _i12;
 import 'inputs/pin_field.dart' as _i13;
 import 'inputs/text_field.dart' as _i14;
@@ -207,6 +208,13 @@ final directories = <_i1.WidgetbookNode>[
             builder: _i22.useCaseRioDropdownFieldManyOptions,
           ),
         ],
+      ),
+      _i1.WidgetbookLeafComponent(
+        name: 'FormBuilder',
+        useCase: _i1.WidgetbookUseCase(
+          name: 'Rio Inputs',
+          builder: _i23.useCaseRioFormBuilder,
+        ),
       ),
       _i1.WidgetbookComponent(
         name: 'RioIconButton',

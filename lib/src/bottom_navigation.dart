@@ -226,7 +226,7 @@ class _RioBottomNavigationState extends State<RioBottomNavigation> {
             Expanded(
               child: Padding(
                 padding: theme.padding!,
-                child: RioContainer(
+                child: RioContainer.glass(
                   theme: containerTheme,
                   child: LayoutBuilder(
                     builder: (context, constraints) {

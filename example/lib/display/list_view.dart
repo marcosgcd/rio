@@ -21,6 +21,15 @@ Widget useCaseRioListViewGrouped(BuildContext context) {
   return const Scaffold(body: SafeArea(child: _Example(grouped: true)));
 }
 
+@widgetbook.UseCase(
+  name: 'pull search + refresh',
+  type: RioListView,
+  path: "Display",
+)
+Widget useCaseRioListViewPullSearchRefresh(BuildContext context) {
+  return const Scaffold(body: SafeArea(child: _PullSearchRefreshExample()));
+}
+
 class _Example extends StatefulWidget {
   const _Example({this.grouped = false});
   final bool grouped;
@@ -130,6 +139,75 @@ class _ExampleState extends State<_Example> {
         buttonTheme: buttonTheme,
       );
     }
+  }
+}
+
+class _PullSearchRefreshExample extends StatefulWidget {
+  const _PullSearchRefreshExample();
+
+  @override
+  State<_PullSearchRefreshExample> createState() =>
+      _PullSearchRefreshExampleState();
+}
+
+class _PullSearchRefreshExampleState extends State<_PullSearchRefreshExample> {
+  late List<String> _items;
+  String _query = "";
+  int _refreshCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _items = List<String>.from(_names);
+  }
+
+  Future<void> _onRefresh() async {
+    await Future<void>.delayed(const Duration(milliseconds: 700));
+    setState(() {
+      _refreshCount += 1;
+      _items = _items.reversed.toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final filteredItems = _items.where((name) {
+      final query = _query.trim().toLowerCase();
+      if (query.isEmpty) return true;
+      return name.toLowerCase().contains(query);
+    }).toList();
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Text(
+            "Pull down for search, pull further to refresh (${_refreshCount}x)",
+          ),
+        ),
+        Expanded(
+          child: RioListView<String, String>.builder(
+            items: filteredItems,
+            itemBuilder: (context, itemInfo) {
+              return Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(itemInfo.value),
+              );
+            },
+            separatorBuilder: (context, index) => const Divider(height: 1),
+            enablePullToSearch: true,
+            enablePullToRefresh: true,
+            onSearchChanged: (value) {
+              setState(() {
+                _query = value;
+              });
+            },
+            onRefresh: _onRefresh,
+            searchHintText: "Search names",
+          ),
+        ),
+      ],
+    );
   }
 }
 

@@ -89,7 +89,7 @@ class RioListSlidableAction {
   final int flex;
 }
 
-class RioListView<Item, GroupeValue> extends StatelessWidget {
+class RioListView<Item, GroupeValue> extends StatefulWidget {
   const RioListView.builder({
     super.key,
     required this.items,
@@ -104,7 +104,17 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
     this.selectedItems = const [],
     this.canSelect,
     this.isItemSelected,
+    this.enablePullToSearch = false,
+    this.enablePullToRefresh = false,
+    this.onRefresh,
+    this.onSearchChanged,
+    this.searchHintText = 'Search',
+    this.pullToSearchTriggerOffset = 56,
   })  : headerBuilder = null,
+        assert(
+          !enablePullToRefresh || onRefresh != null,
+          'onRefresh must be provided when enablePullToRefresh is true',
+        ),
         groupSpacing = 0,
         sticky = false,
         groupSort = null,
@@ -131,7 +141,16 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
     this.selectedItems = const [],
     this.canSelect,
     this.isItemSelected,
-  });
+    this.enablePullToSearch = false,
+    this.enablePullToRefresh = false,
+    this.onRefresh,
+    this.onSearchChanged,
+    this.searchHintText = 'Search',
+    this.pullToSearchTriggerOffset = 56,
+  }) : assert(
+          !enablePullToRefresh || onRefresh != null,
+          'onRefresh must be provided when enablePullToRefresh is true',
+        );
 
   final RioListGroupeHeaderBuilder<Item, GroupeValue>? headerBuilder;
   final RioListItemBuilder<Item> itemBuilder;
@@ -156,46 +175,183 @@ class RioListView<Item, GroupeValue> extends StatelessWidget {
   /// To use this, you must provide onItemPressed
   final List<Item> selectedItems;
 
+  /// Shows a search field after pulling down from the top.
+  final bool enablePullToSearch;
+
+  /// Triggers [onRefresh] when pulling down far enough.
+  final bool enablePullToRefresh;
+
+  /// Callback used by the pull-to-refresh interaction.
+  final Future<void> Function()? onRefresh;
+
+  /// Called whenever the value of the pull-to-search field changes.
+  final ValueChanged<String>? onSearchChanged;
+
+  /// Hint text shown in the pull-to-search field.
+  final String searchHintText;
+
+  /// Pull distance required to show the search field.
+  final double pullToSearchTriggerOffset;
+
+  @override
+  State<RioListView<Item, GroupeValue>> createState() =>
+      _RioListViewState<Item, GroupeValue>();
+}
+
+class _RioListViewState<Item, GroupeValue>
+    extends State<RioListView<Item, GroupeValue>> {
+  final TextEditingController _searchController = TextEditingController();
+  bool _searchVisible = false;
+  double _pullDistance = 0;
+
+  bool get _hasPullFeatures =>
+      widget.enablePullToSearch || widget.enablePullToRefresh;
+
+  void _showSearchIfNeeded() {
+    if (!widget.enablePullToSearch) return;
+    if (_searchVisible) return;
+    if (_pullDistance < widget.pullToSearchTriggerOffset) return;
+
+    setState(() {
+      _searchVisible = true;
+    });
+  }
+
+  void _hideSearchIfNeeded(ScrollNotification notification) {
+    if (!widget.enablePullToSearch || !_searchVisible) return;
+    if (notification.metrics.pixels <= notification.metrics.minScrollExtent) {
+      return;
+    }
+    setState(() {
+      _searchVisible = false;
+    });
+  }
+
+  bool _handleScrollNotification(ScrollNotification notification) {
+    if (!widget.enablePullToSearch) return false;
+
+    final atTop = notification.metrics.extentBefore == 0;
+    var deltaY = 0.0;
+
+    if (notification is ScrollUpdateNotification) {
+      deltaY = notification.dragDetails?.delta.dy ?? 0;
+    } else if (notification is OverscrollNotification) {
+      deltaY = notification.dragDetails?.delta.dy ?? 0;
+    }
+
+    if (deltaY > 0 && atTop) {
+      _pullDistance += deltaY;
+      _showSearchIfNeeded();
+    }
+
+    if (notification is ScrollUpdateNotification &&
+        deltaY < 0 &&
+        notification.metrics.pixels > notification.metrics.minScrollExtent) {
+      _pullDistance = 0;
+      _hideSearchIfNeeded(notification);
+    }
+
+    if (notification is ScrollEndNotification) {
+      _pullDistance = 0;
+    }
+
+    return false;
+  }
+
+  Widget _buildSearchSliver() {
+    if (!widget.enablePullToSearch) {
+      return const SliverToBoxAdapter(
+        child: SizedBox.shrink(),
+      );
+    }
+
+    return SliverToBoxAdapter(
+      child: RioExpandableVisibility(
+        expanded: _searchVisible,
+        alignment: Alignment.center,
+        duration: const Duration(milliseconds: 300),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+          child: RioTextField(
+            controller: _searchController,
+            onChanged: widget.onSearchChanged,
+            prefixIcon: const Icon(Icons.search),
+            decoration: RioTextFieldDecoration(
+              hintText: widget.searchHintText,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContentSliver() {
+    if (widget.groupBy != null) {
+      return RioListViewSliver<Item, GroupeValue>.groupedBuilder(
+        items: widget.items,
+        itemBuilder: widget.itemBuilder,
+        groupBy: widget.groupBy!,
+        headerBuilder: widget.headerBuilder!,
+        separatorBuilder: widget.separatorBuilder,
+        itemSort: widget.itemSort,
+        groupSort: widget.groupSort,
+        sticky: widget.sticky,
+        groupSpacing: widget.groupSpacing,
+        onItemPressed: widget.onItemPressed,
+        buttonTheme: widget.buttonTheme,
+        firstHeaderPinned: widget.firstHeaderPinned,
+        selectedButtonTheme: widget.selectedButtonTheme,
+        selectedItems: widget.selectedItems,
+        isItemSelected: widget.isItemSelected,
+        slidableActionProps: widget.slidableActionProps,
+        canSelect: widget.canSelect,
+      );
+    }
+
+    return RioListViewSliver<Item, GroupeValue>.builder(
+      items: widget.items,
+      itemBuilder: widget.itemBuilder,
+      separatorBuilder: widget.separatorBuilder,
+      itemSort: widget.itemSort,
+      onItemPressed: widget.onItemPressed,
+      buttonTheme: widget.buttonTheme,
+      slidableActionProps: widget.slidableActionProps,
+      selectedButtonTheme: widget.selectedButtonTheme,
+      selectedItems: widget.selectedItems,
+      isItemSelected: widget.isItemSelected,
+      canSelect: widget.canSelect,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        if (groupBy != null)
-          RioListViewSliver<Item, GroupeValue>.groupedBuilder(
-            items: items,
-            itemBuilder: itemBuilder,
-            groupBy: groupBy!,
-            headerBuilder: headerBuilder!,
-            separatorBuilder: separatorBuilder,
-            itemSort: itemSort,
-            groupSort: groupSort,
-            sticky: sticky,
-            groupSpacing: groupSpacing,
-            onItemPressed: onItemPressed,
-            buttonTheme: buttonTheme,
-            firstHeaderPinned: firstHeaderPinned,
-            selectedButtonTheme: selectedButtonTheme,
-            selectedItems: selectedItems,
-            isItemSelected: isItemSelected,
-            slidableActionProps: slidableActionProps,
-            canSelect: canSelect,
-          ),
-        if (groupBy == null)
-          RioListViewSliver<Item, GroupeValue>.builder(
-            items: items,
-            itemBuilder: itemBuilder,
-            separatorBuilder: separatorBuilder,
-            itemSort: itemSort,
-            onItemPressed: onItemPressed,
-            buttonTheme: buttonTheme,
-            slidableActionProps: slidableActionProps,
-            selectedButtonTheme: selectedButtonTheme,
-            selectedItems: selectedItems,
-            isItemSelected: isItemSelected,
-            canSelect: canSelect,
-          ),
-      ],
+    Widget child = NotificationListener<ScrollNotification>(
+      onNotification: _handleScrollNotification,
+      child: CustomScrollView(
+        physics:
+            _hasPullFeatures ? const AlwaysScrollableScrollPhysics() : null,
+        slivers: [
+          _buildSearchSliver(),
+          _buildContentSliver(),
+        ],
+      ),
     );
+
+    if (widget.enablePullToRefresh) {
+      child = RefreshIndicator(
+        onRefresh: widget.onRefresh!,
+        backgroundColor: RioTheme.of(context).colorScheme.surface.withValues(alpha: 8.3),
+        child: child,
+      );
+    }
+
+    return child;
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 }
 

@@ -539,6 +539,7 @@ class RioFormBuilderToggleButtons<T> extends StatelessWidget {
     this.autovalidateMode,
     this.enabled = true,
     this.disabled = false,
+    this.decoration,
     this.theme,
     this.variant = RioToggleButtonsVariant.solid,
     this.direction = Axis.horizontal,
@@ -557,6 +558,7 @@ class RioFormBuilderToggleButtons<T> extends StatelessWidget {
   final AutovalidateMode? autovalidateMode;
   final bool enabled;
   final bool disabled;
+  final RioTextFieldDecoration? decoration;
   final RioToggleButtonsTheme? theme;
   final RioToggleButtonsVariant variant;
   final Axis direction;
@@ -579,8 +581,19 @@ class RioFormBuilderToggleButtons<T> extends StatelessWidget {
         final state =
             field as FormBuilderFieldState<FormBuilderField<List<T>>, List<T>>;
         final selected = List<T>.from(state.value ?? <T>[]);
+        final effectiveDecoration =
+            decoration ?? const RioTextFieldDecoration();
         final isDisabled = disabled || !state.enabled;
         final hasError = state.errorText?.isNotEmpty ?? false;
+        final effectiveStatusText = hasError
+            ? (state.errorText ?? effectiveDecoration.errorText)
+            : (effectiveDecoration.helperText ?? effectiveDecoration.hintText);
+        final hasStatusText = effectiveStatusText?.isNotEmpty ?? false;
+        final helperStyle = Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: hasError
+                  ? RioTheme.of(context).colorScheme.error
+                  : RioTheme.of(context).colorScheme.caption,
+            );
 
         Widget child = RioToggleButtons<T>(
           items: items,
@@ -605,15 +618,35 @@ class RioFormBuilderToggleButtons<T> extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            child,
-            if (hasError)
+            if (effectiveDecoration.label != null)
               Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  state.errorText!,
-                  style: _errorStyle(context),
+                padding: const EdgeInsets.only(bottom: 4),
+                child: DefaultTextStyle(
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelLarge!
+                      .copyWith(fontWeight: FontWeight.bold),
+                  child: effectiveDecoration.label!,
                 ),
               ),
+            child,
+            RioExpandableVisibility(
+              expanded: hasStatusText,
+              duration: const Duration(milliseconds: 220),
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    effectiveStatusText ?? '',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: helperStyle,
+                  ),
+                ),
+              ),
+            ),
           ],
         );
       },

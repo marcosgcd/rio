@@ -16,7 +16,7 @@ class WidgetbookApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Widgetbook(
-      // Use the generated directories variable
+      // Use the generated directories variable 
       directories: directories,
       addons: [
         ZoomAddon(),

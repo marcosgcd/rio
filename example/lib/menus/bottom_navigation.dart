@@ -28,6 +28,12 @@ Widget useCaseBottomNavigationWithAction(BuildContext context) {
 )
 Widget useCaseBottomNavigationCustomTheme(BuildContext context) {
   var theme = const RioBottomNavigationTheme.defaultTheme();
+  final tabCount = context.knobs.int.slider(
+    label: "Tab Count",
+    initialValue: 4,
+    min: 2,
+    max: 6,
+  );
 
   theme = theme.copyWith(
     height: context.knobs.double
@@ -53,6 +59,7 @@ Widget useCaseBottomNavigationCustomTheme(BuildContext context) {
   return _BottomNavigationExample(
     theme: theme,
     showAction: true,
+    tabCount: tabCount,
   );
 }
 
@@ -91,11 +98,13 @@ class _BottomNavigationExample extends StatefulWidget {
     this.theme,
     this.showAction = false,
     this.useDefaultTheme = false,
+    this.tabCount = 4,
   });
 
   final RioBottomNavigationTheme? theme;
   final bool showAction;
   final bool useDefaultTheme;
+  final int tabCount;
 
   @override
   State<_BottomNavigationExample> createState() =>
@@ -105,7 +114,7 @@ class _BottomNavigationExample extends StatefulWidget {
 class _BottomNavigationExampleState extends State<_BottomNavigationExample> {
   int currentIndex = 0;
 
-  final List<RioBottomNavigationItem> items = const [
+  final List<RioBottomNavigationItem> _allItems = const [
     RioBottomNavigationItem(
       label: 'Home',
       icon: Icon(Icons.home),
@@ -126,28 +135,55 @@ class _BottomNavigationExampleState extends State<_BottomNavigationExample> {
       icon: Icon(Icons.settings),
       tooltip: 'Settings',
     ),
+    RioBottomNavigationItem(
+      label: 'Alerts',
+      icon: Icon(Icons.notifications),
+      tooltip: 'Alerts',
+    ),
+    RioBottomNavigationItem(
+      label: 'Messages',
+      icon: Icon(Icons.message),
+      tooltip: 'Messages',
+    ),
   ];
+
+  List<RioBottomNavigationItem> get items =>
+      _allItems
+          .take(widget.tabCount.clamp(1, _allItems.length).toInt())
+          .toList();
+
+  @override
+  void didUpdateWidget(covariant _BottomNavigationExample oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.tabCount != oldWidget.tabCount && currentIndex >= items.length) {
+      setState(() {
+        currentIndex = items.length - 1;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final safeCurrentIndex = currentIndex.clamp(0, items.length - 1).toInt();
+
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Current Tab: ${items[currentIndex].label}',
+              'Current Tab: ${items[safeCurrentIndex].label}',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 20),
             Text(
-              'Index: $currentIndex',
+              'Index: $safeCurrentIndex',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 20),
             if (widget.showAction)
               Text(
-                'Action button visible on tabs 0, 1, and 2',
+                'Action button visible on first up to 3 tabs',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: RioTheme.of(context).colorScheme.caption,
                     ),
@@ -158,7 +194,7 @@ class _BottomNavigationExampleState extends State<_BottomNavigationExample> {
       bottomNavigationBar: RioBottomNavigation(
         theme: widget.theme,
         items: items,
-        currentIndex: currentIndex,
+        currentIndex: safeCurrentIndex,
         onTap: (index) {
           setState(() {
             currentIndex = index;

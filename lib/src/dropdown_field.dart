@@ -44,6 +44,7 @@ class RioDropdownField<T> extends StatefulWidget {
     this.direction = RioPopoverDirection.bottom,
     this.menuMinWidth = 200,
     this.offset,
+    this.modalMinHeight,
     this.disabled = false,
   });
 
@@ -58,6 +59,7 @@ class RioDropdownField<T> extends StatefulWidget {
   final RioPopoverDirection direction;
   final double menuMinWidth;
   final Offset? offset;
+  final double? modalMinHeight;
   final bool disabled;
 
   @override
@@ -242,13 +244,18 @@ class _RioDropdownFieldState<T> extends State<RioDropdownField<T>> {
       builder: (modalContext) {
         final colorScheme = RioTheme.of(modalContext).colorScheme;
         final listMaxHeight = MediaQuery.of(modalContext).size.height * 0.5;
+        final configuredMinHeight = widget.modalMinHeight ?? 0;
+        final listMinHeight = math.min(configuredMinHeight, listMaxHeight);
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
             ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: listMaxHeight),
+              constraints: BoxConstraints(
+                minHeight: listMinHeight,
+                maxHeight: listMaxHeight,
+              ),
               child: ListView.separated(
                 shrinkWrap: true,
                 itemCount: widget.items.length,

@@ -373,6 +373,7 @@ class RioFormBuilderDropdownField<T> extends StatelessWidget {
     this.direction = RioPopoverDirection.bottom,
     this.menuMinWidth = 200,
     this.offset,
+    this.modalMinHeight,
   });
 
   final String name;
@@ -395,6 +396,7 @@ class RioFormBuilderDropdownField<T> extends StatelessWidget {
   final RioPopoverDirection direction;
   final double menuMinWidth;
   final Offset? offset;
+  final double? modalMinHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -428,6 +430,7 @@ class RioFormBuilderDropdownField<T> extends StatelessWidget {
           direction: direction,
           menuMinWidth: menuMinWidth,
           offset: offset,
+          modalMinHeight: modalMinHeight,
           disabled: disabled || !state.enabled,
         );
       },
@@ -516,6 +519,95 @@ class RioFormBuilderDateField extends StatelessWidget {
           maximumDate: maximumDate,
           initialDate: initialDate,
           dateOrder: dateOrder,
+          clearTooltip: clearTooltip,
+          clearText: clearText,
+        );
+      },
+    );
+  }
+}
+
+class RioFormBuilderDateRangePicker extends StatelessWidget {
+  const RioFormBuilderDateRangePicker({
+    super.key,
+    required this.name,
+    this.initialValue,
+    this.onSaved,
+    this.validator,
+    this.valueTransformer,
+    this.onChanged,
+    this.onReset,
+    this.focusNode,
+    this.autovalidateMode,
+    this.enabled = true,
+    this.disabled = false,
+    this.theme,
+    this.decoration,
+    this.modalTheme,
+    this.clearable = true,
+    this.minimumDate,
+    this.maximumDate,
+    this.initialMonth,
+    this.modalHeight = 500,
+    this.clearTooltip,
+    this.clearText,
+  }) : assert(modalHeight > 0, 'modalHeight must be greater than 0');
+
+  final String name;
+  final DateTimeRange? initialValue;
+  final FormFieldSetter<DateTimeRange?>? onSaved;
+  final FormFieldValidator<DateTimeRange?>? validator;
+  final ValueTransformer<DateTimeRange?>? valueTransformer;
+  final ValueChanged<DateTimeRange?>? onChanged;
+  final VoidCallback? onReset;
+  final FocusNode? focusNode;
+  final AutovalidateMode? autovalidateMode;
+  final bool enabled;
+  final bool disabled;
+  final RioTextFieldTheme? theme;
+  final RioTextFieldDecoration? decoration;
+  final RioModalTheme? modalTheme;
+  final bool clearable;
+  final DateTime? minimumDate;
+  final DateTime? maximumDate;
+  final DateTime? initialMonth;
+  final double modalHeight;
+  final String? clearTooltip;
+  final String? clearText;
+
+  @override
+  Widget build(BuildContext context) {
+    return FormBuilderField<DateTimeRange?>(
+      name: name,
+      initialValue: initialValue,
+      onSaved: onSaved,
+      validator: validator,
+      valueTransformer: valueTransformer,
+      onChanged: onChanged,
+      onReset: onReset,
+      focusNode: focusNode,
+      autovalidateMode: autovalidateMode,
+      enabled: enabled,
+      builder: (field) {
+        final state = field as FormBuilderFieldState<
+            FormBuilderField<DateTimeRange?>, DateTimeRange?>;
+        final decoration =
+            (this.decoration ?? const RioTextFieldDecoration()).copyWith(
+          errorText: state.errorText ?? this.decoration?.errorText,
+        );
+
+        return RioDateRangePicker(
+          value: state.value,
+          onChanged: state.didChange,
+          theme: theme,
+          decoration: decoration,
+          modalTheme: modalTheme,
+          disabled: disabled || !state.enabled,
+          clearable: clearable,
+          minimumDate: minimumDate,
+          maximumDate: maximumDate,
+          initialMonth: initialMonth,
+          modalHeight: modalHeight,
           clearTooltip: clearTooltip,
           clearText: clearText,
         );
@@ -640,7 +732,7 @@ class RioFormBuilderToggleButtons<T> extends StatelessWidget {
                   alignment: AlignmentDirectional.centerStart,
                   child: Text(
                     effectiveStatusText ?? '',
-                    maxLines: 1,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: helperStyle,
                   ),

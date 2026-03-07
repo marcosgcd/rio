@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:rio/rio.dart';
 
+class RioSettingsDivider extends StatelessWidget {
+  const RioSettingsDivider({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Divider(
+      height: 1,
+      color: RioTheme.of(context).colorScheme.surface.withValues(alpha: 0.75),
+    );
+  }
+}
+
 class RioSettingsSection extends StatelessWidget {
   const RioSettingsSection({
     super.key,
@@ -9,6 +21,7 @@ class RioSettingsSection extends StatelessWidget {
     this.titlePadding = const EdgeInsets.only(left: 32, top: 16),
     this.margin,
     this.disableGlassEffect = true,
+    this.autoDividers = true,
   });
 
   final List<Widget> children;
@@ -16,9 +29,34 @@ class RioSettingsSection extends StatelessWidget {
   final EdgeInsets titlePadding;
   final EdgeInsets? margin;
   final bool disableGlassEffect;
+  final bool autoDividers;
+
+  List<Widget> _buildChildren() {
+    if (autoDividers == false || children.length < 2) return children;
+
+    final sectionChildren = <Widget>[];
+
+    for (var i = 0; i < children.length; i++) {
+      final child = children[i];
+      sectionChildren.add(child);
+
+      if (i == children.length - 1) continue;
+
+      final nextChild = children[i + 1];
+      final hasManualDivider =
+          child is RioSettingsDivider || nextChild is RioSettingsDivider;
+      if (hasManualDivider) continue;
+
+      sectionChildren.add(const RioSettingsDivider());
+    }
+
+    return sectionChildren;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final sectionChildren = _buildChildren();
+
     return SliverToBoxAdapter(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,7 +75,7 @@ class RioSettingsSection extends StatelessWidget {
             disableGlassEffect: disableGlassEffect,
             margin: margin ??
                 EdgeInsets.fromLTRB(16, title == null ? 16 : 8, 16, 8),
-            child: Column(children: children),
+            child: Column(children: sectionChildren),
           ),
         ],
       ),

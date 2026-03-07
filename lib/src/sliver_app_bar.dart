@@ -37,8 +37,10 @@ class RioSliverAppBar extends StatelessWidget {
 
     return SliverAppBar(
       backgroundColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
       elevation: 0,
       forceElevated: false,
+      forceMaterialTransparency: true,
       pinned: true,
       automaticallyImplyLeading: false,
       floating: false,

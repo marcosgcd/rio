@@ -26,6 +26,7 @@ typedef RioListSepartorBuilder = Widget Function(
   BuildContext context,
   int index,
 );
+typedef RioListEmptyBuilder = Widget Function(BuildContext context);
 
 enum RioListSlidableActionMotion {
   behind,
@@ -110,6 +111,7 @@ class RioListView<Item, GroupeValue> extends StatefulWidget {
     this.onSearchChanged,
     this.searchHintText = 'Search',
     this.pullToSearchTriggerOffset = 56,
+    this.emptyBuilder,
   })  : headerBuilder = null,
         assert(
           !enablePullToRefresh || onRefresh != null,
@@ -147,6 +149,7 @@ class RioListView<Item, GroupeValue> extends StatefulWidget {
     this.onSearchChanged,
     this.searchHintText = 'Search',
     this.pullToSearchTriggerOffset = 56,
+    this.emptyBuilder,
   }) : assert(
           !enablePullToRefresh || onRefresh != null,
           'onRefresh must be provided when enablePullToRefresh is true',
@@ -193,6 +196,9 @@ class RioListView<Item, GroupeValue> extends StatefulWidget {
   /// Pull distance required to show the search field.
   final double pullToSearchTriggerOffset;
 
+  /// Widget shown when [items] is empty.
+  final RioListEmptyBuilder? emptyBuilder;
+
   @override
   State<RioListView<Item, GroupeValue>> createState() =>
       _RioListViewState<Item, GroupeValue>();
@@ -219,6 +225,7 @@ class _RioListViewState<Item, GroupeValue>
 
   void _hideSearchIfNeeded(ScrollNotification notification) {
     if (!widget.enablePullToSearch || !_searchVisible) return;
+    if (_searchController.text.trim().isNotEmpty) return;
     if (notification.metrics.pixels <= notification.metrics.minScrollExtent) {
       return;
     }
@@ -267,7 +274,7 @@ class _RioListViewState<Item, GroupeValue>
 
     return SliverToBoxAdapter(
       child: RioExpandableVisibility(
-        expanded: _searchVisible,
+        expanded: _searchVisible || _searchController.text.trim().isNotEmpty,
         alignment: Alignment.center,
         duration: const Duration(milliseconds: 300),
         child: Padding(
@@ -286,6 +293,13 @@ class _RioListViewState<Item, GroupeValue>
   }
 
   Widget _buildContentSliver() {
+    if (widget.items.isEmpty && widget.emptyBuilder != null) {
+      return SliverFillRemaining(
+        hasScrollBody: false,
+        child: widget.emptyBuilder!.call(context),
+      );
+    }
+
     if (widget.groupBy != null) {
       return RioListViewSliver<Item, GroupeValue>.groupedBuilder(
         items: widget.items,
@@ -340,7 +354,8 @@ class _RioListViewState<Item, GroupeValue>
     if (widget.enablePullToRefresh) {
       child = RefreshIndicator(
         onRefresh: widget.onRefresh!,
-        backgroundColor: RioTheme.of(context).colorScheme.surface.withValues(alpha: 8.3),
+        backgroundColor:
+            RioTheme.of(context).colorScheme.surface.withValues(alpha: 8.3),
         child: child,
       );
     }

@@ -182,12 +182,14 @@ class _RioBottomNavigationState extends State<RioBottomNavigation> {
               color: RioTheme.of(context).colorScheme.surface,
             );
 
-    final buttonTheme = theme.buttonTheme ??
-        const RioButtonTheme(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          variant: RioButtonVariant.plain,
-          disableHighlight: true,
-        );
+    final buttonTheme = RioTheme.of(context).buttonTheme.merge(
+      theme.buttonTheme ??
+          const RioButtonTheme(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            variant: RioButtonVariant.plain,
+            disableHighlight: true,
+          ),
+    );
 
     final selectedIndicatorColor = theme.selectedIndicatorColor ??
         RioTheme.of(context).colorScheme.primary.withValues(alpha: 0.12);
@@ -199,21 +201,6 @@ class _RioBottomNavigationState extends State<RioBottomNavigation> {
     if (action != null) {
       _lastVisibleAction = action;
     }
-
-    final navigationItems = widget.items.asMap().entries.map((entry) {
-      final index = entry.key;
-      final item = entry.value;
-
-      return Expanded(
-        child: RioButton(
-          key: ValueKey(index),
-          theme: buttonTheme,
-          tooltip: item.tooltip,
-          onPressed: () => widget.onTap(index),
-          child: item.icon,
-        ),
-      );
-    }).toList();
 
     return SafeArea(
       top: false,
@@ -230,9 +217,42 @@ class _RioBottomNavigationState extends State<RioBottomNavigation> {
                   theme: containerTheme,
                   child: LayoutBuilder(
                     builder: (context, constraints) {
-                      var position = widget.currentIndex *
-                          constraints.maxWidth /
-                          widget.items.length;
+                      final itemWidth = constraints.maxWidth / widget.items.length;
+                      final maxHorizontalPadding = ((itemWidth - 24) / 2)
+                          .clamp(0.0, double.infinity)
+                          .toDouble();
+                      final buttonPadding = buttonTheme.padding!;
+                      final constrainedButtonTheme = buttonTheme.copyWith(
+                        padding: buttonPadding.copyWith(
+                          left: buttonPadding.left
+                              .clamp(0.0, maxHorizontalPadding)
+                              .toDouble(),
+                          right: buttonPadding.right
+                              .clamp(0.0, maxHorizontalPadding)
+                              .toDouble(),
+                        ),
+                      );
+
+                      final navigationItems = widget.items.asMap().entries.map((
+                        entry,
+                      ) {
+                        final index = entry.key;
+                        final item = entry.value;
+
+                        return Expanded(
+                          child: SizedBox.expand(
+                            child: RioButton(
+                              key: ValueKey(index),
+                              theme: constrainedButtonTheme,
+                              tooltip: item.tooltip,
+                              onPressed: () => widget.onTap(index),
+                              child: item.icon,
+                            ),
+                          ),
+                        );
+                      }).toList();
+
+                      var position = widget.currentIndex * itemWidth;
 
                       // Adjust position for edge items to prevent overflow
                       if (widget.currentIndex == 0) {
@@ -255,7 +275,7 @@ class _RioBottomNavigationState extends State<RioBottomNavigation> {
                                 color: selectedIndicatorColor,
                                 opacity: 0.12,
                               ),
-                              width: constraints.maxWidth / widget.items.length,
+                              width: itemWidth,
                             ),
                           ),
                           // Navigation items
@@ -321,13 +341,13 @@ class _RioBottomNavigationState extends State<RioBottomNavigation> {
       );
     }
 
-    // For Hero animations, wrap only the button content, not the container
-    // This prevents double containers/borders in the Hero transition
-    return RioContainer(
-      theme: currentAction.containerTheme,
-      child: Hero(
-        tag: currentAction.heroTag!,
-        createRectTween: currentAction.createRectTween,
+    // Keep Hero around the full action container so the source action
+    // fully disappears during the flight transition.
+    return Hero(
+      tag: currentAction.heroTag!,
+      createRectTween: currentAction.createRectTween,
+      child: RioContainer(
+        theme: currentAction.containerTheme,
         child: Builder(
           builder: (context) {
             return RioButton(

@@ -27,6 +27,7 @@ import 'display/sliver_app_bar.dart' as _i27;
 import 'inputs/button.dart' as _i10;
 import 'inputs/checkbox.dart' as _i11;
 import 'inputs/date_field.dart' as _i24;
+import 'inputs/date_range_picker.dart' as _i28;
 import 'inputs/dropdown_field.dart' as _i22;
 import 'inputs/form_builder.dart' as _i23;
 import 'inputs/icon_button.dart' as _i12;
@@ -248,6 +249,19 @@ final directories = <_i1.WidgetbookNode>[
           _i1.WidgetbookUseCase(
             name: 'Filled',
             builder: _i24.useCaseRioDateFieldFilled,
+          ),
+        ],
+      ),
+      _i1.WidgetbookComponent(
+        name: 'RioDateRangePicker',
+        useCases: [
+          _i1.WidgetbookUseCase(
+            name: 'Default',
+            builder: _i28.useCaseRioDateRangePickerDefault,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Filled',
+            builder: _i28.useCaseRioDateRangePickerFilled,
           ),
         ],
       ),

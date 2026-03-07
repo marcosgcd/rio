@@ -27,7 +27,6 @@ Widget useCaseRioSettings(BuildContext context) {
               trailing: const Text('de'),
               onPressed: () {},
             ),
-            const RioDivider.horizontal(),
             RioSettingsTile(
               label: const Text('Theme'),
               caption: 'System default',

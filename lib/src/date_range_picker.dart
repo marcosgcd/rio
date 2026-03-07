@@ -450,6 +450,8 @@ class _RioDateRangeCalendarState extends State<RioDateRangeCalendar> {
           const SizedBox(height: 4),
           GridView.builder(
             shrinkWrap: true,
+            primary: false,
+            padding: EdgeInsets.zero,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: days.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

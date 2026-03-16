@@ -30,6 +30,8 @@ class RioFormBuilderTextField extends StatefulWidget {
     this.controller,
     this.theme,
     this.decoration,
+    this.prefixIcon,
+    this.suffixIcon,
     this.autofocus = false,
     this.autocorrect = true,
     this.autofillHints,
@@ -82,6 +84,8 @@ class RioFormBuilderTextField extends StatefulWidget {
   final TextEditingController? controller;
   final RioTextFieldTheme? theme;
   final RioTextFieldDecoration? decoration;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
   final bool autofocus;
   final bool autocorrect;
   final Iterable<String>? autofillHints;
@@ -228,6 +232,8 @@ class _RioFormBuilderTextFieldState extends State<RioFormBuilderTextField> {
           focusNode: state.effectiveFocusNode,
           theme: widget.theme,
           decoration: decoration,
+          prefixIcon: widget.prefixIcon,
+          suffixIcon: widget.suffixIcon,
           disabled: widget.disabled || !state.enabled,
           autofocus: widget.autofocus,
           autocorrect: widget.autocorrect,
@@ -462,6 +468,9 @@ class RioFormBuilderDateField extends StatelessWidget {
     this.dateOrder,
     this.clearTooltip,
     this.clearText,
+    this.showTodayButton = false,
+    this.todayTooltip,
+    this.todayText,
   });
 
   final String name;
@@ -485,6 +494,9 @@ class RioFormBuilderDateField extends StatelessWidget {
   final DatePickerDateOrder? dateOrder;
   final String? clearTooltip;
   final String? clearText;
+  final bool showTodayButton;
+  final String? todayTooltip;
+  final String? todayText;
 
   @override
   Widget build(BuildContext context) {
@@ -521,6 +533,9 @@ class RioFormBuilderDateField extends StatelessWidget {
           dateOrder: dateOrder,
           clearTooltip: clearTooltip,
           clearText: clearText,
+          showTodayButton: showTodayButton,
+          todayTooltip: todayTooltip,
+          todayText: todayText,
         );
       },
     );

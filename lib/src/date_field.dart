@@ -18,6 +18,9 @@ class RioDateField extends StatefulWidget {
     this.dateOrder,
     this.clearTooltip,
     this.clearText,
+    this.showTodayButton = false,
+    this.todayTooltip,
+    this.todayText,
   });
 
   final DateTime? value;
@@ -33,6 +36,9 @@ class RioDateField extends StatefulWidget {
   final DatePickerDateOrder? dateOrder;
   final String? clearTooltip;
   final String? clearText;
+  final bool showTodayButton;
+  final String? todayTooltip;
+  final String? todayText;
 
   @override
   State<RioDateField> createState() => _RioDateFieldState();
@@ -132,6 +138,7 @@ class _RioDateFieldState extends State<RioDateField> {
     );
     final colorScheme = RioTheme.of(context).colorScheme;
     final clearText = widget.clearText ?? 'Clear';
+    final todayText = widget.todayText ?? 'Today';
 
     final modalTheme = const RioModalTheme(
       padding: EdgeInsets.zero,
@@ -146,48 +153,85 @@ class _RioDateFieldState extends State<RioDateField> {
         final cupertinoTheme = CupertinoTheme.of(modalContext);
         final pickerTextStyle = cupertinoTheme.textTheme.dateTimePickerTextStyle
             .copyWith(color: colorScheme.onSurface);
+        var pickerDate = initialDate;
+        var pickerVersion = 0;
 
         return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              if (widget.clearable)
-                RioTooltip(
-                  message: widget.clearTooltip,
-                  child: RioButton(
-                    theme: const RioButtonTheme(
-                      variant: RioButtonVariant.plain,
-                      margin: EdgeInsets.fromLTRB(12, 12, 12, 0),
+          child: StatefulBuilder(
+            builder: (context, setModalState) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  if (widget.showTodayButton || widget.clearable)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          if (widget.showTodayButton) ...[
+                            RioTooltip(
+                              message: widget.todayTooltip,
+                              child: RioButton(
+                                theme: const RioButtonTheme(
+                                  variant: RioButtonVariant.plain,
+                                ),
+                                onPressed: () {
+                                  final today = _clampDate(DateTime.now());
+                                  pickerDate = today;
+                                  widget.onChanged?.call(today);
+                                  setModalState(() {
+                                    pickerVersion += 1;
+                                  });
+                                },
+                                child: Text(todayText),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                          ],
+                          if (widget.clearable)
+                            RioTooltip(
+                              message: widget.clearTooltip,
+                              child: RioButton(
+                                theme: const RioButtonTheme(
+                                  variant: RioButtonVariant.plain,
+                                ),
+                                onPressed: () {
+                                  widget.onChanged?.call(null);
+                                  Navigator.of(modalContext).pop();
+                                },
+                                child: Text(clearText),
+                              ),
+                            ),
+                        ],
+                      ),
                     ),
-                    onPressed: () {
-                      widget.onChanged?.call(null);
-                      Navigator.of(modalContext).pop();
-                    },
-                    child: Text(clearText),
-                  ),
-                ),
-              SizedBox(
-                height: 200,
-                child: CupertinoTheme(
-                  data: cupertinoTheme.copyWith(
-                    textTheme: cupertinoTheme.textTheme.copyWith(
-                      dateTimePickerTextStyle: pickerTextStyle,
+                  SizedBox(
+                    height: 200,
+                    child: CupertinoTheme(
+                      data: cupertinoTheme.copyWith(
+                        textTheme: cupertinoTheme.textTheme.copyWith(
+                          dateTimePickerTextStyle: pickerTextStyle,
+                        ),
+                      ),
+                      child: CupertinoDatePicker(
+                        key: ValueKey<int>(pickerVersion),
+                        mode: CupertinoDatePickerMode.date,
+                        dateOrder: widget.dateOrder,
+                        initialDateTime: pickerDate,
+                        minimumDate: widget.minimumDate,
+                        maximumDate: widget.maximumDate,
+                        onDateTimeChanged: (value) {
+                          final clamped = _clampDate(value);
+                          pickerDate = clamped;
+                          widget.onChanged?.call(clamped);
+                        },
+                      ),
                     ),
                   ),
-                  child: CupertinoDatePicker(
-                    mode: CupertinoDatePickerMode.date,
-                    dateOrder: widget.dateOrder,
-                    initialDateTime: initialDate,
-                    minimumDate: widget.minimumDate,
-                    maximumDate: widget.maximumDate,
-                    onDateTimeChanged: (value) {
-                      widget.onChanged?.call(_clampDate(value));
-                    },
-                  ),
-                ),
-              ),
-            ],
+                ],
+              );
+            },
           ),
         );
       },

@@ -1,6 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:rio/rio.dart';
 
+@immutable
+class RioDateRangeHighlight {
+  const RioDateRangeHighlight({required this.range, this.color});
+
+  final DateTimeRange range;
+  final Color? color;
+}
+
+@immutable
+class RioCalendarMarker {
+  const RioCalendarMarker({required this.date, this.color});
+
+  final DateTime date;
+  final Color? color;
+}
+
 class RioDateRangePicker extends StatefulWidget {
   const RioDateRangePicker({
     super.key,
@@ -18,7 +34,11 @@ class RioDateRangePicker extends StatefulWidget {
     this.clearTooltip,
     this.clearText,
     this.highlightedDates = const <DateTime>{},
+    this.highlightedDateRanges = const <DateTimeRange>[],
+    this.highlightedDateRangeStyles = const <RioDateRangeHighlight>[],
+    this.dateMarkers = const <RioCalendarMarker>[],
     this.highlightedDateColor,
+    this.highlightToday = true,
   }) : assert(modalHeight > 0, 'modalHeight must be greater than 0');
 
   final DateTimeRange? value;
@@ -35,7 +55,11 @@ class RioDateRangePicker extends StatefulWidget {
   final String? clearTooltip;
   final String? clearText;
   final Set<DateTime> highlightedDates;
+  final List<DateTimeRange> highlightedDateRanges;
+  final List<RioDateRangeHighlight> highlightedDateRangeStyles;
+  final List<RioCalendarMarker> dateMarkers;
   final Color? highlightedDateColor;
+  final bool highlightToday;
 
   @override
   State<RioDateRangePicker> createState() => _RioDateRangePickerState();
@@ -175,7 +199,11 @@ class _RioDateRangePickerState extends State<RioDateRangePicker> {
           clearTooltip: widget.clearTooltip,
           clearText: clearText,
           highlightedDates: widget.highlightedDates,
+          highlightedDateRanges: widget.highlightedDateRanges,
+          highlightedDateRangeStyles: widget.highlightedDateRangeStyles,
+          dateMarkers: widget.dateMarkers,
           highlightedDateColor: widget.highlightedDateColor,
+          highlightToday: widget.highlightToday,
           onChanged: (value) {
             widget.onChanged?.call(value);
           },
@@ -198,7 +226,11 @@ class _RioDateRangePickerModal extends StatelessWidget {
     this.clearTooltip,
     this.clearText = 'Clear',
     this.highlightedDates = const <DateTime>{},
+    this.highlightedDateRanges = const <DateTimeRange>[],
+    this.highlightedDateRangeStyles = const <RioDateRangeHighlight>[],
+    this.dateMarkers = const <RioCalendarMarker>[],
     this.highlightedDateColor,
+    this.highlightToday = true,
   });
 
   final String selectionLabel;
@@ -212,7 +244,11 @@ class _RioDateRangePickerModal extends StatelessWidget {
   final String? clearTooltip;
   final String clearText;
   final Set<DateTime> highlightedDates;
+  final List<DateTimeRange> highlightedDateRanges;
+  final List<RioDateRangeHighlight> highlightedDateRangeStyles;
+  final List<RioCalendarMarker> dateMarkers;
   final Color? highlightedDateColor;
+  final bool highlightToday;
 
   @override
   Widget build(BuildContext context) {
@@ -267,7 +303,11 @@ class _RioDateRangePickerModal extends StatelessWidget {
                 maximumDate: maximumDate,
                 initialMonth: initialMonth,
                 highlightedDates: highlightedDates,
+                highlightedDateRanges: highlightedDateRanges,
+                highlightedDateRangeStyles: highlightedDateRangeStyles,
+                dateMarkers: dateMarkers,
                 highlightedDateColor: highlightedDateColor,
+                highlightToday: highlightToday,
               ),
             ),
           ],
@@ -282,24 +322,34 @@ class RioDateRangeCalendar extends StatefulWidget {
     super.key,
     required this.value,
     this.onChanged,
+    this.readOnly = false,
     this.minimumDate,
     this.maximumDate,
     this.initialMonth,
     this.showWeekdayHeader = true,
     this.unboundedHeight = 420,
     this.highlightedDates = const <DateTime>{},
+    this.highlightedDateRanges = const <DateTimeRange>[],
+    this.highlightedDateRangeStyles = const <RioDateRangeHighlight>[],
+    this.dateMarkers = const <RioCalendarMarker>[],
     this.highlightedDateColor,
+    this.highlightToday = true,
   }) : assert(unboundedHeight > 0, 'unboundedHeight must be greater than 0');
 
   final DateTimeRange? value;
   final ValueChanged<DateTimeRange?>? onChanged;
+  final bool readOnly;
   final DateTime? minimumDate;
   final DateTime? maximumDate;
   final DateTime? initialMonth;
   final bool showWeekdayHeader;
   final double unboundedHeight;
   final Set<DateTime> highlightedDates;
+  final List<DateTimeRange> highlightedDateRanges;
+  final List<RioDateRangeHighlight> highlightedDateRangeStyles;
+  final List<RioCalendarMarker> dateMarkers;
   final Color? highlightedDateColor;
+  final bool highlightToday;
 
   @override
   State<RioDateRangeCalendar> createState() => _RioDateRangeCalendarState();
@@ -313,8 +363,11 @@ class _RioDateRangeCalendarState extends State<RioDateRangeCalendar> {
   late DateTime? _selectedEnd;
   late DateTime _baseMonth;
   late Set<int> _highlightedDateKeys;
+  late List<DateTimeRange> _highlightedDateRanges;
+  late List<_NormalizedHighlightedRange> _highlightedDateRangeStyles;
+  late Map<int, RioCalendarMarker> _dateMarkersByKey;
 
-  bool get _isEnabled => widget.onChanged != null;
+  bool get _isInteractive => !widget.readOnly && widget.onChanged != null;
 
   @override
   void initState() {
@@ -477,7 +530,8 @@ class _RioDateRangeCalendarState extends State<RioDateRangeCalendar> {
 
     final colorScheme = RioTheme.of(context).colorScheme;
     final normalizedDay = _normalizeDate(day);
-    final selectable = _isEnabled && _isSelectable(normalizedDay);
+    final isWithinBounds = _isSelectable(normalizedDay);
+    final selectable = _isInteractive && isWithinBounds;
     final isStart =
         _selectedStart != null && _isSameDate(_selectedStart!, normalizedDay);
     final isEnd =
@@ -490,12 +544,58 @@ class _RioDateRangeCalendarState extends State<RioDateRangeCalendar> {
         !normalizedDay.isBefore(_selectedStart!) &&
         !normalizedDay.isAfter(_selectedEnd!);
     final showRangeBand = isInCompletedRange && !isSingleDayRange;
-    final isHighlighted = _isHighlightedDate(normalizedDay);
-    final foregroundColor = !selectable
+    final highlightBaseColor =
+        widget.highlightedDateColor ?? colorScheme.primary;
+    final dayHighlightColor = _highlightColorForDay(
+      normalizedDay,
+      fallbackColor: highlightBaseColor,
+    );
+    final isTodayHighlighted = _isTodayHighlighted(normalizedDay);
+    final isCustomHighlighted = _isCustomHighlightedDate(normalizedDay);
+    final isHighlighted = dayHighlightColor != null;
+    final showHighlightedBackground = isHighlighted;
+    final previousHighlightColor = showHighlightedBackground
+        ? _highlightColorForDay(
+            normalizedDay.subtract(const Duration(days: 1)),
+            fallbackColor: highlightBaseColor,
+          )
+        : null;
+    final nextHighlightColor = showHighlightedBackground
+        ? _highlightColorForDay(
+            normalizedDay.add(const Duration(days: 1)),
+            fallbackColor: highlightBaseColor,
+          )
+        : null;
+    final hasHighlightedPrev = showHighlightedBackground &&
+        _isSameHighlightColor(previousHighlightColor, dayHighlightColor);
+    final hasHighlightedNext = showHighlightedBackground &&
+        _isSameHighlightColor(nextHighlightColor, dayHighlightColor);
+    final isHighlightStart = !hasHighlightedPrev;
+    final isHighlightEnd = !hasHighlightedNext;
+    final showHighlightedBand =
+        showHighlightedBackground && (!isHighlightStart || !isHighlightEnd);
+    final showIsolatedHighlight =
+        showHighlightedBackground && !showHighlightedBand;
+    final brightness = Theme.of(context).brightness;
+    final isLightTheme = brightness == Brightness.light;
+    final foregroundColor = !isWithinBounds
         ? colorScheme.caption.withValues(alpha: 0.35)
         : isBoundary
             ? colorScheme.onPrimary
             : colorScheme.onSurface;
+    final resolvedHighlightColor = dayHighlightColor ?? highlightBaseColor;
+    final hasExplicitCustomColor = isCustomHighlighted &&
+        _customHighlightColorForDay(normalizedDay) != null;
+    final highlightFillOpacity = isLightTheme ? 0.24 : 0.16;
+    final todayFillOpacity = isLightTheme ? 0.12 : 0.22;
+    final baseHighlightOverlayColor = hasExplicitCustomColor
+        ? resolvedHighlightColor
+        : resolvedHighlightColor.withValues(alpha: highlightFillOpacity);
+    final highlightBandColor = RioColorUtils.getSolidColorFromTransparent(
+      baseHighlightOverlayColor,
+      colorScheme.surface,
+    );
+    final isolatedHighlightColor = highlightBandColor;
     final rangeBandColor = RioColorUtils.getSolidColorFromTransparent(
       colorScheme.primary.withValues(alpha: 0.2),
       colorScheme.surface,
@@ -507,6 +607,16 @@ class _RioDateRangeCalendarState extends State<RioDateRangeCalendar> {
             fontWeight: isBoundary ? FontWeight.w700 : FontWeight.w500,
           ),
     );
+    final boundaryInset = isBoundary && isHighlighted ? 2.0 : 0.0;
+    final marker = _dateMarkersByKey[_dateKey(normalizedDay)];
+    final markerColor = marker?.color;
+    final resolvedMarkerColor = marker == null
+        ? null
+        : isBoundary
+            ? colorScheme.onPrimary
+            : !isWithinBounds
+                ? (markerColor ?? colorScheme.primary).withValues(alpha: 0.4)
+                : (markerColor ?? colorScheme.primary);
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -515,6 +625,20 @@ class _RioDateRangeCalendarState extends State<RioDateRangeCalendar> {
         clipBehavior: Clip.none,
         alignment: Alignment.center,
         children: [
+          if (showHighlightedBand)
+            Positioned(
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: _RangeBandSegment(
+                isStart: isHighlightStart,
+                isEnd: isHighlightEnd,
+                color: highlightBandColor,
+                roundedCaps: true,
+                halfCaps: false,
+              ),
+            ),
           if (showRangeBand)
             Positioned(
               top: 0,
@@ -527,18 +651,37 @@ class _RioDateRangeCalendarState extends State<RioDateRangeCalendar> {
                 color: rangeBandColor,
               ),
             ),
-          if (isHighlighted && !isBoundary)
+          if (showIsolatedHighlight)
             SizedBox(
               width: 34,
               height: 34,
               child: Center(
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: (widget.highlightedDateColor ?? colorScheme.primary)
-                        .withValues(alpha: 0.14),
+                    color: isolatedHighlightColor,
                     shape: BoxShape.circle,
                   ),
                   child: const SizedBox(width: 30, height: 30),
+                ),
+              ),
+            ),
+          if (isTodayHighlighted && !isBoundary)
+            SizedBox(
+              width: 34,
+              height: 34,
+              child: Center(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: resolvedHighlightColor.withValues(
+                      alpha: todayFillOpacity,
+                    ),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: resolvedHighlightColor.withValues(alpha: 0.95),
+                      width: isLightTheme ? 2.0 : 1.6,
+                    ),
+                  ),
+                  child: const SizedBox(width: 28, height: 28),
                 ),
               ),
             ),
@@ -546,14 +689,43 @@ class _RioDateRangeCalendarState extends State<RioDateRangeCalendar> {
             width: 34,
             height: 34,
             child: isBoundary
-                ? RioContainer(
-                    theme: RioContainerTheme(
-                      color: colorScheme.primary,
+                ? Padding(
+                    padding: EdgeInsets.all(boundaryInset),
+                    child: DecoratedBox(
+                      decoration: isTodayHighlighted
+                          ? BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: colorScheme.onPrimary.withValues(
+                                  alpha: isLightTheme ? 0.92 : 0.84,
+                                ),
+                                width: 1.2,
+                              ),
+                            )
+                          : const BoxDecoration(),
+                      child: RioContainer(
+                        theme: RioContainerTheme(
+                          color: colorScheme.primary,
+                        ),
+                        child: Center(child: dayLabel),
+                      ),
                     ),
-                    child: Center(child: dayLabel),
                   )
                 : Center(child: dayLabel),
           ),
+          if (resolvedMarkerColor != null)
+            Positioned(
+              top: 3,
+              child: IgnorePointer(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: resolvedMarkerColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const SizedBox(width: 5, height: 5),
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -592,7 +764,7 @@ class _RioDateRangeCalendarState extends State<RioDateRangeCalendar> {
   }
 
   void _onDayTapped(DateTime day) {
-    if (!_isEnabled || !_isSelectable(day)) {
+    if (!_isInteractive || !_isSelectable(day)) {
       return;
     }
 
@@ -722,10 +894,182 @@ class _RioDateRangeCalendarState extends State<RioDateRangeCalendar> {
   void _syncHighlightedDatesFromWidget() {
     _highlightedDateKeys =
         widget.highlightedDates.map(_normalizeDate).map(_dateKey).toSet();
+    _highlightedDateRanges =
+        _normalizeAndMergeHighlightedRanges(widget.highlightedDateRanges);
+    _highlightedDateRangeStyles = _normalizeAndMergeHighlightedRangeStyles(
+      widget.highlightedDateRangeStyles,
+    );
+    _dateMarkersByKey = {
+      for (final marker in widget.dateMarkers)
+        _dateKey(_normalizeDate(marker.date)): RioCalendarMarker(
+          date: _normalizeDate(marker.date),
+          color: marker.color,
+        ),
+    };
   }
 
-  bool _isHighlightedDate(DateTime day) {
-    return _highlightedDateKeys.contains(_dateKey(day));
+  List<DateTimeRange> _normalizeAndMergeHighlightedRanges(
+    List<DateTimeRange> ranges,
+  ) {
+    if (ranges.isEmpty) {
+      return const <DateTimeRange>[];
+    }
+
+    final normalizedRanges = ranges.map((range) {
+      var start = _normalizeDate(range.start);
+      var end = _normalizeDate(range.end);
+      if (end.isBefore(start)) {
+        final swap = start;
+        start = end;
+        end = swap;
+      }
+      return DateTimeRange(start: start, end: end);
+    }).toList(growable: false)
+      ..sort((a, b) => a.start.compareTo(b.start));
+
+    final mergedRanges = <DateTimeRange>[];
+    for (final range in normalizedRanges) {
+      if (mergedRanges.isEmpty) {
+        mergedRanges.add(range);
+        continue;
+      }
+
+      final lastRange = mergedRanges.last;
+      final joinsLast = !range.start.isAfter(
+        lastRange.end.add(const Duration(days: 1)),
+      );
+      if (!joinsLast) {
+        mergedRanges.add(range);
+        continue;
+      }
+
+      final mergedEnd =
+          range.end.isAfter(lastRange.end) ? range.end : lastRange.end;
+      mergedRanges[mergedRanges.length - 1] = DateTimeRange(
+        start: lastRange.start,
+        end: mergedEnd,
+      );
+    }
+
+    return mergedRanges;
+  }
+
+  List<_NormalizedHighlightedRange> _normalizeAndMergeHighlightedRangeStyles(
+    List<RioDateRangeHighlight> ranges,
+  ) {
+    if (ranges.isEmpty) {
+      return const <_NormalizedHighlightedRange>[];
+    }
+
+    final normalizedRanges = ranges.map((entry) {
+      var start = _normalizeDate(entry.range.start);
+      var end = _normalizeDate(entry.range.end);
+      if (end.isBefore(start)) {
+        final swap = start;
+        start = end;
+        end = swap;
+      }
+      return _NormalizedHighlightedRange(
+        start: start,
+        end: end,
+        color: entry.color,
+      );
+    }).toList(growable: false)
+      ..sort((a, b) => a.start.compareTo(b.start));
+
+    final mergedRanges = <_NormalizedHighlightedRange>[];
+    for (final range in normalizedRanges) {
+      if (mergedRanges.isEmpty) {
+        mergedRanges.add(range);
+        continue;
+      }
+
+      final lastRange = mergedRanges.last;
+      final joinsLast = !range.start.isAfter(
+        lastRange.end.add(const Duration(days: 1)),
+      );
+      final canMerge = joinsLast && lastRange.color == range.color;
+      if (!canMerge) {
+        mergedRanges.add(range);
+        continue;
+      }
+
+      final mergedEnd =
+          range.end.isAfter(lastRange.end) ? range.end : lastRange.end;
+      mergedRanges[mergedRanges.length - 1] = _NormalizedHighlightedRange(
+        start: lastRange.start,
+        end: mergedEnd,
+        color: lastRange.color,
+      );
+    }
+
+    return mergedRanges;
+  }
+
+  bool _isTodayHighlighted(DateTime day) {
+    return widget.highlightToday &&
+        _isSameDate(day, _normalizeDate(DateTime.now()));
+  }
+
+  bool _isCustomHighlightedDate(DateTime day) {
+    if (_highlightStyleForDay(day) != null) {
+      return true;
+    }
+
+    if (_highlightedDateKeys.contains(_dateKey(day))) {
+      return true;
+    }
+
+    return _isDayInPlainHighlightedRange(day);
+  }
+
+  bool _isDayInPlainHighlightedRange(DateTime day) {
+    for (final range in _highlightedDateRanges) {
+      if (day.isBefore(range.start)) {
+        return false;
+      }
+      if (!day.isAfter(range.end)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  _NormalizedHighlightedRange? _highlightStyleForDay(DateTime day) {
+    for (final range in _highlightedDateRangeStyles) {
+      if (day.isBefore(range.start)) {
+        return null;
+      }
+      if (!day.isAfter(range.end)) {
+        return range;
+      }
+    }
+    return null;
+  }
+
+  Color? _customHighlightColorForDay(DateTime day) {
+    return _highlightStyleForDay(day)?.color;
+  }
+
+  Color? _highlightColorForDay(
+    DateTime day, {
+    required Color fallbackColor,
+  }) {
+    final styleMatch = _highlightStyleForDay(day);
+    final hasPlainHighlight = _highlightedDateKeys.contains(_dateKey(day)) ||
+        _isDayInPlainHighlightedRange(day);
+    final isToday = _isTodayHighlighted(day);
+    if (styleMatch == null && !hasPlainHighlight && !isToday) {
+      return null;
+    }
+    return styleMatch?.color ?? fallbackColor;
+  }
+
+  bool _isSameHighlightColor(Color? left, Color? right) {
+    if (left == null || right == null) {
+      return false;
+    }
+    return left == right;
   }
 
   int _dateKey(DateTime value) {
@@ -758,28 +1102,57 @@ class _RioDateRangeCalendarState extends State<RioDateRangeCalendar> {
   }
 }
 
+class _NormalizedHighlightedRange {
+  const _NormalizedHighlightedRange({
+    required this.start,
+    required this.end,
+    this.color,
+  });
+
+  final DateTime start;
+  final DateTime end;
+  final Color? color;
+}
+
 class _RangeBandSegment extends StatelessWidget {
   const _RangeBandSegment({
     required this.isStart,
     required this.isEnd,
     required this.color,
+    this.roundedCaps = false,
+    this.halfCaps = true,
   });
 
   final bool isStart;
   final bool isEnd;
   final Color color;
+  final bool roundedCaps;
+  final bool halfCaps;
 
   @override
   Widget build(BuildContext context) {
-    final band = ColoredBox(color: color);
+    const edgeRadius = Radius.circular(10);
+
+    Widget band({BorderRadius? borderRadius}) {
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: borderRadius,
+        ),
+      );
+    }
 
     if (isStart && !isEnd) {
       return Align(
         alignment: Alignment.centerRight,
         child: FractionallySizedBox(
-          widthFactor: 0.5,
+          widthFactor: halfCaps ? 0.5 : 1,
           heightFactor: 0.64,
-          child: band,
+          child: band(
+            borderRadius: roundedCaps
+                ? const BorderRadius.horizontal(left: Radius.circular(10))
+                : null,
+          ),
         ),
       );
     }
@@ -788,9 +1161,13 @@ class _RangeBandSegment extends StatelessWidget {
       return Align(
         alignment: Alignment.centerLeft,
         child: FractionallySizedBox(
-          widthFactor: 0.5,
+          widthFactor: halfCaps ? 0.5 : 1,
           heightFactor: 0.64,
-          child: band,
+          child: band(
+            borderRadius: roundedCaps
+                ? const BorderRadius.horizontal(right: Radius.circular(10))
+                : null,
+          ),
         ),
       );
     }
@@ -798,7 +1175,11 @@ class _RangeBandSegment extends StatelessWidget {
     return FractionallySizedBox(
       widthFactor: 1,
       heightFactor: 0.64,
-      child: band,
+      child: band(
+        borderRadius: roundedCaps && isStart && isEnd
+            ? BorderRadius.all(edgeRadius)
+            : null,
+      ),
     );
   }
 }

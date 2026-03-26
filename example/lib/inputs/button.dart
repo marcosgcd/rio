@@ -102,6 +102,15 @@ Widget _buildUseCase(
             child: text,
             onPressed: () {},
           ),
+          RioButton(
+            leading: const Icon(Icons.search),
+            theme: theme,
+            onPressedAwaitMode: RioButtonOnPressedAwaitMode.loading,
+            child: const Text("Loading"),
+            onPressed: () async {
+              await Future.delayed(const Duration(seconds: 2));
+            },
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

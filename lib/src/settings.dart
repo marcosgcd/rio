@@ -93,6 +93,7 @@ class RioSettingsTile extends StatelessWidget {
     this.captionWidget,
     this.trailing,
     this.chevronIcon,
+    this.wrapCaption = false,
   });
 
   final Widget label;
@@ -102,6 +103,7 @@ class RioSettingsTile extends StatelessWidget {
   final Widget? captionWidget;
   final Widget? trailing;
   final IconData? chevronIcon;
+  final bool wrapCaption;
 
   @override
   Widget build(BuildContext context) {
@@ -109,13 +111,17 @@ class RioSettingsTile extends StatelessWidget {
 
     final content = Container(
       padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
-      height: 55,
+      constraints: const BoxConstraints(minHeight: 55),
       child: Row(
+        crossAxisAlignment: wrapCaption
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
         children: [
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 DefaultTextStyle(
                   style: Theme.of(context).textTheme.labelLarge ??
@@ -127,6 +133,9 @@ class RioSettingsTile extends StatelessWidget {
                   Flexible(
                     child: Text(
                       caption!,
+                      maxLines: wrapCaption ? null : 1,
+                      overflow: wrapCaption ? null : TextOverflow.ellipsis,
+                      softWrap: wrapCaption,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: onSurface.withValues(alpha: 0.5),
                           ),
